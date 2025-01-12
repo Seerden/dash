@@ -1,0 +1,41 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "../",
+		"noImplicitAny": true,
+		"composite": true,
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": false,
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": false,
+		"jsx": "react-jsx",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"strictNullChecks": true,
+		"baseUrl": "../",
+		"paths": {
+			"@/*": ["client/src/*"],
+			"@components/*": ["client/src/components/*"],
+			"@lib/*": ["client/src/lib/*"],
+			"@shared/*": ["shared/src/*"]
+		},
+		"types": ["vitest/globals"]
+	},
+	"include": ["src", "../shared"],
+	"exclude": ["node_modules"]
+}

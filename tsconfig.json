@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["shared/src/types/*"]
+    }
+  },
+  "files": [],
+  "references": [
+    { "path": "./client" },
+    { "path": "./server" },
+    { "path": "./shared" }
+  ]
+}
