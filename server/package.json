@@ -11,9 +11,6 @@
 	"license": "ISC",
 	"description": "",
 	"dependencies": {
-		"@sentry/cli": "^2.40.0",
-		"@sentry/node": "^8.47.0",
-		"@sentry/profiling-node": "^8.47.0",
 		"bcryptjs": "^2.4.3",
 		"connect-redis": "^7.1.1",
 		"cors": "^2.8.5",
@@ -25,7 +22,6 @@
 		"typescript": "^5.5.4"
 	},
 	"devDependencies": {
-		"@sentry/types": "^8.47.0",
 		"@types/bcryptjs": "^2.4.6",
 		"@types/connect-redis": "^0.0.23",
 		"@types/cors": "^2.8.17",
