@@ -6,8 +6,6 @@ slightly different stack, so I've taken out some things that will be
 (re-)implemented later:
 - `styled-components` will be replaced with `emotion`
 - I took out the decorators etc. from storybook
-- `mantine` is still included as of right now, but I don't think it'll be used in
-  this project.
 - I took out the initialization of Sentry for now, it'll be back soon, just have
   to set up an organization for it.
 - all express packages used in `track` are still dependencies, but I'm not sure
