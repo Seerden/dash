@@ -1,0 +1,37 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"target": "ES2021",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"outDir": "dist",
+		"lib": ["ES2021"],
+		"skipLibCheck": true,
+		"strictNullChecks": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"baseUrl": "../",
+		"rootDir": "../",
+		"types": ["jest", "node"],
+		"noImplicitAny": true,
+
+		"paths": {
+			"@/*": ["server/src/*"],
+			"@lib/*": ["server/src/lib/*"],
+			"@shared/*": ["shared/src/*"],
+			"types/*": ["server/types/*"]
+		},
+
+		"composite": true,
+		"inlineSources": true,
+
+		// Set `sourceRoot` to  "/" to strip the build path prefix
+		// from generated source code references.
+		// This improves issue grouping in Sentry.
+		"sourceRoot": "/"
+	},
+	"exclude": ["./node_modules", "node_modules"],
+	"include": ["../server/src", "../server/types", "../shared"]
+}
