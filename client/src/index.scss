@@ -11,12 +11,6 @@ html {
 	@media (max-width: 768px) {
 		overflow-y: auto;
 	}
-
-	// Disables overflow when there is at least one open modal.
-	&:has([data-modal-id]) {
-		overflow: hidden;
-		margin-right: 1rem; // to prevent layout shift because of disappearing scrollbar
-	}
 }
 
 body {
