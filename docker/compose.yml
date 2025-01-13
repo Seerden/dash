@@ -13,6 +13,13 @@ services:
          - POSTGRES_DB=$PG_DB
       volumes:
          - ./pg-data:/var/lib/postgresql/data
+      #  - ./database-setup:/docker-entrypoint-initdb.d
+      #    I'm not sure if this works. If we try to run the containers on a
+      #    new machine and it doesn't, this is the place to check. :) Can
+      #    always move the scripts from /server to the old ./database-setup
+      #    folder (see commented line above) to initialize the database
+      #    anyway, so it's not a big deal. Don't forget to do the same for the
+      #    test-database container below!
          - ../server/src/db/scripts:/docker-entrypoint-initdb.d
          - ./database-backup:/psql-backups
       ports:
@@ -24,9 +31,9 @@ services:
          context: ../server
          dockerfile: Dockerfile
       volumes:
+         - ../:/dash
          - ../server:/dash/server
          - node_modules_server:/dash/server/node_modules
-         - ../:/dash
       depends_on:
          - database
          - store

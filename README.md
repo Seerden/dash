@@ -15,19 +15,3 @@ slightly different stack, so I've taken out some things that will be
   remove all remaining references to `react-router`.
 - `jest` is installed on the server, but I think we'll use `vitest`, since we're
   using it on the client already as well.
-
-# Scripts
-```
-  "dev:shared": "npx tsc --build --watch shared",
-  "dev": "cd ./docker && docker-compose --file ./compose.yml up --build --force-recreate --remove-orphans",
-  "prod": "cd ./docker && docker-compose --file ./docker-compose.prod.yml up --force-recreate --remove-orphans --build server database store test-database",
-  "dev-build": "cd ./docker && docker-compose --file ./compose.yml up --force-recreate --remove-orphans --build server database store test-database",
-  "dev-down": "cd ./docker && docker-compose --file ./compose.yml down --volumes -v",
-  "prod-down": "cd ./docker && docker-compose --file ./docker-compose.prod.yml down --volumes",
-  "db": "docker exec -it docker-database-1 psql dash -U postgres",
-  "test-db": "docker exec -it docker-test-database-1 psql dash-test -U postgres -p 5434",
-  "test-back": "docker exec -it docker-server-1 yarn test --watchAll",
-  "test-front": "docker exec -it docker-client-1 yarn test --watchAll",
-  "store": "docker exec -it docker-store-1 redis-cli",
-  "build:types": "npx tsc --build"
-```
