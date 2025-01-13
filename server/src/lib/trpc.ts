@@ -1,5 +1,6 @@
 import { initTRPC } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
+import SuperJSON from "superjson";
 import { z } from "zod";
 
 export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({
@@ -9,7 +10,9 @@ export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOpti
 type Context = Awaited<ReturnType<typeof createContext>>;
 
 // Initialize tRPC
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+	transformer: SuperJSON,
+});
 
 // Define your router
 export const appRouter = t.router({

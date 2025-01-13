@@ -1,5 +1,6 @@
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import type { AppRouter } from "server/src/lib/trpc";
+import SuperJSON from "superjson";
 //     👆 **type-only** import
 
 // Pass AppRouter as generic here. 👇 This lets the `trpc` object know
@@ -7,6 +8,7 @@ import type { AppRouter } from "server/src/lib/trpc";
 export const trpc = createTRPCClient<AppRouter>({
 	links: [
 		httpBatchLink({
+			transformer: SuperJSON,
 			// TODO: use a baseUrl variable for this
 			url: "http://localhost:5000/trpc",
 			fetch(url, options) {
