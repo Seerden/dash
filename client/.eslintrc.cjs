@@ -19,7 +19,7 @@ module.exports = {
 		ecmaVersion: 12,
 		sourceType: "module"
 	},
-	plugins: ["react", "@typescript-eslint", "eslint-plugin-react-compiler"],
+	plugins: ["react", "@typescript-eslint"],
 	root: true,
 	ignorePatterns: ["node_modules", "build", "dist"],
 	settings: {
@@ -37,7 +37,6 @@ module.exports = {
 	},
 	rules: {
 		"react/react-in-jsx-scope": "off",
-		"react-compiler/react-compiler": "error",
 		"@typescript-eslint/consistent-type-imports": "error",
 		"no-restricted-imports": [
 			"error",
