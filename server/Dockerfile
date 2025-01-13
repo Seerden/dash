@@ -4,17 +4,17 @@ WORKDIR /dash
 
 COPY . .
 
-RUN npm install
+RUN yarn install
 
 WORKDIR /dash/server
 
 COPY package*.json ./
 
-RUN npm install
+RUN yarn install
 COPY . .
 
-# RUN npm run build # don't need to build in development
+# RUN yarn build # don't need to build in development
 
 EXPOSE 5000
 
-CMD ["npm", "run", "dev"]
+CMD ["yarn", "dev"]

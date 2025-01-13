@@ -1,4 +1,4 @@
-const config = require("dotenv").config;
+import { config } from "dotenv";
 
 config({ path: "./.env" });
 config({ path: "./test.env" });
