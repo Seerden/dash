@@ -36,6 +36,6 @@
 		},
 		"types": ["vitest/globals"]
 	},
-	"include": ["src", "../shared", "../server/src/lib/trpc.ts"],
+	"include": ["src", "../shared", "../server/"],
 	"exclude": ["node_modules"]
 }
