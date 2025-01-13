@@ -1,16 +1,9 @@
 import { initTRPC } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
-import type { SessionData } from "express-session";
 import SuperJSON from "superjson";
 import { z } from "zod";
 
-// extends the Request type to include the session.
-// the typing or session.user comes from types/index.d.ts.
-type ExpressRequest = Omit<trpcExpress.CreateExpressContextOptions, "req"> & {
-	req: Request & { session: SessionData };
-};
-
-export const createContext = ({ req, res }: ExpressRequest) => ({
+export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({
 	hello: "world",
 	session: req.session.user, // TODO: this should only be applied to the authenticated procedure.
 });

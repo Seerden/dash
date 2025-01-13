@@ -2612,10 +2612,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.64.1":
-  version: 5.64.1
-  resolution: "@tanstack/query-core@npm:5.64.1"
-  checksum: 10c0/89aae104b6c0568d88ca9f4de2c878d290ee296b9a2952c93145a14e36f980ad045d37e12cf6c520a5de5297fab2f01488d3936a77b6e374f28259051fe3cb30
+"@tanstack/query-core@npm:5.64.0":
+  version: 5.64.0
+  resolution: "@tanstack/query-core@npm:5.64.0"
+  checksum: 10c0/299e3d9df8769a02a38d7e617905093579304d0c11401ab6a739e9e8bb024b5e12aef6287c846edeb62559286081d40fe9fa9833c111b36bebac2c99d7b47b37
   languageName: node
   linkType: hard
 
@@ -2639,13 +2639,13 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-query@npm:^5.51.23":
-  version: 5.64.1
-  resolution: "@tanstack/react-query@npm:5.64.1"
+  version: 5.64.0
+  resolution: "@tanstack/react-query@npm:5.64.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.64.1"
+    "@tanstack/query-core": "npm:5.64.0"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/94393e72d8ed4aca112c10a5c421642fcd63e6f767ec68033e916ed66d75c9c515112942fd40e355ffa94ed41b5d48283bfa1b808aba26b4a154eedc82cd03be
+  checksum: 10c0/1606baeb9fa515bbedaab399b4167e4e0f868f0bbcef51c8748377106a10c3bba1aef9f3d27e55ca158e81b02a522f646fee29789f34d4a87e125c5a89daede0
   languageName: node
   linkType: hard
 
@@ -2693,19 +2693,19 @@ __metadata:
   linkType: hard
 
 "@tanstack/router-generator@npm:^1.95.4":
-  version: 1.95.5
-  resolution: "@tanstack/router-generator@npm:1.95.5"
+  version: 1.95.4
+  resolution: "@tanstack/router-generator@npm:1.95.4"
   dependencies:
     "@tanstack/virtual-file-routes": "npm:^1.87.6"
     prettier: "npm:^3.4.2"
     tsx: "npm:^4.19.2"
     zod: "npm:^3.23.8"
   peerDependencies:
-    "@tanstack/react-router": ^1.95.5
+    "@tanstack/react-router": ^1.95.4
   peerDependenciesMeta:
     "@tanstack/react-router":
       optional: true
-  checksum: 10c0/7e36658170e32cfe2904d8ab815e91ec2722731c547e4fed0ac7e4afc9b72d1ab04ff9d7cf1d39a65d726e09523e6b5b9117473c67a7436c167addb32bbaa4ba
+  checksum: 10c0/5042f792128b3422056973bbfd8750c54a71d2b71c395e327f6fa872ece04acfd077445c45801b687b7b833367e583540c38b6f95356c859dfe2cec611ecd3ee
   languageName: node
   linkType: hard
 
@@ -9652,6 +9652,7 @@ __metadata:
     tsconfig-paths: "npm:^4.2.0"
     tsx: "npm:4.19.2"
     typescript: "npm:^5.5.4"
+    vitest: "npm:2.1.8"
     zod: "npm:3.24.1"
   languageName: unknown
   linkType: soft
@@ -10864,7 +10865,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^2.1.5":
+"vitest@npm:2.1.8, vitest@npm:^2.1.5":
   version: 2.1.8
   resolution: "vitest@npm:2.1.8"
   dependencies:

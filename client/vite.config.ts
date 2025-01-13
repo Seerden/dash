@@ -17,6 +17,8 @@ export default defineConfig({
 		extensions: [".js", ".jsx", ".ts", ".tsx", ".json"]
 	},
 	server: {
+      host: true,
+      port: 5173,
 		watch: {
 			usePolling: true
 		}
