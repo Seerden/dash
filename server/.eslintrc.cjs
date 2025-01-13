@@ -33,7 +33,6 @@ module.exports = {
 			files: ["**/*.js", "**/*.ts"],
 			rules: {
 				"@typescript-eslint/no-unused-vars": "off",
-				"@typescript-eslint/no-unused-expressions": "error",
 				"@typescript-eslint/explicit-module-boundary-types": "off",
 				"no-unused-vars": "off",
 			},
