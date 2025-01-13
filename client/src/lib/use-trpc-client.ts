@@ -9,8 +9,7 @@ export default function useTRPCClient() {
 			links: [
 				httpBatchLink({
 					transformer: SuperJSON,
-					// TODO: use a baseUrl variable for this
-					url: "http://localhost:5000/trpc",
+					url: "http://localhost:5000/trpc", // TODO: use a baseUrl variable for this
 					fetch(url, options) {
 						return fetch(url, {
 							...options,
