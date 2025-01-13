@@ -1,9 +1,12 @@
+import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
+import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import { pingDatabase } from "./src/db/init";
 import { initializeRedisConnection, redisSession } from "./src/lib/redis-client";
 import { runAtStartup } from "./src/lib/run-at-startup";
+import { appRouter, createContext } from "./src/lib/trpc";
 
 async function start() {
 	const app = express();
@@ -32,6 +35,14 @@ async function start() {
 	app.get("/", async (req, res) => {
 		res.json({ message: "Hello World" });
 	});
+
+	app.use(
+		"/trpc",
+		trpcExpress.createExpressMiddleware({
+			router: appRouter,
+			createContext,
+		}),
+	);
 
 	const port = process.env.PORT ?? 5000;
 

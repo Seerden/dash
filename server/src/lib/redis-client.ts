@@ -8,6 +8,8 @@ export const redisClient = new Redis("redis://store:6379");
 
 export const sessionCookieName = "track-session";
 
+console.log({ secret: process.env });
+
 export const redisSession: session.SessionOptions = {
 	store: new RedisStore({ client: redisClient }),
 	name: sessionCookieName,
