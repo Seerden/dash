@@ -11,6 +11,7 @@
 		"skipLibCheck": true,
 		"strictNullChecks": true,
 		"emitDecoratorMetadata": true,
+      "resolveJsonModule": true,
 		"experimentalDecorators": true,
 		"baseUrl": "../",
 		"rootDir": "../",
@@ -26,5 +27,5 @@
 		"inlineSources": true
 	},
 	"exclude": ["./node_modules", "node_modules"],
-	"include": ["../server/src", "../server/types", "../shared", "types"]
+	"include": ["../server/src", "../server/types", "../shared", "types", "../server/tsconfig.json"]
 }
