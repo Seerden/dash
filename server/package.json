@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "jest --setupFiles ./dotenv-config.js --detectOpenHandles --watchAll",
-		"dev": "tsx ./index.ts",
+		"dev": "tsx watch ./index.ts",
 		"build": "tsc -p './tsconfig.json' && yarn run"
 	},
 	"author": "",

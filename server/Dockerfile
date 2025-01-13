@@ -17,4 +17,6 @@ COPY . .
 
 EXPOSE 5000
 
+ENV CHOKIDAR_USEPOLLING=true
+
 CMD ["yarn", "dev"]
