@@ -1,22 +1,29 @@
 import { initTRPC } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
+import type { SessionData } from "express-session";
+import SuperJSON from "superjson";
 import { z } from "zod";
 
-export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({
-	// TODO: this is where we would add the session object, for example
+// extends the Request type to include the session.
+// the typing or session.user comes from types/index.d.ts.
+type ExpressRequest = Omit<trpcExpress.CreateExpressContextOptions, "req"> & {
+	req: Request & { session: SessionData };
+};
+
+export const createContext = ({ req, res }: ExpressRequest) => ({
 	hello: "world",
+	session: req.session.user, // TODO: this should only be applied to the authenticated procedure.
 });
 type Context = Awaited<ReturnType<typeof createContext>>;
 
-// Initialize tRPC
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+	transformer: SuperJSON,
+});
 
-// Define your router
 export const appRouter = t.router({
 	hello: t.procedure.input(z.object({ name: z.string() })).query(({ input, ctx }) => {
 		return { message: `Hello, ${input.name}!`, hello: ctx.hello };
 	}),
 });
 
-// Export router type for client
 export type AppRouter = typeof appRouter;
