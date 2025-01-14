@@ -19,3 +19,5 @@ docker/test-database-backup
 /docs
 
 server/.sentryclirc
+
+**/install-state.gz
