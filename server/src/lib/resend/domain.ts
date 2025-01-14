@@ -1,14 +1,11 @@
-import { CreateEmailOptions, CreateEmailRequestOptions, Resend } from "resend";
+import { resend } from "@/lib/resend/resend";
 
-const API_KEY = process.env.RESEND_API_KEY;
-const resend = new Resend(API_KEY);
-
-// unused
+/** Query the Resend API for our API keys. */
 export async function getApiKeys() {
 	return resend.apiKeys.list();
 }
 
-// testing
+/** Used this for testing to see if emails send successfully. */
 export async function DEV_sendTestEmail() {
 	const { data, error } = await resend.emails.send({
 		from: "Admin <test@auth.seerden.dev>",
@@ -20,36 +17,10 @@ export async function DEV_sendTestEmail() {
 	console.log({ data, error });
 }
 
-function generateEntityId() {
+export function generateEntityId() {
 	const id = Math.random().toString(36);
 
 	return {
 		"X-Entity-Ref-ID": id,
 	};
-}
-
-export async function sendEmail({
-	payload,
-	options,
-}: {
-	payload: CreateEmailOptions;
-	options: CreateEmailRequestOptions;
-}) {
-	try {
-		const { data, error } = await resend.emails.send(
-			{
-				...payload,
-				headers: {
-					...payload.headers,
-					...generateEntityId(),
-				},
-			},
-			options,
-		);
-		if (error) {
-			throw error;
-		}
-	} catch (error) {
-		console.error(error);
-	}
 }
