@@ -11,7 +11,7 @@
 		"test": "vitest",
 		"test:ui": "vitest --ui",
 		"build:types": "tsc --build --verbose",
-		"storybook": "storybook dev -p 6006",
+		"storybook": "storybook dev -p 6016 --ci",
 		"storybook:build": "storybook build"
 	},
 	"dependencies": {
@@ -19,6 +19,7 @@
 		"@emotion/styled": "11.14.0",
 		"@floating-ui/react": "0.26.28",
 		"@lucide/lab": "^0.1.2",
+		"@react-email/components": "0.0.32",
 		"@tanstack/react-query": "^5.51.23",
 		"@tanstack/react-router": "1.95.4",
 		"@trpc/client": "11.0.0-rc.700",
@@ -42,6 +43,7 @@
 		"@storybook/addon-onboarding": "^8.4.5",
 		"@storybook/addon-themes": "^8.4.5",
 		"@storybook/blocks": "^8.4.5",
+		"@storybook/builder-vite": "^8.4.7",
 		"@storybook/react": "^8.4.5",
 		"@storybook/react-vite": "^8.4.5",
 		"@storybook/test": "^8.4.5",
