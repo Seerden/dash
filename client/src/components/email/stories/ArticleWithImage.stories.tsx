@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useEffect, useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import Email from "../EmailWithButton";
+import Email from "../ArticleWithImage";
 
 const meta: Meta<typeof Email> = {
-	title: "Components/email/EmailWithButton",
+	title: "Components/email/ArticleWithImage",
 	component: Email
 };
 
