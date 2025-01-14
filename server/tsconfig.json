@@ -11,10 +11,11 @@
 		"skipLibCheck": true,
 		"strictNullChecks": true,
 		"emitDecoratorMetadata": true,
+      "resolveJsonModule": true,
 		"experimentalDecorators": true,
 		"baseUrl": "../",
 		"rootDir": "../",
-		"types": ["jest", "node"],
+		"types": ["jest", "node", "vitest/globals"],
 		"noImplicitAny": true,
 		"paths": {
 			"@/*": ["server/src/*"],
@@ -26,5 +27,5 @@
 		"inlineSources": true
 	},
 	"exclude": ["./node_modules", "node_modules"],
-	"include": ["../server/src", "../server/types", "../shared", "types"]
+	"include": ["../server/src", "../server/types", "../shared", "types", "../server/tsconfig.json"]
 }

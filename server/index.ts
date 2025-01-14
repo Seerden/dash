@@ -41,6 +41,9 @@ async function start() {
 		trpcExpress.createExpressMiddleware({
 			router: appRouter,
 			createContext,
+			onError: (opts) => {
+				console.log({ error: opts.error }); // TODO: proper error handling
+			},
 		}),
 	);
 

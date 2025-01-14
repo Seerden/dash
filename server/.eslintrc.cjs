@@ -1,10 +1,14 @@
 module.exports = {
 	env: {
-		browser: true,
 		es2021: true,
 		node: true,
 	},
-	extends: ["eslint:recommended", "plugin:@typescript-eslint/strict", "prettier"],
+	extends: [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/strict",
+		"prettier",
+		"plugin:json/recommended-legacy",
+	],
 	parser: "@typescript-eslint/parser",
 	parserOptions: {
 		ecmaFeatures: {
@@ -23,6 +27,7 @@ module.exports = {
 	rules: {
 		"@typescript-eslint/consistent-type-imports": "error",
 	},
+	ignorePatterns: ["node_modules", "build", "dist"],
 	overrides: [
 		{
 			files: ["**/*.js", "**/*.ts"],

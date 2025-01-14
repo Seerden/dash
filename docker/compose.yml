@@ -1,64 +1,73 @@
 services:
-   store:
-      image: redis
-      command: ["redis-server", "--appendonly", "yes"]
-      volumes:
-         - ./redis-data:/data
+  store:
+    image: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./redis-data:/data
 
-   database:
-      image: postgres:14-alpine
-      environment:
-         - POSTGRES_PASSWORD=$PG_PASS
-         - POSTGRES_USER=$PG_USER
-         - POSTGRES_DB=$PG_DB
-      volumes:
-         - ./pg-data:/var/lib/postgresql/data
-        #  - ./database-setup:/docker-entrypoint-initdb.d
-        #    I'm not sure if this works. If we try to run the containers on a
-        #    new machine and it doesn't, this is the place to check. :) Can
-        #    always move the scripts from /server to the old ./database-setup
-        #    folder (see commented line above) to initialize the database
-        #    anyway, so it's not a big deal. Don't forget to do the same for the
-        #    test-database container below!
-         - ../server/src/db/scripts:/docker-entrypoint-initdb.d 
-         - ./database-backup:/psql-backups
-      ports:
-         - "5432:5432"
-      command: ["postgres", "-c", "log_statement=all"]
+  database:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=$PG_PASS
+      - POSTGRES_USER=$PG_USER
+      - POSTGRES_DB=$PG_DB
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+      - ../server/src/db/scripts:/docker-entrypoint-initdb.d
+      - ./database-backup:/psql-backups
+    ports:
+      - "5432:5432"
+    command: ["postgres", "-c", "log_statement=all"]
 
-   server:
-      build:
-         context: ../server
-         dockerfile: Dockerfile
-      volumes:
-         - ../:/dash
-         - ../server:/dash/server
-         - node_modules_server:/dash/server/node_modules
-      depends_on:
-         - database
-         - store
-      ports:
-         - "5000:5000"
+  server:
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/dash
+      - ../server:/dash/server
+      - ../server/node_modules:/dash/server/node_modules
+    depends_on:
+      - database
+      - store
+    ports:
+      - "5000:5000"
+    command: /bin/sh -c "yarn install && yarn dev"
 
-   test-database:
-      image: postgres:14-alpine
-      environment:
-         - POSTGRES_PASSWORD=$PG_PASS
-         - POSTGRES_USER=$PG_USER
-         - POSTGRES_DB=$PG_TEST_DB
-      volumes:
-         - ./pg-data-test:/var/lib/postgresql/data
-         - ../server/src/db/scripts:/docker-entrypoint-initdb.d
-         - ./test-database-backup:/psql-backups
-      expose:
-         - "5434"
-      ports:
-         - "5434:5434"
-      command: ["postgres", "-p 5434", "-c", "log_statement=all"]
+  test-database:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=$PG_PASS
+      - POSTGRES_USER=$PG_USER
+      - POSTGRES_DB=$PG_TEST_DB
+    volumes:
+      - ./pg-data-test:/var/lib/postgresql/data
+      - ../server/src/db/scripts:/docker-entrypoint-initdb.d
+      - ./test-database-backup:/psql-backups
+    expose:
+      - "5434"
+    ports:
+      - "5434:5434"
+    command: ["postgres", "-p 5434", "-c", "log_statement=all"]
+
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    volumes:
+      - shared_lib:/dash/shared
+      - ../client:/dash/client
+      - ../client/node_modules:/dash/client/node_modules
+    ports:
+      - "5175:5175"
+    command: /bin/sh -c "yarn install && yarn dev"
+
+# This _might_ be necessary still, but I don't think so because the volume is
+# defined in the server service above.
 volumes:
-   node_modules_server:
+    shared_lib:
       driver: local
       driver_opts:
-         type: none
-         o: bind
-         device: ../server/node_modules
+          type: none
+          o: bind
+          device: ../shared
