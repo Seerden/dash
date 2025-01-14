@@ -33,6 +33,7 @@ const testOptions: PostgresOptions = {
 };
 
 export const sqlConnection = postgres(IS_TEST_ENVIRONMENT ? testOptions : options);
+export const DEV_sqlTestConnection = postgres(testOptions);
 
 export async function pingDatabase() {
 	try {
