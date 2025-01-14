@@ -1,1 +1,3 @@
-export async function runAtStartup() {}
+export async function runAtStartup() {
+	console.log("hi");
+}
