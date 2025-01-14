@@ -18,5 +18,7 @@ slightly different stack, so I've taken out some things that will be
 
 # Notes
 ## Docker
-If Docker doesn't want to play nice, empty out node_modules (keep the folder,
+- If Docker doesn't want to play nice, empty out node_modules (keep the folder,
 though, if on Windows, because otherwise the volumes can't mount) and try again.
+- Only ever install packages using yarn, and do it from inside the service's
+  container.
