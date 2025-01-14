@@ -33,12 +33,14 @@ services:
       volumes:
          - ../:/dash
          - ../server:/dash/server
-         - node_modules_server:/dash/server/node_modules
+         - ../server/node_modules:/dash/server/node_modules
+
       depends_on:
          - database
          - store
       ports:
          - "5000:5000"
+      command: /bin/sh -c "yarn install && yarn dev"
 
    test-database:
       image: postgres:14-alpine
@@ -55,11 +57,12 @@ services:
       ports:
          - "5434:5434"
       command: ["postgres", "-p 5434", "-c", "log_statement=all"]
-
-volumes:
-   node_modules_server:
-      driver: local
-      driver_opts:
-         type: none
-         o: bind
-         device: ../server/node_modules
+# This _might_ be necessary still, but I don't think so because the volume is
+# defined in the server service above.
+# volumes:
+#    node_modules_server:
+#       driver: local
+#       driver_opts:
+#          type: none
+#          o: bind
+#          device: ../server/node_modules

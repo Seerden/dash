@@ -15,7 +15,7 @@
 		"experimentalDecorators": true,
 		"baseUrl": "../",
 		"rootDir": "../",
-		"types": ["jest", "node"],
+		"types": ["jest", "node", "vitest/globals"],
 		"noImplicitAny": true,
 		"paths": {
 			"@/*": ["server/src/*"],

@@ -4,19 +4,12 @@ WORKDIR /dash
 
 COPY . .
 
-RUN yarn install
-
 WORKDIR /dash/server
 
 COPY package*.json ./
-
-RUN yarn install
-COPY . .
 
 # RUN yarn build # don't need to build in development
 
 EXPOSE 5000
 
 ENV CHOKIDAR_USEPOLLING=true
-
-CMD ["yarn", "dev"]
