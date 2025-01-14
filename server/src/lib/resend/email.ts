@@ -23,6 +23,8 @@ export async function sendEmail({
 		if (error) {
 			throw error;
 		}
+
+		// TODO: store the email in the database
 	} catch (error) {
 		console.error(error);
 	}
