@@ -1,0 +1,19 @@
+FROM node:20-alpine as build
+
+RUN corepack enable
+
+WORKDIR /dash
+COPY . . 
+
+WORKDIR /dash/server
+COPY package*.json ./
+RUN yarn install
+COPY . . 
+
+RUN yarn build
+
+FROM node:20-alpine
+WORKDIR /dash/server
+COPY --from=build /dash/server/dist /dash/server/
+USER node
+CMD ["node", "index.js"]

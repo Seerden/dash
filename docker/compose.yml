@@ -60,6 +60,7 @@ services:
       - ../client/node_modules:/dash/client/node_modules
     ports:
       - "5175:5175"
+      - "4173:4173"
       - "6016:6016"
     command: /bin/sh -c "yarn install && yarn dev"
 

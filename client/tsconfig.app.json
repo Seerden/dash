@@ -32,7 +32,8 @@
 			"@/*": ["client/src/*"],
 			"@components/*": ["client/src/components/*"],
 			"@lib/*": ["client/src/lib/*"],
-			"@shared/*": ["shared/src/*"]
+			"@shared/*": ["shared/src/*"],
+			"@server/*": ["server/src/*"]
 		},
 		"types": ["vitest/globals"]
 	},

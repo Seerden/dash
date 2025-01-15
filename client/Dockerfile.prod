@@ -1,0 +1,18 @@
+FROM node:20-alpine as build
+
+WORKDIR /dash
+
+COPY . .
+
+WORKDIR /dash/client
+
+COPY package*.json ./
+
+# do the following 2 lines work?
+RUN yarn install
+COPY . .
+RUN yarn build
+
+FROM nginx:alpine
+
+COPY --from=build /dash/client/dist /usr/share/nginx/html
