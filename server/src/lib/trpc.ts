@@ -1,3 +1,4 @@
+import { generateEmailHtml, testThing } from "@shared/lib/email/EmailTest";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
 import SuperJSON from "superjson";
@@ -43,6 +44,13 @@ export const appRouter = t.router({
 		}),
 	bye: publicProcedure.input(z.object({ name: z.string() })).query(({ input, ctx }) => {
 		return { message: `Hello, ${input.name}!` };
+	}),
+	// TODO: remove this one. This is just for testing purposes.
+	DEV_emailTest: publicProcedure.query(() => {
+		return {
+			html: generateEmailHtml("https://google.com"),
+			test: testThing("hi"),
+		};
 	}),
 	me: authenticatedProcedure.query(({ ctx }) => {
 		return {
