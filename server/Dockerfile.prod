@@ -15,7 +15,7 @@ COPY ./server/dist ./dist
 
 WORKDIR /dash/client
 RUN yarn build
-COPY ./client/dist ../server/public
+COPY ./client/dist ../server/dist/public
 
 USER node
 EXPOSE 5000

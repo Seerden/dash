@@ -39,12 +39,12 @@ async function start() {
 
 	app.use(express.json()); // TODO: is this still necessary with trpc? they use superjson as transformer
 
-	app.get("/", async (req, res) => {
+	app.get("/api", async (req, res) => {
 		res.json({ message: "Hello World" });
 	});
 
 	app.use(
-		"/data/trpc",
+		"/api/trpc",
 		trpcExpress.createExpressMiddleware({
 			router: appRouter,
 			createContext,
@@ -61,7 +61,7 @@ async function start() {
 
 	app.set("trust proxy", "172.17.0.0/16"); // Trust Docker's default bridge network // TODO: is this necessary?
 
-	app.get("/*splat", (req, res) => {
+	app.get("*splat", (req, res) => {
 		res.sendFile(path.join(__dirname, "public", "index.html"));
 	});
 

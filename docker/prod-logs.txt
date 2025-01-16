@@ -1,8 +1,8 @@
-time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\\dash\\docker\\compose.prod.yml: `version` is obsolete"
+time="2025-01-16T19:27:42+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\\dash\\docker\\compose.prod.yml: `version` is obsolete"
 #0 building with "desktop-linux" instance using docker driver
 
 #1 [server internal] load build definition from Dockerfile.prod
-#1 transferring dockerfile: 461B done
+#1 transferring dockerfile: 466B done
 #1 WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
 #1 DONE 0.0s
 
@@ -10,7 +10,7 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
 #2 DONE 0.0s
 
 #3 [server internal] load metadata for docker.io/library/node:20-alpine
-#3 DONE 0.9s
+#3 DONE 0.8s
 
 #4 [server internal] load .dockerignore
 #4 transferring context: 56B done
@@ -20,7 +20,7 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
 #5 DONE 0.0s
 
 #6 [server internal] load build context
-#6 transferring context: 17.06MB 0.4s done
+#6 transferring context: 17.04MB 0.4s done
 #6 DONE 0.4s
 
 #7 [server  2/17] RUN corepack enable
@@ -33,32 +33,32 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
 #9 DONE 0.3s
 
 #10 [server  5/17] RUN yarn install
-#10 0.431 ! Corepack is about to download https://repo.yarnpkg.com/4.6.0/packages/yarnpkg-cli/bin/yarn.js
-#10 1.016 ➤ YN0000: · Yarn 4.6.0
-#10 1.025 ➤ YN0000: ┌ Resolution step
-#10 1.190 ➤ YN0000: └ Completed
-#10 1.191 ➤ YN0000: ┌ Post-resolution validation
-#10 1.191 ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
-#10 1.191 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
-#10 1.191 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
-#10 1.191 ➤ YN0000: └ Completed
-#10 1.191 ➤ YN0000: ┌ Fetch step
-#10 7.081 ➤ YN0013: │ 1083 packages were added to the project (+ 346.32 MiB).
-#10 7.081 ➤ YN0000: └ Completed in 5s 890ms
-#10 7.109 ➤ YN0000: ┌ Link step
-#10 11.64 ➤ YN0007: │ msw@npm:2.7.0 [62814] must be built because it never has been before or the last one failed
-#10 11.64 ➤ YN0007: │ esbuild@npm:0.21.5 must be built because it never has been before or the last one failed
-#10 11.64 ➤ YN0007: │ @parcel/watcher@npm:2.5.0 must be built because it never has been before or the last one failed
-#10 11.64 ➤ YN0007: │ bson@npm:0.1.9 must be built because it never has been before or the last one failed
-#10 11.64 ➤ YN0007: │ bson@npm:0.1.8 must be built because it never has been before or the last one failed
-#10 11.64 ➤ YN0007: │ esbuild@npm:0.24.2 must be built because it never has been before or the last one failed
-#10 11.64 ➤ YN0007: │ esbuild@npm:0.23.1 must be built because it never has been before or the last one failed
-#10 12.09 ➤ YN0000: └ Completed in 4s 977ms
-#10 12.17 ➤ YN0000: · Done with warnings in 11s 151ms
-#10 DONE 13.6s
+#10 0.425 ! Corepack is about to download https://repo.yarnpkg.com/4.6.0/packages/yarnpkg-cli/bin/yarn.js
+#10 1.051 ➤ YN0000: · Yarn 4.6.0
+#10 1.059 ➤ YN0000: ┌ Resolution step
+#10 1.225 ➤ YN0000: └ Completed
+#10 1.227 ➤ YN0000: ┌ Post-resolution validation
+#10 1.227 ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
+#10 1.227 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+#10 1.227 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+#10 1.227 ➤ YN0000: └ Completed
+#10 1.227 ➤ YN0000: ┌ Fetch step
+#10 7.582 ➤ YN0013: │ 1083 packages were added to the project (+ 346.32 MiB).
+#10 7.582 ➤ YN0000: └ Completed in 6s 354ms
+#10 7.620 ➤ YN0000: ┌ Link step
+#10 12.67 ➤ YN0007: │ msw@npm:2.7.0 [62814] must be built because it never has been before or the last one failed
+#10 12.67 ➤ YN0007: │ esbuild@npm:0.21.5 must be built because it never has been before or the last one failed
+#10 12.67 ➤ YN0007: │ @parcel/watcher@npm:2.5.0 must be built because it never has been before or the last one failed
+#10 12.67 ➤ YN0007: │ bson@npm:0.1.9 must be built because it never has been before or the last one failed
+#10 12.67 ➤ YN0007: │ bson@npm:0.1.8 must be built because it never has been before or the last one failed
+#10 12.67 ➤ YN0007: │ esbuild@npm:0.24.2 must be built because it never has been before or the last one failed
+#10 12.68 ➤ YN0007: │ esbuild@npm:0.23.1 must be built because it never has been before or the last one failed
+#10 13.20 ➤ YN0000: └ Completed in 5s 576ms
+#10 13.27 ➤ YN0000: · Done with warnings in 12s 224ms
+#10 DONE 13.8s
 
 #11 [server  6/17] COPY . .
-#11 DONE 0.6s
+#11 DONE 0.4s
 
 #12 [server  7/17] WORKDIR /dash/server
 #12 DONE 0.1s
@@ -67,49 +67,49 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
 #13 DONE 0.1s
 
 #14 [server  9/17] RUN yarn workspaces focus -A
-#14 0.667 ➤ YN0000: · Yarn 4.6.0
-#14 0.675 ➤ YN0000: ┌ Resolution step
-#14 0.855 ➤ YN0000: └ Completed
-#14 0.856 ➤ YN0000: ┌ Post-resolution validation
-#14 0.856 ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
-#14 0.856 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
-#14 0.856 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
-#14 0.857 ➤ YN0000: └ Completed
-#14 0.858 ➤ YN0000: ┌ Fetch step
-#14 1.399 ➤ YN0000: └ Completed in 0s 541ms
-#14 1.399 ➤ YN0000: ┌ Link step
-#14 1.700 ➤ YN0000: └ Completed in 0s 301ms
-#14 1.784 ➤ YN0000: · Done with warnings in 1s 118ms
-#14 DONE 1.8s
+#14 0.688 ➤ YN0000: · Yarn 4.6.0
+#14 0.697 ➤ YN0000: ┌ Resolution step
+#14 0.881 ➤ YN0000: └ Completed
+#14 0.883 ➤ YN0000: ┌ Post-resolution validation
+#14 0.883 ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
+#14 0.883 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+#14 0.883 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+#14 0.883 ➤ YN0000: └ Completed
+#14 0.884 ➤ YN0000: ┌ Fetch step
+#14 1.434 ➤ YN0000: └ Completed in 0s 550ms
+#14 1.434 ➤ YN0000: ┌ Link step
+#14 1.734 ➤ YN0000: └ Completed in 0s 300ms
+#14 1.820 ➤ YN0000: · Done with warnings in 1s 132ms
+#14 DONE 1.9s
 
 #15 [server 10/17] COPY ./server .
 #15 DONE 0.1s
 
 #16 [server 11/17] RUN ls -la /dash/ && echo "ls 3 /dash/"
-#16 0.432 total 552
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 14:57 .
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 17:11 ..
-#16 0.432 -rwxr-xr-x    1 root     root            16 Jan 16 10:34 .dockerignore
-#16 0.432 -rwxr-xr-x    1 root     root            74 Jan 13 11:40 .editorconfig
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 17:09 .git
-#16 0.432 -rwxr-xr-x    1 root     root           238 Jan 15 18:33 .gitignore
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 13:19 .yarn
-#16 0.432 -rwxr-xr-x    1 root     root           133 Jan 16 10:34 .yarnrc.yml
-#16 0.432 -rwxr-xr-x    1 root     root          1930 Jan 16 10:34 README.md
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 15:20 client
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 17:11 docker
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 13 14:03 docs
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 14:33 nginx
-#16 0.432 -rwxr-xr-x    1 root     root           418 Jan 16 14:54 nginx.conf
-#16 0.432 drwxr-xr-x    2 root     root          4096 Jan 16 17:11 node_modules
-#16 0.432 -rwxr-xr-x    1 root     root           320 Jan 16 10:34 package.json
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 scripts
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 17:11 server
-#16 0.432 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 shared
-#16 0.432 -rwxr-xr-x    1 root     root           249 Jan 13 21:05 tsconfig.json
-#16 0.432 -rwxr-xr-x    1 root     root        447951 Jan 16 10:34 yarn.lock
-#16 0.432 ls 3 /dash/
-#16 DONE 0.5s
+#16 0.396 total 552
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 18:21 .
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 18:28 ..
+#16 0.396 -rwxr-xr-x    1 root     root            16 Jan 16 10:34 .dockerignore
+#16 0.396 -rwxr-xr-x    1 root     root            74 Jan 13 11:40 .editorconfig
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 18:27 .git
+#16 0.396 -rwxr-xr-x    1 root     root           238 Jan 15 18:33 .gitignore
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 13:19 .yarn
+#16 0.396 -rwxr-xr-x    1 root     root           133 Jan 16 10:34 .yarnrc.yml
+#16 0.396 -rwxr-xr-x    1 root     root          1930 Jan 16 10:34 README.md
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 15:20 client
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 18:27 docker
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 13 14:03 docs
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 14:33 nginx
+#16 0.396 -rwxr-xr-x    1 root     root           424 Jan 16 18:20 nginx.conf
+#16 0.396 drwxr-xr-x    2 root     root          4096 Jan 16 18:27 node_modules
+#16 0.396 -rwxr-xr-x    1 root     root           320 Jan 16 10:34 package.json
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 scripts
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 18:27 server
+#16 0.396 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 shared
+#16 0.396 -rwxr-xr-x    1 root     root           249 Jan 13 21:05 tsconfig.json
+#16 0.396 -rwxr-xr-x    1 root     root        447951 Jan 16 10:34 yarn.lock
+#16 0.396 ls 3 /dash/
+#16 DONE 0.4s
 
 #17 [server 12/17] RUN yarn build
 #17 DONE 1.0s
@@ -121,28 +121,28 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
 #19 DONE 0.1s
 
 #20 [server 15/17] RUN yarn build
-#20 1.092 
-#20 1.092 ♻️  Generating routes...
-#20 1.207 ✅ Processed routes in 115ms
-#20 1.221 vite v6.0.7 building for production...
-#20 1.274 transforming...
-#20 2.917 ✓ 458 modules transformed.
-#20 3.014 rendering chunks...
-#20 3.132 computing gzip size...
-#20 3.156 dist/index.html                       0.58 kB │ gzip:   0.39 kB
-#20 3.156 dist/assets/index-CNHLvz2F.css        2.27 kB │ gzip:   0.97 kB
-#20 3.156 dist/assets/index.lazy-CeZvE68l.js    0.20 kB │ gzip:   0.18 kB
-#20 3.156 dist/assets/about.lazy-XZlV_Qr4.js    0.27 kB │ gzip:   0.23 kB
-#20 3.156 dist/assets/index-BTFIlzYM.js       616.28 kB │ gzip: 195.70 kB
-#20 3.156 
-#20 3.156 (!) Some chunks are larger than 500 kB after minification. Consider:
-#20 3.156 - Using dynamic import() to code-split the application
-#20 3.156 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
-#20 3.156 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-#20 3.156 ✓ built in 1.91s
-#20 DONE 3.2s
+#20 1.087 
+#20 1.087 ♻️  Generating routes...
+#20 1.199 ✅ Processed routes in 111ms
+#20 1.209 vite v6.0.7 building for production...
+#20 1.260 transforming...
+#20 2.804 ✓ 458 modules transformed.
+#20 2.895 rendering chunks...
+#20 3.001 computing gzip size...
+#20 3.018 dist/index.html                       0.58 kB │ gzip:   0.39 kB
+#20 3.018 dist/assets/index-CNHLvz2F.css        2.27 kB │ gzip:   0.97 kB
+#20 3.019 dist/assets/index.lazy-D_tESsap.js    0.20 kB │ gzip:   0.18 kB
+#20 3.019 dist/assets/about.lazy-C0GapWxw.js    0.27 kB │ gzip:   0.23 kB
+#20 3.019 dist/assets/index-IT3OZ9ht.js       616.28 kB │ gzip: 195.70 kB
+#20 3.019 
+#20 3.019 (!) Some chunks are larger than 500 kB after minification. Consider:
+#20 3.019 - Using dynamic import() to code-split the application
+#20 3.019 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#20 3.019 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#20 3.019 ✓ built in 1.79s
+#20 DONE 3.1s
 
-#21 [server 16/17] COPY ./client/dist ../server/public
+#21 [server 16/17] COPY ./client/dist ../server/dist/public
 #21 DONE 0.1s
 
 #22 [server 17/17] WORKDIR /dash/server
@@ -150,10 +150,10 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
 
 #23 [server] exporting to image
 #23 exporting layers
-#23 exporting layers 3.7s done
-#23 writing image sha256:f766f73144f215fe57d08f8918176bccf6805d742f2319f72fe658166b238f83 done
-#23 naming to docker.io/library/docker-server 0.0s done
-#23 DONE 3.7s
+#23 exporting layers 3.4s done
+#23 writing image sha256:6f9be9cab6a5fed1fda9ef9137e4024c6691a326cbe4a7f274ee5ec1b1774b5e done
+#23 naming to docker.io/library/docker-server done
+#23 DONE 3.5s
  Container docker-store-1  Recreate
  Container docker-database-1  Recreate
  Container docker-store-1  Recreated
@@ -161,54 +161,49 @@ time="2025-01-16T18:11:22+01:00" level=warning msg="C:\\Users\\Christiaan\\Code\
  Container docker-server-1  Recreate
  Container docker-server-1  Recreated
 Attaching to database-1, server-1, store-1
-store-1     | 1:C 16 Jan 2025 17:11:50.312 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-store-1     | 1:C 16 Jan 2025 17:11:50.312 * Redis version=7.4.0, bits=64, commit=00000000, modified=0, pid=1, just started
-store-1     | 1:C 16 Jan 2025 17:11:50.312 * Configuration loaded
-store-1     | 1:M 16 Jan 2025 17:11:50.312 * monotonic clock: POSIX clock_gettime
-store-1     | 1:M 16 Jan 2025 17:11:50.313 * Running mode=standalone, port=6379.
-store-1     | 1:M 16 Jan 2025 17:11:50.313 * Server initialized
-store-1     | 1:M 16 Jan 2025 17:11:50.318 * Reading RDB base file on AOF loading...
-store-1     | 1:M 16 Jan 2025 17:11:50.318 * Loading RDB produced by version 7.4.0
-store-1     | 1:M 16 Jan 2025 17:11:50.318 * RDB age 269866 seconds
-store-1     | 1:M 16 Jan 2025 17:11:50.318 * RDB memory usage when created 0.90 Mb
-store-1     | 1:M 16 Jan 2025 17:11:50.318 * RDB is base AOF
-store-1     | 1:M 16 Jan 2025 17:11:50.318 * Done loading RDB, keys loaded: 0, keys expired: 0.
-store-1     | 1:M 16 Jan 2025 17:11:50.319 * DB loaded from base file appendonly.aof.1.base.rdb: 0.002 seconds
-store-1     | 1:M 16 Jan 2025 17:11:50.319 * DB loaded from append only file: 0.004 seconds
-store-1     | 1:M 16 Jan 2025 17:11:50.321 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
-store-1     | 1:M 16 Jan 2025 17:11:50.321 * Ready to accept connections tcp
+store-1     | 1:C 16 Jan 2025 18:28:09.474 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+store-1     | 1:C 16 Jan 2025 18:28:09.474 * Redis version=7.4.0, bits=64, commit=00000000, modified=0, pid=1, just started
+store-1     | 1:C 16 Jan 2025 18:28:09.474 * Configuration loaded
+store-1     | 1:M 16 Jan 2025 18:28:09.474 * monotonic clock: POSIX clock_gettime
+store-1     | 1:M 16 Jan 2025 18:28:09.474 * Running mode=standalone, port=6379.
+store-1     | 1:M 16 Jan 2025 18:28:09.475 * Server initialized
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * Reading RDB base file on AOF loading...
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * Loading RDB produced by version 7.4.0
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * RDB age 274445 seconds
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * RDB memory usage when created 0.90 Mb
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * RDB is base AOF
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * Done loading RDB, keys loaded: 0, keys expired: 0.
+store-1     | 1:M 16 Jan 2025 18:28:09.480 * DB loaded from base file appendonly.aof.1.base.rdb: 0.002 seconds
+store-1     | 1:M 16 Jan 2025 18:28:09.481 * DB loaded from append only file: 0.005 seconds
+store-1     | 1:M 16 Jan 2025 18:28:09.483 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+store-1     | 1:M 16 Jan 2025 18:28:09.483 * Ready to accept connections tcp
 database-1  | 
 database-1  | PostgreSQL Database directory appears to contain a database; Skipping initialization
 database-1  | 
-database-1  | 2025-01-16 17:11:50.739 UTC [1] LOG:  starting PostgreSQL 14.12 on x86_64-pc-linux-musl, compiled by gcc (Alpine 13.2.1_git20240309) 13.2.1 20240309, 64-bit
-database-1  | 2025-01-16 17:11:50.739 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
-database-1  | 2025-01-16 17:11:50.739 UTC [1] LOG:  listening on IPv6 address "::", port 5432
-database-1  | 2025-01-16 17:11:50.754 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
-database-1  | 2025-01-16 17:11:50.780 UTC [28] LOG:  database system was shut down at 2025-01-16 17:11:18 UTC
-database-1  | 2025-01-16 17:11:50.781 UTC [29] FATAL:  the database system is starting up
 server-1    | {
-server-1    |   error: PostgresError: the database system is starting up
-server-1    |       at ErrorResponse (file:///dash/server/node_modules/postgres/src/connection.js:788:26)
-server-1    |       at handle (file:///dash/server/node_modules/postgres/src/connection.js:474:6)
-server-1    |       at Socket.data (file:///dash/server/node_modules/postgres/src/connection.js:315:9)
-server-1    |       at Socket.emit (node:events:518:28)
-server-1    |       at addChunk (node:internal/streams/readable:561:12)
-server-1    |       at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
-server-1    |       at Readable.push (node:internal/streams/readable:392:5)
-server-1    |       at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+server-1    |   error: Error: connect ECONNREFUSED 172.18.0.3:5432
+server-1    |       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)
 server-1    |       at cachedError (file:///dash/server/node_modules/postgres/src/query.js:170:23)
 server-1    |       at new Query (file:///dash/server/node_modules/postgres/src/query.js:36:24)
 server-1    |       at sql (file:///dash/server/node_modules/postgres/src/index.js:112:11)
 server-1    |       at d (file:///dash/server/dist/server.js:1:514) {
-server-1    |     severity_local: 'FATAL',
-server-1    |     severity: 'FATAL',
-server-1    |     code: '57P03',
-server-1    |     file: 'postmaster.c',
-server-1    |     line: '2335',
-server-1    |     routine: 'ProcessStartupPacket'
+server-1    |     errno: -111,
+server-1    |     code: 'ECONNREFUSED',
+server-1    |     syscall: 'connect',
+server-1    |     address: '172.18.0.3',
+server-1    |     port: 5432
 server-1    |   },
 server-1    |   message: 'Error connecting to database'
 server-1    | }
 server-1    | hi
-server-1    | 2025-01-16T17:11:50.788Z: server is running on port 5000
-database-1  | 2025-01-16 17:11:50.797 UTC [1] LOG:  database system is ready to accept connections
+server-1    | 2025-01-16T18:28:10.019Z: server is running on port 5000
+database-1  | 2025-01-16 18:28:10.062 UTC [1] LOG:  starting PostgreSQL 14.12 on x86_64-pc-linux-musl, compiled by gcc (Alpine 13.2.1_git20240309) 13.2.1 20240309, 64-bit
+database-1  | 2025-01-16 18:28:10.062 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+database-1  | 2025-01-16 18:28:10.062 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+database-1  | 2025-01-16 18:28:10.070 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+database-1  | 2025-01-16 18:28:10.089 UTC [27] LOG:  database system was interrupted; last known up at 2025-01-16 18:22:20 UTC
+database-1  | 2025-01-16 18:28:12.151 UTC [27] LOG:  database system was not properly shut down; automatic recovery in progress
+database-1  | 2025-01-16 18:28:12.161 UTC [27] LOG:  redo starts at 0/170BF30
+database-1  | 2025-01-16 18:28:12.162 UTC [27] LOG:  invalid record length at 0/170BF68: wanted 24, got 0
+database-1  | 2025-01-16 18:28:12.162 UTC [27] LOG:  redo done at 0/170BF30 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+database-1  | 2025-01-16 18:28:12.220 UTC [1] LOG:  database system is ready to accept connections
