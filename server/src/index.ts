@@ -10,6 +10,8 @@ import { initializeRedisConnection, redisSession } from "./lib/redis-client";
 import { runAtStartup } from "./lib/run-at-startup";
 import { appRouter, createContext } from "./lib/trpc";
 
+// Node does not have access to __dirname and __filename in ES modules when
+// built, so we need this for the production build.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -35,8 +37,6 @@ async function start() {
 	await pingDatabase();
 	app.use(session(redisSession));
 
-	app.use(express.static(path.join(__dirname, "public")));
-
 	app.use(express.json()); // TODO: is this still necessary with trpc? they use superjson as transformer
 
 	app.get("/api", async (req, res) => {
@@ -59,11 +59,17 @@ async function start() {
 	console.log("hi");
 	await runAtStartup();
 
-	app.set("trust proxy", "172.17.0.0/16"); // Trust Docker's default bridge network // TODO: is this necessary?
+	if (process.env.NODE_ENV === "production") {
+		app.use(express.static(path.join(__dirname, "public")));
+		app.set("trust proxy", "172.17.0.0/16"); // Trust Docker's default bridge network // TODO: is this necessary?
 
-	app.get("*splat", (req, res) => {
-		res.sendFile(path.join(__dirname, "public", "index.html"));
-	});
+		// note: since express v5, wildcard routes need to be named. I don't even
+		// know what "splat" could be used for, but I saw it in an example, so that's
+		// why I'm calling it that.
+		app.get("*splat", (req, res) => {
+			res.sendFile(path.join(__dirname, "public", "index.html"));
+		});
+	}
 
 	app.listen(port, () => {
 		console.log(`${new Date().toISOString()}: server is running on port ${port}`);

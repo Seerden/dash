@@ -222,3 +222,13 @@ nginx-1     | 172.18.0.1 - - [16/Jan/2025:19:20:05 +0000] "GET /assets/index-e_2
 nginx-1     | 172.18.0.1 - - [16/Jan/2025:19:20:05 +0000] "GET /assets/index-CNHLvz2F.css HTTP/1.1" 304 0 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" "-"
 nginx-1     | 172.18.0.1 - - [16/Jan/2025:19:20:05 +0000] "GET /assets/index.lazy-CaJ9T0yN.js HTTP/1.1" 304 0 "http://localhost/assets/index-e_2-wVGF.js" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" "-"
 nginx-1     | 172.18.0.1 - - [16/Jan/2025:19:20:05 +0000] "GET /favicon.ico HTTP/1.1" 304 0 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" "-"
+Gracefully stopping... (press Ctrl+C again to force)
+ Container docker-nginx-1  Stopping
+ Container docker-nginx-1  Stopped
+ Container docker-server-1  Stopping
+ Container docker-server-1  Stopped
+ Container docker-store-1  Stopping
+ Container docker-database-1  Stopping
+ Container docker-store-1  Stopped
+ Container docker-database-1  Stopped
+canceled

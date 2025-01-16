@@ -1,0 +1,276 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [server internal] load build definition from Dockerfile
+#1 transferring dockerfile: 206B done
+#1 DONE 0.0s
+
+#2 [client internal] load build definition from Dockerfile
+#2 transferring dockerfile: 522B done
+#2 DONE 0.0s
+
+#3 [client internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.5s
+
+#4 [client internal] load .dockerignore
+#4 transferring context: 56B done
+#4 DONE 0.0s
+
+#5 [server internal] load .dockerignore
+#5 transferring context: 52B done
+#5 DONE 0.0s
+
+#6 [server  1/12] FROM docker.io/library/node:20-alpine@sha256:24fb6aa7020d9a20b00d6da6d1714187c45ed00d1eb4adb01395843c338b9372
+#6 DONE 0.0s
+
+#7 [server internal] load build context
+#7 transferring context: 6.10kB done
+#7 DONE 0.0s
+
+#8 [client  2/12] RUN corepack enable
+#8 CACHED
+
+#9 [client  3/12] WORKDIR /dash
+#9 CACHED
+
+#10 [server 4/6] COPY . .
+#10 DONE 0.1s
+
+#11 [client internal] load build context
+#11 ...
+
+#12 [server 5/6] WORKDIR /dash/server
+#12 DONE 0.1s
+
+#11 [client internal] load build context
+#11 ...
+
+#13 [server 6/6] COPY package*.json ./
+#13 DONE 0.1s
+
+#14 [server] exporting to image
+#14 exporting layers 0.1s done
+#14 writing image sha256:e6bd8c3f6057184157362cfab351e8dda446e52585b41d2938efe73d524b2d99 done
+#14 naming to docker.io/library/docker-server done
+#14 DONE 0.1s
+
+#11 [client internal] load build context
+#11 transferring context: 34.46MB 0.7s done
+#11 DONE 0.7s
+
+#15 [client  4/12] COPY . .
+#15 DONE 0.3s
+
+#16 [client  5/12] RUN yarn install
+#16 0.518 ! Corepack is about to download https://repo.yarnpkg.com/4.6.0/packages/yarnpkg-cli/bin/yarn.js
+#16 1.139 ➤ YN0000: · Yarn 4.6.0
+#16 1.148 ➤ YN0000: ┌ Resolution step
+#16 1.313 ➤ YN0000: └ Completed
+#16 1.314 ➤ YN0000: ┌ Post-resolution validation
+#16 1.314 ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
+#16 1.314 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+#16 1.314 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+#16 1.314 ➤ YN0000: └ Completed
+#16 1.314 ➤ YN0000: ┌ Fetch step
+#16 6.261 ➤ YN0013: │ 1083 packages were added to the project (+ 346.32 MiB).
+#16 6.261 ➤ YN0000: └ Completed in 4s 947ms
+#16 6.297 ➤ YN0000: ┌ Link step
+#16 10.71 ➤ YN0007: │ msw@npm:2.7.0 [62814] must be built because it never has been before or the last one failed
+#16 10.71 ➤ YN0007: │ esbuild@npm:0.21.5 must be built because it never has been before or the last one failed
+#16 10.71 ➤ YN0007: │ @parcel/watcher@npm:2.5.0 must be built because it never has been before or the last one failed
+#16 10.71 ➤ YN0007: │ bson@npm:0.1.9 must be built because it never has been before or the last one failed
+#16 10.71 ➤ YN0007: │ bson@npm:0.1.8 must be built because it never has been before or the last one failed
+#16 10.71 ➤ YN0007: │ esbuild@npm:0.24.2 must be built because it never has been before or the last one failed
+#16 10.71 ➤ YN0007: │ esbuild@npm:0.23.1 must be built because it never has been before or the last one failed
+#16 11.15 ➤ YN0000: └ Completed in 4s 853ms
+#16 11.22 ➤ YN0000: · Done with warnings in 10s 83ms
+#16 DONE 11.7s
+
+#17 [client  6/12] COPY . .
+#17 DONE 0.4s
+
+#18 [client  7/12] RUN echo "1"
+#18 0.313 1
+#18 DONE 0.3s
+
+#19 [client  8/12] RUN ls -la . && echo "ls ."
+#19 0.377 total 548
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 22:54 .
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 ..
+#19 0.377 -rwxr-xr-x    1 root     root            16 Jan 16 10:34 .dockerignore
+#19 0.377 -rwxr-xr-x    1 root     root            74 Jan 13 11:40 .editorconfig
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 .git
+#19 0.377 -rwxr-xr-x    1 root     root           238 Jan 15 18:33 .gitignore
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 22:54 .yarn
+#19 0.377 -rwxr-xr-x    1 root     root           133 Jan 16 10:34 .yarnrc.yml
+#19 0.377 -rwxr-xr-x    1 root     root          1930 Jan 16 10:34 README.md
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 client
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 docker
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 13 14:03 docs
+#19 0.377 -rwxr-xr-x    1 root     root           274 Jan 16 19:12 nginx.conf
+#19 0.377 drwxr-xr-x    2 root     root          4096 Jan 16 22:58 node_modules
+#19 0.377 -rwxr-xr-x    1 root     root           320 Jan 16 10:34 package.json
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 scripts
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 18:55 server
+#19 0.377 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 shared
+#19 0.377 -rwxr-xr-x    1 root     root           249 Jan 13 21:05 tsconfig.json
+#19 0.377 -rwxr-xr-x    1 root     root        447951 Jan 16 10:34 yarn.lock
+#19 0.378 ls .
+#19 DONE 0.4s
+
+#20 [client  9/12] RUN ls -la /dash/ && echo "ls /dash/"
+#20 0.465 total 548
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 22:54 .
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 ..
+#20 0.465 -rwxr-xr-x    1 root     root            16 Jan 16 10:34 .dockerignore
+#20 0.465 -rwxr-xr-x    1 root     root            74 Jan 13 11:40 .editorconfig
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 .git
+#20 0.465 -rwxr-xr-x    1 root     root           238 Jan 15 18:33 .gitignore
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 22:54 .yarn
+#20 0.465 -rwxr-xr-x    1 root     root           133 Jan 16 10:34 .yarnrc.yml
+#20 0.465 -rwxr-xr-x    1 root     root          1930 Jan 16 10:34 README.md
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 client
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 22:58 docker
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 13 14:03 docs
+#20 0.465 -rwxr-xr-x    1 root     root           274 Jan 16 19:12 nginx.conf
+#20 0.465 drwxr-xr-x    2 root     root          4096 Jan 16 22:58 node_modules
+#20 0.465 -rwxr-xr-x    1 root     root           320 Jan 16 10:34 package.json
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 scripts
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 18:55 server
+#20 0.465 drwxr-xr-x    1 root     root          4096 Jan 16 10:34 shared
+#20 0.465 -rwxr-xr-x    1 root     root           249 Jan 13 21:05 tsconfig.json
+#20 0.465 -rwxr-xr-x    1 root     root        447951 Jan 16 10:34 yarn.lock
+#20 0.465 ls /dash/
+#20 DONE 0.5s
+
+#21 [client 10/12] WORKDIR /dash/client
+#21 DONE 0.1s
+
+#22 [client 11/12] COPY ./client/package*.json .
+#22 DONE 0.1s
+
+#23 [client 12/12] WORKDIR /dash/client
+#23 DONE 0.1s
+
+#24 [client] exporting to image
+#24 exporting layers
+#24 exporting layers 3.3s done
+#24 writing image sha256:2bbf53df4dfc398e89d6bf998d015f1c1ba43e4e65844f788fe346efd86725af done
+#24 naming to docker.io/library/docker-client done
+#24 DONE 3.4s
+ Container docker-database-1  Recreate
+ Container docker-client-1  Recreate
+ Container docker-test-database-1  Recreate
+ Container docker-store-1  Recreate
+ Container docker-database-1  Recreated
+ Container docker-test-database-1  Recreated
+ Container docker-store-1  Recreated
+ Container docker-server-1  Recreate
+ Container docker-server-1  Recreated
+ Container docker-client-1  Recreated
+Attaching to client-1, database-1, server-1, store-1, test-database-1
+store-1          | 1:C 16 Jan 2025 22:58:19.345 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+store-1          | 1:C 16 Jan 2025 22:58:19.345 * Redis version=7.4.0, bits=64, commit=00000000, modified=0, pid=1, just started
+store-1          | 1:C 16 Jan 2025 22:58:19.345 * Configuration loaded
+store-1          | 1:M 16 Jan 2025 22:58:19.345 * monotonic clock: POSIX clock_gettime
+store-1          | 1:M 16 Jan 2025 22:58:19.346 * Running mode=standalone, port=6379.
+store-1          | 1:M 16 Jan 2025 22:58:19.346 * Server initialized
+store-1          | 1:M 16 Jan 2025 22:58:19.351 * Reading RDB base file on AOF loading...
+store-1          | 1:M 16 Jan 2025 22:58:19.352 * Loading RDB produced by version 7.4.0
+store-1          | 1:M 16 Jan 2025 22:58:19.352 * RDB age 290655 seconds
+store-1          | 1:M 16 Jan 2025 22:58:19.352 * RDB memory usage when created 0.90 Mb
+store-1          | 1:M 16 Jan 2025 22:58:19.352 * RDB is base AOF
+store-1          | 1:M 16 Jan 2025 22:58:19.352 * Done loading RDB, keys loaded: 0, keys expired: 0.
+store-1          | 1:M 16 Jan 2025 22:58:19.352 * DB loaded from base file appendonly.aof.1.base.rdb: 0.002 seconds
+store-1          | 1:M 16 Jan 2025 22:58:19.353 * DB loaded from append only file: 0.005 seconds
+store-1          | 1:M 16 Jan 2025 22:58:19.355 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+store-1          | 1:M 16 Jan 2025 22:58:19.355 * Ready to accept connections tcp
+test-database-1  | 
+test-database-1  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+test-database-1  | 
+test-database-1  | 2025-01-16 22:58:19.670 UTC [1] LOG:  starting PostgreSQL 14.12 on x86_64-pc-linux-musl, compiled by gcc (Alpine 13.2.1_git20240309) 13.2.1 20240309, 64-bit
+test-database-1  | 2025-01-16 22:58:19.670 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5434
+test-database-1  | 2025-01-16 22:58:19.670 UTC [1] LOG:  listening on IPv6 address "::", port 5434
+test-database-1  | 2025-01-16 22:58:19.678 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5434"
+test-database-1  | 2025-01-16 22:58:19.699 UTC [27] LOG:  database system was shut down at 2025-01-16 22:57:05 UTC
+test-database-1  | 2025-01-16 22:58:19.719 UTC [1] LOG:  database system is ready to accept connections
+database-1       | 
+database-1       | PostgreSQL Database directory appears to contain a database; Skipping initialization
+database-1       | 
+client-1         | ➤ YN0000: · Yarn 4.6.0
+client-1         | ➤ YN0000: ┌ Resolution step
+database-1       | 2025-01-16 22:58:20.143 UTC [1] LOG:  starting PostgreSQL 14.12 on x86_64-pc-linux-musl, compiled by gcc (Alpine 13.2.1_git20240309) 13.2.1 20240309, 64-bit
+database-1       | 2025-01-16 22:58:20.143 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+database-1       | 2025-01-16 22:58:20.143 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+database-1       | 2025-01-16 22:58:20.151 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+server-1         | ! Corepack is about to download https://repo.yarnpkg.com/4.6.0/packages/yarnpkg-cli/bin/yarn.js
+database-1       | 2025-01-16 22:58:20.174 UTC [27] LOG:  database system was shut down at 2025-01-16 22:57:16 UTC
+database-1       | 2025-01-16 22:58:20.196 UTC [1] LOG:  database system is ready to accept connections
+client-1         | ➤ YN0000: └ Completed in 0s 205ms
+client-1         | ➤ YN0000: ┌ Post-resolution validation
+client-1         | ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
+client-1         | ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+client-1         | ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+client-1         | ➤ YN0000: └ Completed
+client-1         | ➤ YN0000: ┌ Fetch step
+server-1         | ➤ YN0000: · Yarn 4.6.0
+server-1         | ➤ YN0000: ┌ Resolution step
+client-1         | ➤ YN0000: └ Completed in 0s 541ms
+client-1         | ➤ YN0000: ┌ Link step
+server-1         | ➤ YN0000: └ Completed
+server-1         | ➤ YN0000: ┌ Post-resolution validation
+server-1         | ➤ YN0002: │ @dash/server@workspace:server doesn't provide @types/node (p3d084), requested by ts-node and other dependencies.
+server-1         | ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+server-1         | ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+server-1         | ➤ YN0000: └ Completed
+server-1         | ➤ YN0000: ┌ Fetch step
+client-1         | ➤ YN0000: └ Completed in 0s 477ms
+client-1         | ➤ YN0000: · Done with warnings in 1s 294ms
+client-1         | 
+client-1         | ♻️  Generating routes...
+client-1         | ✅ Processed routes in 164ms
+client-1         | 
+client-1         |   VITE v6.0.7  ready in 3299 ms
+client-1         | 
+client-1         |   ➜  Local:   http://localhost:5175/
+client-1         |   ➜  Network: http://172.18.0.5:5175/
+server-1         | ➤ YN0013: │ 1083 packages were added to the project (+ 346.32 MiB).
+server-1         | ➤ YN0000: └ Completed in 5s 84ms
+server-1         | ➤ YN0000: ┌ Link step
+server-1         | ➤ YN0000: └ Completed in 0s 761ms
+server-1         | ➤ YN0000: · Done with warnings in 6s 100ms
+database-1       | 2025-01-16 22:58:32.981 UTC [34] LOG:  execute z4mjjoxmmdo1: 
+database-1       | 	      select b.oid, b.typarray
+database-1       | 	      from pg_catalog.pg_type a
+database-1       | 	      left join pg_catalog.pg_type b on b.oid = a.typelem
+database-1       | 	      where a.typcategory = 'A'
+database-1       | 	      group by b.oid, b.typarray
+database-1       | 	      order by b.oid
+database-1       | 	    
+database-1       | 2025-01-16 22:58:32.984 UTC [34] LOG:  execute z4mjjoxmmdo2: SELECT array[1]
+server-1         | hi
+server-1         | 2025-01-16T22:58:32.988Z: server is running on port 5000
+server-1         | 10:59:22 PM [tsx] change in ./src/index.ts Restarting...
+database-1       | 2025-01-16 22:59:26.757 UTC [36] LOG:  execute djlxfwohkct1: 
+database-1       | 	      select b.oid, b.typarray
+database-1       | 	      from pg_catalog.pg_type a
+database-1       | 	      left join pg_catalog.pg_type b on b.oid = a.typelem
+database-1       | 	      where a.typcategory = 'A'
+database-1       | 	      group by b.oid, b.typarray
+database-1       | 	      order by b.oid
+database-1       | 	    
+database-1       | 2025-01-16 22:59:26.758 UTC [36] LOG:  execute djlxfwohkct2: SELECT array[1]
+server-1         | hi
+server-1         | 2025-01-16T22:59:26.761Z: server is running on port 5000
+server-1         | 11:00:10 PM [tsx] change in ./src/lib/trpc.ts Restarting...
+Gracefully stopping... (press Ctrl+C again to force)
+ Container docker-client-1  Stopping
+ Container docker-server-1  Stopping
+ Container docker-test-database-1  Stopping
+ Container docker-test-database-1  Stopped
+ Container docker-server-1  Stopped
+ Container docker-store-1  Stopping
+ Container docker-database-1  Stopping
+ Container docker-client-1  Stopped
+ Container docker-database-1  Stopped
+ Container docker-store-1  Stopped
+canceled

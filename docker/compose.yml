@@ -52,8 +52,8 @@ services:
 
   client:
     build:
-      context: ../client
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: ./client/Dockerfile
     volumes:
       - shared_lib:/dash/shared
       - ../client:/dash/client
