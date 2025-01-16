@@ -1,4 +1,4 @@
-import { generateEmailHtml, testThing } from "@shared/lib/email/EmailTest";
+import { b } from "@shared/lib/email/EmailTest";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
 import SuperJSON from "superjson";
@@ -48,8 +48,8 @@ export const appRouter = t.router({
 	// TODO: remove this one. This is just for testing purposes.
 	DEV_emailTest: publicProcedure.query(() => {
 		return {
-			html: generateEmailHtml("https://google.com"),
-			test: testThing("hi"),
+			html: b,
+			test: b,
 		};
 	}),
 	me: authenticatedProcedure.query(({ ctx }) => {

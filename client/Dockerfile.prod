@@ -4,13 +4,18 @@ WORKDIR /dash
 
 COPY . .
 
-WORKDIR /dash/client
-
-COPY package*.json ./
-
-# do the following 2 lines work?
 RUN yarn install
 COPY . .
+
+WORKDIR /dash/client
+
+COPY ./client/package*.json ./
+
+# do the following 2 lines work?
+RUN yarn workspaces focus -A
+
+COPY ./client .
+
 RUN yarn build
 
 FROM nginx:alpine

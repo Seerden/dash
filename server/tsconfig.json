@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "ESNext",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"target": "ES2021",
@@ -25,7 +25,7 @@
 			"types/*": ["server/types/*"]
 		},
 		"composite": true,
-		"inlineSources": true
+		"inlineSources": true,
 	},
 	"exclude": ["./node_modules", "node_modules"],
 	"include": ["../server/src", "../server/types", "../shared", "types", "../server/tsconfig.json"]

@@ -1,9 +1,11 @@
 🫠
 
 # Status
+
 DAS-8: scaffolded the application from `/track`. This project will have a
 slightly different stack, so I've taken out some things that will be
 (re-)implemented later:
+
 - `styled-components` will be replaced with `emotion`
 - I took out the decorators etc. from storybook
 - I took out the initialization of Sentry for now, it'll be back soon, just have
@@ -17,10 +19,24 @@ slightly different stack, so I've taken out some things that will be
   using it on the client already as well.
 
 # Notes
+
 ## Docker
+
 - If Docker doesn't want to play nice, empty out node_modules (keep the folder,
-though, if on Windows, because otherwise the volumes can't mount) and try again.
+  though, if on Windows, because otherwise the volumes can't mount) and try again.
 - Only ever install packages using yarn, and do it from inside the service's
   container.
 - we run storybook in the container using vite. HMR works, but not that well.
   Adding or renaming a story breaks the HMR.
+
+yarn build garbage
+
+- have to run yarn install on top-level
+- am running yarn install on root in each of the prod dockerfiles, this seems
+  stupid, but if I don't, it doesn't recognize the stuff properly... I think.
+- remove the all lockfiles except the top-level one -- if this makes it build,
+  nice, but then does it still work for the dev servers? have to do the same
+  workspace-related stuff I guess.. (i.e. yarn workspaces focus -A instead of
+  yarn install, and run yarn install top-level first...)
+
+https://stackoverflow.com/questions/67358873/docker-nginx-reverse-proxy-503-service-temporarily-unavailable

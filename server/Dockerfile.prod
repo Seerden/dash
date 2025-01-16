@@ -3,17 +3,35 @@ FROM node:20-alpine as build
 RUN corepack enable
 
 WORKDIR /dash
+COPY . .
+
+RUN yarn install
+
 COPY . . 
 
 WORKDIR /dash/server
-COPY package*.json ./
-RUN yarn install
-COPY . . 
+COPY ./server/package*.json ./
+RUN yarn workspaces focus -A
+COPY ./server .
+
+RUN ls -la /dash/ && echo "ls /dash/"
 
 RUN yarn build
 
-FROM node:20-alpine
-WORKDIR /dash/server
-COPY --from=build /dash/server/dist /dash/server/
+# FROM node:20-alpine
+# WORKDIR /dash/server
+# COPY --from=build /dash/server/dist /dash/server/dist
+
+# @note: this is the last thing I changed -- get rid of the multistage(?) stuff
+# and simplify it -- the build can't find index.js and I am guessing it's
+# because I'm messing up the copy paths
+# the build creates (locally) server/dist/server/src/index.js, and I'm trying to
+# figure out where exactly it ends up in the final image so that we can use the
+# right path in the CMD below
+COPY ./server/dist/server ./dist
+
+RUN ls -la /dash/server && echo "ls /dash/server/"
+RUN ls -la /dash/server/dist && echo "ls /dash/server/dist/"
+RUN ls -la /dash/server/dist/server/src && echo "ls /dash/server/dist/server/src/"
+
 USER node
-CMD ["node", "index.js"]

@@ -3,10 +3,10 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import session from "express-session";
-import { pingDatabase } from "./src/db/init";
-import { initializeRedisConnection, redisSession } from "./src/lib/redis-client";
-import { runAtStartup } from "./src/lib/run-at-startup";
-import { appRouter, createContext } from "./src/lib/trpc";
+import { pingDatabase } from "./db/init";
+import { initializeRedisConnection, redisSession } from "./lib/redis-client";
+import { runAtStartup } from "./lib/run-at-startup";
+import { appRouter, createContext } from "./lib/trpc";
 
 async function start() {
 	const app = express();

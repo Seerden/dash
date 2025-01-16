@@ -1,0 +1,96 @@
+--progress is a global compose flag, better use `docker compose --progress xx build ...
+time="2025-01-16T04:45:54+01:00" level=warning msg="C:\\Users\\Chris\\Documents\\Code\\projects\\dash\\docker\\compose.prod.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [server internal] load build definition from Dockerfile.prod
+#1 transferring dockerfile: 418B 0.0s done
+#1 WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
+#1 DONE 0.0s
+
+#2 [client internal] load build definition from Dockerfile.prod
+#2 transferring dockerfile: 344B done
+#2 WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
+#2 DONE 0.0s
+
+#3 [client internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 1.0s
+
+#4 [client internal] load metadata for docker.io/library/nginx:alpine
+#4 DONE 1.0s
+
+#5 [server internal] load .dockerignore
+#5 transferring context: 56B done
+#5 DONE 0.0s
+
+#6 [server internal] load build context
+#6 DONE 0.0s
+
+#7 [client internal] load .dockerignore
+#7 transferring context: 56B done
+#7 DONE 0.0s
+
+#8 [client internal] load build context
+#8 DONE 0.0s
+
+#9 [client build  1/10] FROM docker.io/library/node:20-alpine@sha256:24fb6aa7020d9a20b00d6da6d1714187c45ed00d1eb4adb01395843c338b9372
+#9 resolve docker.io/library/node:20-alpine@sha256:24fb6aa7020d9a20b00d6da6d1714187c45ed00d1eb4adb01395843c338b9372 0.1s done
+#9 resolve docker.io/library/node:20-alpine@sha256:24fb6aa7020d9a20b00d6da6d1714187c45ed00d1eb4adb01395843c338b9372 0.1s done
+#9 CACHED
+
+#10 [server stage-1 2/3] WORKDIR /dash/server
+#10 CACHED
+
+#11 [client build 2/8] WORKDIR /dash
+#11 CACHED
+
+#12 [client stage-1 1/2] FROM docker.io/library/nginx:alpine@sha256:814a8e88df978ade80e584cc5b333144b9372a8e3c98872d07137dbf3b44d0e4
+#12 resolve docker.io/library/nginx:alpine@sha256:814a8e88df978ade80e584cc5b333144b9372a8e3c98872d07137dbf3b44d0e4 0.1s done
+#12 CACHED
+
+#8 [client internal] load build context
+#8 transferring context: 4.63MB 0.5s done
+#8 DONE 0.5s
+
+#6 [server internal] load build context
+#6 transferring context: 4.63MB 0.4s done
+#6 DONE 0.5s
+
+#13 [client build 3/8] COPY . .
+#13 ...
+
+#14 [server build  2/10] RUN corepack enable
+#14 DONE 0.7s
+
+#15 [server build  3/10] WORKDIR /dash
+#15 DONE 0.1s
+
+#13 [client build 3/8] COPY . .
+#13 DONE 1.5s
+
+#16 [server build  4/10] COPY . .
+#16 DONE 1.3s
+
+#17 [server build  5/10] WORKDIR /dash/server
+#17 ...
+
+#18 [client build 4/8] WORKDIR /dash/client
+#18 DONE 0.2s
+
+#17 [server build  5/10] WORKDIR /dash/server
+#17 DONE 0.2s
+
+#19 [server build  6/10] COPY ./server/package*.json ./
+#19 ...
+
+#20 [client build 5/8] COPY ./client/package*.json ./
+#20 DONE 0.2s
+
+#19 [server build  6/10] COPY ./server/package*.json ./
+#19 DONE 0.2s
+
+#21 [server build  7/10] RUN yarn workspaces focus -A
+#21 CANCELED
+
+#22 [client build 6/8] RUN yarn workspaces focus -A
+#22 CANCELED
+canceled
