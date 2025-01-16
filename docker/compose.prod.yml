@@ -16,67 +16,18 @@ services:
       - ./pg-data:/var/lib/postgresql/data
       - ../server/src/db/scripts:/docker-entrypoint-initdb.d
       - ./database-backup:/psql-backups
-    # No need to expose the database port publicly in production
-    # ports:
-    #   - "5432:5432" 
     command: ["postgres", "-c", "log_statement=all"]
 
   server:
     build:
       context: ../
-      dockerfile: ./server/Dockerfile.prod  # Use a production Dockerfile
-    # Remove volumes for production, as the image should contain everything
-    # volumes:
-    #   - ../:/dash
-    #   - ../server:/dash/server
-    #   - ../server/node_modules:/dash/server/node_modules
+      dockerfile: ./server/Dockerfile.prod  
     depends_on:
       - database
       - store
-    # Expose the port internally for communication with Nginx
-    expose:
-      - "5000" 
-    # No need to map the port to the host in production
-    # ports:
-    #   - "5000:5000"
-    # This fucking structure is such a mess, man.
-    command: ["node", "./dist/server.js"] # Use a production-ready command
-    labels:
-      - "VIRTUAL_HOST=localhost" # Replace with your actual domain
-      - "VIRTUAL_PORT=5000"
-      - "VIRTUAL_PATH=/api" # If you want to serve the API under /api
-
-  client:
-    build:
-      context: ../
-      dockerfile: ./client/Dockerfile.prod # Use a production Dockerfile
-    # Remove volumes for production
-    # volumes:
-    #   - shared_lib:/dash/shared
-    #   - ../client:/dash/client
-    #   - ../client/node_modules:/dash/client/node_modules
-    # No need to expose ports for the client in production
-    # ports:
-    #   - "5175:5175"
-    #   - "6016:6016"
-    # Use a production-ready command
-    command: ["nginx", "-g", "daemon off;"] 
-    labels:
-      - "VIRTUAL_HOST=localhost" # Replace with your actual domain
-      - "VIRTUAL_PORT=80"
-
-  nginx:
-    image: nginxproxy/nginx-proxy
     ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-
-# Remove the shared volume, as it's not needed in production
-# volumes:
-#   shared_lib:
-#     driver: local
-#     driver_opts:
-#       type: none
-#       o: bind
-#       device: ../shared
+      - "5000:5000"
+    command: ["node", "./dist/server.js"] 
+    labels:
+      - "VIRTUAL_HOST=localhost" 
+      - "VIRTUAL_PORT=5000"

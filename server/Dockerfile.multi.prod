@@ -1,0 +1,44 @@
+FROM node:20-alpine as build
+
+RUN corepack enable
+
+WORKDIR /dash
+COPY . .
+
+RUN yarn install
+COPY . . 
+
+WORKDIR /dash/server
+COPY ./server/package*.json ./
+RUN yarn workspaces focus -A
+COPY ./server .
+
+RUN yarn build
+
+FROM node:20-alpine as client-build 
+WORKDIR /dash
+COPY . .
+
+RUN yarn install
+COPY . .
+
+WORKDIR /dash/client
+
+COPY ./client/package*.json ./
+
+RUN yarn workspaces focus -A
+
+COPY ./client .
+
+RUN yarn build
+
+
+FROM node:20-alpine as final
+WORKDIR /dash/server
+
+COPY --from=build /dash/server/dist ./dist
+COPY --from=client-build /dash/client/dist ./public 
+
+USER node
+
+EXPOSE 5000

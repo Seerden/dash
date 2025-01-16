@@ -11,13 +11,18 @@ WORKDIR /dash/client
 
 COPY ./client/package*.json ./
 
-# do the following 2 lines work?
 RUN yarn workspaces focus -A
 
 COPY ./client .
 
 RUN yarn build
 
-FROM nginx:alpine
+RUN ls -la . && echo "ls ."
 
-COPY --from=build /dash/client/dist /usr/share/nginx/html
+RUN ls -la /dash/client/dist && echo "ls ./client/dist/"
+RUN ls -la /dash/server/ && echo "ls /dash/server/"
+COPY ./client/dist /dash/server/public
+
+RUN ls -la /dash/server/public && echo "ls /dash/server/public/"
+
+# COPY ./client/503.html /usr/share/nginx/html/

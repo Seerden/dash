@@ -3,10 +3,15 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import session from "express-session";
+import path from "path";
+import { fileURLToPath } from "url";
 import { pingDatabase } from "./db/init";
 import { initializeRedisConnection, redisSession } from "./lib/redis-client";
 import { runAtStartup } from "./lib/run-at-startup";
 import { appRouter, createContext } from "./lib/trpc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function start() {
 	const app = express();
@@ -30,6 +35,8 @@ async function start() {
 	await pingDatabase();
 	app.use(session(redisSession));
 
+	app.use(express.static(path.join(__dirname, "public")));
+
 	app.use(express.json()); // TODO: is this still necessary with trpc? they use superjson as transformer
 
 	app.get("/", async (req, res) => {
@@ -37,7 +44,7 @@ async function start() {
 	});
 
 	app.use(
-		"/trpc",
+		"/data/trpc",
 		trpcExpress.createExpressMiddleware({
 			router: appRouter,
 			createContext,
@@ -51,6 +58,12 @@ async function start() {
 
 	console.log("hi");
 	await runAtStartup();
+
+	app.set("trust proxy", "172.17.0.0/16"); // Trust Docker's default bridge network // TODO: is this necessary?
+
+	app.get("/*splat", (req, res) => {
+		res.sendFile(path.join(__dirname, "public", "index.html"));
+	});
 
 	app.listen(port, () => {
 		console.log(`${new Date().toISOString()}: server is running on port ${port}`);
