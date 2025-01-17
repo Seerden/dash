@@ -43,6 +43,7 @@ export async function pingDatabase() {
 		if (!result) {
 			throw new Error("Error connecting to database");
 		}
+		return result;
 	} catch (error) {
 		// TODO: Add Sentry logging
 		console.log({ error, message: "Error connecting to database" });

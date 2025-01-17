@@ -17,6 +17,11 @@ services:
       - ../server/src/db/scripts:/docker-entrypoint-initdb.d
       - ./database-backup:/psql-backups
     command: ["postgres", "-c", "log_statement=all"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "$PG_USER", "-d", "$PG_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   server:
     build:

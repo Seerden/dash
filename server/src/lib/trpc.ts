@@ -1,3 +1,4 @@
+import { sqlConnection } from "@/db/init";
 import { b } from "@shared/lib/email/EmailTest";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
@@ -44,6 +45,17 @@ export const appRouter = t.router({
 		}),
 	bye: publicProcedure.input(z.object({ name: z.string() })).query(({ input, ctx }) => {
 		return { message: `Hello, ${input.name}!` };
+	}),
+	dbTest: publicProcedure.query(async () => {
+		{
+			// const result = await pingDatabase();
+			return {
+				sql: sqlConnection,
+				db: await sqlConnection`select array[1]`,
+				env: process.env,
+				who: "am i",
+			};
+		}
 	}),
 	// TODO: remove this one. This is just for testing purposes.
 	DEV_emailTest: publicProcedure.query(() => {
