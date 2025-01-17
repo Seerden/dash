@@ -7,7 +7,7 @@
 		"test": "jest --setupFiles ./dotenv-config.ts --detectOpenHandles --watchAll",
 		"vitest": "vitest",
 		"dev": "tsx watch --clear-screen=false ./src/index.ts",
-		"build": "node esbuild.config.cjs --bundle"
+		"build": "node esbuild.config.js --bundle"
 	},
 	"author": "",
 	"license": "ISC",

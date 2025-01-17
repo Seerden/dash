@@ -3,8 +3,8 @@ import { httpBatchLink } from "@trpc/client";
 import { useState } from "react";
 import SuperJSON from "superjson";
 
-// const HOST = process.env.NODE_ENV === "production" ? "server" : "localhost";
-const HOST = "localhost";
+const DOMAIN = process.env.DOMAIN ?? "localhost";
+const HOST = process.env.NODE_ENV === "production" ? DOMAIN : "localhost";
 
 export default function useTRPCClient() {
 	const url = `http://${HOST}:5000/api/trpc`;

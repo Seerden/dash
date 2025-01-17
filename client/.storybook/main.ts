@@ -18,7 +18,7 @@ const config: StorybookConfig = {
 		getAbsolutePath("@storybook/addon-interactions"),
 		getAbsolutePath("@storybook/addon-themes")
 	],
-	// Take the vite config from the client and adjust it to make HMR work.
+	// Takes the vite config from the client and adjust it to make HMR work.
 	async viteFinal(config, { configType }) {
 		const { mergeConfig } = await import("vite");
 		return mergeConfig(config, {
