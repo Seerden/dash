@@ -11,11 +11,9 @@
 		"module": "ESNext",
 		"skipLibCheck": true,
 		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": false,
 		"allowJs": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"moduleDetection": "force",
 		"noEmit": false,
 		"jsx": "react-jsx",
 		"strict": true,
@@ -32,7 +30,8 @@
 			"@/*": ["client/src/*"],
 			"@components/*": ["client/src/components/*"],
 			"@lib/*": ["client/src/lib/*"],
-			"@shared/*": ["shared/src/*"]
+			"@shared/*": ["shared/src/*"],
+			"@server/*": ["server/src/*"]
 		},
 		"types": ["vitest/globals"]
 	},

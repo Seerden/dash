@@ -1,3 +1,3 @@
 
 #!/bin/bash
-npx tsc --build
+yarn tsc --build
