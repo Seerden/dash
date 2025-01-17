@@ -1,5 +1,4 @@
 import { sqlConnection } from "@/db/init";
-import { b } from "@shared/lib/email/EmailTest";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type * as trpcExpress from "@trpc/server/adapters/express";
 import SuperJSON from "superjson";
@@ -56,13 +55,6 @@ export const appRouter = t.router({
 				who: "am i",
 			};
 		}
-	}),
-	// TODO: remove this one. This is just for testing purposes.
-	DEV_emailTest: publicProcedure.query(() => {
-		return {
-			html: b,
-			test: b,
-		};
 	}),
 	me: authenticatedProcedure.query(({ ctx }) => {
 		return {
