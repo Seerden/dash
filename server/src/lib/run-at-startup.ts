@@ -1,3 +1,4 @@
 export async function runAtStartup() {
-	// Do something here.
+	// Do stuff here.
+	// await DEV_sendTestEmail();
 }
