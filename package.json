@@ -1,0 +1,14 @@
+{
+  "name": "@dash/root",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/seerden/dash.git",
+  "author": "Christiaan Seerden <christiaanseerden@live.nl>",
+  "license": "MIT",
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "packageManager": "yarn@4.6.0"
+}
