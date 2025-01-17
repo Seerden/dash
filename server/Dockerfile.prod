@@ -1,21 +1,20 @@
 FROM node:20-alpine as build
 
 RUN corepack enable
+
 WORKDIR /dash
 COPY . .
 RUN yarn install
-COPY . . 
+COPY . .
+
 WORKDIR /dash/server
-# COPY ./server/package*.json ./
-# RUN yarn workspaces focus -A
-# COPY ./server .
-# RUN ls -la /dash/ && echo "ls 3 /dash/"
 RUN yarn build
 COPY ./server/dist ./dist
 
 WORKDIR /dash/client
 RUN yarn build
-COPY ./client/dist ../server/dist/public
+
+COPY ../ .
 
 USER node
 ENV PORT=5000

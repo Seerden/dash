@@ -40,3 +40,20 @@ yarn build garbage
   yarn install, and run yarn install top-level first...)
 
 https://stackoverflow.com/questions/67358873/docker-nginx-reverse-proxy-503-service-temporarily-unavailable
+
+### Containers
+- to run the dev containers, run `./scripts/dev.sh`. This should be
+  self-contained, but if you run into trouble, remove (or empty out, Windows may
+  have trouble creating volumes if the folder does not exist) each
+  `node_modules` folder. Also make sure there is only one yarn.lock file (in the
+  root level), because we're using workspaces (I guess). From a fresh install,
+  you may need to run `yarn set version berry`. God knows why this yarn version
+  transition was such a mess, but I got it working, so I'm sticking with it.
+- to run the prod containers, run `./scripts/prod.sh`. Same guidelines apply as
+  above. The script will expose the application at `http://localhost:80` (=
+  `http://localhost`).
+
+  Currently struggling to get trpc to work on the production site. I think the
+  client build is being cached, or I'm outputting it to the wrong place, because
+  I think it's still using the old base endpoint (localhost:5000/trpc instead of
+  .../api/trpc)

@@ -6,7 +6,8 @@ export const Route = createLazyFileRoute("/about")({
 });
 
 function About() {
-	const { data } = trpc.hello.useQuery({ name: "test" });
+	const { data, status } = trpc.hello.useQuery({ name: "test" });
+	console.log({ data, status });
 
-	return <div className="p-2">Hello from About! {data?.message} </div>;
+	return <div className="p-2">Hello from About! -- changed!!! {data?.message} </div>;
 }
