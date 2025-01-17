@@ -60,6 +60,7 @@ services:
       - ../client/node_modules:/dash/client/node_modules
     ports:
       - "5175:5175"
+      - "6016:6016"
     command: /bin/sh -c "yarn install && yarn dev"
 
 # This _might_ be necessary still, but I don't think so because the volume is
