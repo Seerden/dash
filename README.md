@@ -57,3 +57,4 @@ https://stackoverflow.com/questions/67358873/docker-nginx-reverse-proxy-503-serv
   client build is being cached, or I'm outputting it to the wrong place, because
   I think it's still using the old base endpoint (localhost:5000/trpc instead of
   .../api/trpc)
+  Adding or renaming a story breaks the HMR.

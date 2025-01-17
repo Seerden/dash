@@ -1,27 +1,22 @@
-// // TODO: this whole thing is here for testing purposes.
+// TODO: this whole thing is here for testing purposes.
 
-import { z } from "zod";
+import { Button } from "@react-email/components";
+import { renderToStaticMarkup } from "react-dom/server";
 
+type EmailProps = {
+   href: string;
+}
 
-// import { Button } from "@react-email/components";
-// import { renderToStaticMarkup } from "react-dom/server";
+function Email ({href}: EmailProps) {
+   return (
+      <Button href={href}>Testing</Button>
+   )
+}
 
-// type EmailProps = {
-//    href: string;
-// }
+export function testThing(href: string) {
+   return href;
+}
 
-// function Email ({href}: EmailProps) {
-//    return (
-//       <Button href={href}>Testing</Button>
-//    )
-// }
-
-// export function testThing(href: string) {
-//    return href;
-// }
-
-// export function generateEmailHtml(href: string) {
-//    return renderToStaticMarkup(<Email href={href} />);
-// }
-
-export const b = z.string();
+export function generateEmailHtml(href: string) {
+   return renderToStaticMarkup(<Email href={href} />);
+}
