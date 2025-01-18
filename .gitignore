@@ -23,3 +23,5 @@ server/.sentryclirc
 **/*/install-state.gz
 
 logs/
+
+**/.yarn/*  
