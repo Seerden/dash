@@ -33,7 +33,7 @@
 			"@shared/*": ["shared/src/*"],
 			"@server/*": ["server/src/*"]
 		},
-		"types": ["vitest/globals"]
+		"types": ["vitest/globals", "node"]
 	},
 	"include": ["src", "../shared", "../server/", "../server/tsconfig.json"],
 	"exclude": ["node_modules"]
