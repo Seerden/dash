@@ -1,3 +1,4 @@
+import scriptCache from "@/db/scripts/script.cache";
 import { NODE__dirname } from "@/lib/build.utility";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
@@ -5,7 +6,7 @@ import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import path from "path";
-import { pingDatabase } from "./db/init";
+import { tryPingingDatabase } from "./db/init";
 import { initializeRedisConnection, redisSession } from "./lib/redis-client";
 import { runAtStartup } from "./lib/run-at-startup";
 import { appRouter, createContext } from "./lib/trpc";
@@ -30,7 +31,7 @@ async function start() {
 
 	// TODO: retry logic for these, for production
 	await initializeRedisConnection();
-	await pingDatabase();
+	await tryPingingDatabase();
 
 	app.use(session(redisSession));
 
@@ -66,6 +67,8 @@ async function start() {
 			res.sendFile(path.join(NODE__dirname, "public", "index.html"));
 		});
 	}
+
+	await scriptCache.synchronize();
 
 	app.listen(port, () => {
 		console.log(`${new Date().toISOString()}: server is running on port ${port}`);
