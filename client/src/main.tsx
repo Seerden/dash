@@ -12,7 +12,7 @@ declare module "@tanstack/react-router" {
 	}
 }
 
-if (process.env.NODE_ENV === "development") {
+if (import.meta.env.NODE_ENV === "development") {
 	await worker.start({
 		onUnhandledRequest: "bypass"
 	});
