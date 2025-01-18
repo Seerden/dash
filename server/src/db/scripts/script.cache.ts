@@ -41,8 +41,8 @@ async function markScriptAsNotExecuted(filename: string) {
 }
 
 /** Lists all filenames in `./scripts/`. */
-async function listAllScripts(scriptsFolderPath = "./scripts") {
-	const pathToScripts = path.join(__dirname, scriptsFolderPath);
+async function listAllScripts() {
+	const pathToScripts = "src/db/scripts/scripts";
 
 	const stat = await fs.stat(pathToScripts);
 	if (!stat.isDirectory()) {
@@ -70,7 +70,7 @@ async function executeNewScripts() {
 		await sqlConnection.begin(async (q) => {
 			for (const filename of unexecutedScriptFilenames) {
 				const queryAsString = await readFile(
-					path.join(__dirname, `./scripts/${filename}.sql`),
+					path.join(`src/db/scripts/scripts/${filename}.sql`),
 					"utf-8",
 				);
 				const response = await q.unsafe(queryAsString);
