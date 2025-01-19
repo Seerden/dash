@@ -10,15 +10,22 @@ describe("script.cache", () => {
 
 	describe("redis", () => {
 		it("should return an array with filenames", async () => {
-			const scripts = await scriptCache.list();
+			const scripts = await scriptCache.listExecuted();
 			expect(scripts).toBeInstanceOf(Array);
 		});
 	});
 
 	describe("sync", () => {
+		it("should find files", async () => {
+			const files = await scriptCache.listFiles();
+			expect(files).toBeInstanceOf(Array);
+			expect(files.length).toBeGreaterThan(0);
+		});
+
 		it("should not have unexecuted scripts after synchronizing", async () => {
 			await scriptCache.synchronize();
 			expect(await scriptCache.isSynchronized()).toBe(true);
+			expect(await scriptCache.listExecuted()).toEqual(await scriptCache.listFiles());
 		});
 	});
 });
