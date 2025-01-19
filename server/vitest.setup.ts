@@ -1,10 +1,10 @@
-import "dotenv/config";
+import scriptCache from "@server/db/scripts/script.cache";
 import { afterAll, beforeAll } from "vitest";
 import type { GlobalSetupContext } from "vitest/node";
 
 export default function setup({ provide }: GlobalSetupContext) {
-	beforeAll(() => {
-		// do stuff
+	beforeAll(async () => {
+		await scriptCache.synchronize();
 	});
 
 	afterAll(() => {
