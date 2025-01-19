@@ -11,14 +11,8 @@ export const insertEmail: QueryFunction<
 	{
 		email: Email;
 	},
-	Promise<Maybe<Email>>
-> = async ({
-	sql = sqlConnection,
-	email,
-}: {
-	sql?: typeof sqlConnection;
-	email: Email;
-}) => {
+	Maybe<Email>
+> = async ({ sql = sqlConnection, email }) => {
 	try {
 		emailSchema.parse(email);
 
