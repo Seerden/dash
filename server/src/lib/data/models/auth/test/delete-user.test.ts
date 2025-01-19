@@ -1,12 +1,13 @@
 import { sqlConnection } from "@/db/init";
 import { deleteUser } from "@/lib/data/models/auth/delete-user";
 import { insertUser } from "@/lib/data/models/auth/insert-user";
+import { queryUserById } from "@/lib/data/models/auth/query-user";
 
 describe("deleteUser", () => {
 	it("should delete a user", async () => {
-		await sqlConnection.begin(async (q) => {
+		await sqlConnection.begin(async (sql) => {
 			const newUser = await insertUser({
-				sql: q,
+				sql,
 				newUserInput: {
 					email: "me@test.com",
 					password_hash: "hunter2",
@@ -14,13 +15,14 @@ describe("deleteUser", () => {
 				},
 			});
 
-			const user = await deleteUser({ sql: q, user_id: newUser.user_id });
+			const user = await deleteUser({ sql: sql, user_id: newUser.user_id });
 
 			expect(user).toEqual(newUser);
 
-			// try to get user by id and expect it to be null
+			const foundUser = await queryUserById({ sql, user_id: newUser.user_id });
+			expect(foundUser).toBeFalsy();
 
-			await q`rollback`;
+			await sql`rollback`;
 		});
 	});
 	it("should return undefined if user does not exist", async () => {
