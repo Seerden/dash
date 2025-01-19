@@ -38,9 +38,12 @@ export type NewUserInput = z.infer<typeof newUserInputSchema>;
  * is no reason to ever send the hash to the client. */
 export type UserWithoutPassword = z.infer<typeof userWithoutPasswordSchema>;
 
-export type VerificationEmail = {
+export type NewVerificationEmail = {
 	user_id: ID;
 	email_id: ID;
 	token: string;
+};
+
+export type VerificationEmail = NewVerificationEmail & {
 	created_at: string; // or is it a Date?
 };

@@ -9,9 +9,9 @@ describe("insertUser", () => {
 			username: "me",
 		};
 
-		await sqlConnection.begin(async (q) => {
+		await sqlConnection.begin(async (sql) => {
 			const user = await insertUser({
-				sql: q,
+				sql,
 				newUserInput,
 			});
 
@@ -20,7 +20,7 @@ describe("insertUser", () => {
 			expect(user).toHaveProperty("created_at");
 			expect(user).toHaveProperty("is_active");
 
-			await q`rollback`;
+			await sql`rollback`;
 		});
 	});
 });
