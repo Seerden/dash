@@ -16,7 +16,7 @@
 		"experimentalDecorators": true,
 		"baseUrl": "../",
 		"rootDir": "../",
-		"types": ["jest", "node", "vitest/globals"],
+		"types": ["node", "vitest/globals"],
 		"noImplicitAny": true,
 		"paths": {
 			"@/*": ["server/src/*"],
@@ -27,6 +27,9 @@
 		"composite": true,
 		"inlineSources": true,
 	},
+   "references": [
+      { "path": "../shared" }
+   ],
 	"exclude": ["./node_modules", "node_modules", "public"],
 	"include": ["../server/src", "../server/types", "../shared", "types", "../server/tsconfig.json"]
 }
