@@ -15,3 +15,16 @@ export const queryUserById: QueryFunction<{ user_id: ID }, Maybe<User>> = async 
 
 	return user;
 };
+
+/** Queries a user by `username`. @todo test */
+export const queryUserByName: QueryFunction<{ username: string }, Maybe<User>> = async ({
+	sql = sqlConnection,
+	username,
+}) => {
+	const [user] = await sql<[User?]>`
+      SELECT * FROM users
+      WHERE username = ${username};
+   `;
+
+	return user;
+};

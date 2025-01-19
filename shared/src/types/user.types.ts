@@ -2,10 +2,15 @@ import { ID } from "@shared/types/utility.types";
 import { string } from "@shared/types/zod.utility.types";
 import { z } from "zod";
 
-export const newUserSchema = z.object({
-	email: string,
+export const userInputSchema = z.object({
 	username: string,
 	password: string,
+});
+
+export type UserInput = z.infer<typeof userInputSchema>;
+
+export const newUserSchema = userInputSchema.extend({
+	email: string,
 });
 
 export const userSchema = newUserSchema.omit({ password: true }).extend({
