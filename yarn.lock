@@ -575,6 +575,7 @@ __metadata:
     "@trpc/client": "npm:11.0.0-rc.700"
     "@trpc/react-query": "npm:11.0.0-rc.700"
     "@trpc/server": "npm:^11.0.0-rc.700"
+    "@types/node": "npm:22.10.7"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@typescript-eslint/eslint-plugin": "npm:^7.15.0"
