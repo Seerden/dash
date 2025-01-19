@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2021" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    "module": "commonjs" /* Specify what module code is generated. */,
-    "rootDir": "./src" /* Specify the root folder within your source files. */,
-    "baseUrl": "./src" /* Specify the base directory to resolve non-relative module names. */,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["ES2021"],
+    "sourceMap": true,
+    "rootDir": "../" /* Specify the root folder within your source files. */,
+    "baseUrl": "../" /* Specify the base directory to resolve non-relative module names. */,
     "jsx": "react-jsx",
 
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
@@ -15,7 +18,9 @@
     "noImplicitAny": true,
     "outDir": "./dist" /* Redirect output structure to the directory. */,
     "composite": true,
-    "paths": {}
+    "paths": {
+      "@shared/*": ["shared/src/*"],
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
