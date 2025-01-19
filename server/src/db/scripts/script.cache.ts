@@ -2,6 +2,7 @@ import { sqlConnection } from "@/db/init";
 import { redisClient } from "@/lib/redis-client";
 import fs, { readFile } from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const scriptCacheKeys = {
 	database: {
@@ -40,9 +41,11 @@ async function markScriptAsNotExecuted(filename: string) {
 	await redisClient.srem(getScriptCacheKey(), filename);
 }
 
+const pathToScripts = fileURLToPath(new URL("./scripts", import.meta.url));
+
 /** Lists all filenames in `./scripts/`. */
 async function listAllScripts() {
-	const pathToScripts = "src/db/scripts/scripts";
+	console.log({ pathToScripts });
 
 	const stat = await fs.stat(pathToScripts);
 	if (!stat.isDirectory()) {
@@ -70,7 +73,7 @@ async function executeNewScripts() {
 		await sqlConnection.begin(async (q) => {
 			for (const filename of unexecutedScriptFilenames) {
 				const queryAsString = await readFile(
-					path.join(`src/db/scripts/scripts/${filename}.sql`),
+					path.join(pathToScripts, `${filename}.sql`),
 					"utf-8",
 				);
 				const response = await q.unsafe(queryAsString);
@@ -96,7 +99,8 @@ async function allScriptsWereExecuted() {
 
 const scriptCache = {
 	_key: getScriptCacheKey(),
-	list: listExecutedScripts,
+	listExecuted: listExecutedScripts,
+	listFiles: listAllScripts,
 	check: scriptHasBeenExecuted,
 	set: markScriptAsExecuted,
 	synchronize: executeNewScripts,
