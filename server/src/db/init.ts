@@ -13,7 +13,8 @@ const {
 	IS_TEST_ENVIRONMENT,
 } = process.env;
 
-// I don't know what the point of the generic is here, leave it as any.
+// I don't know what generic this expects. postgres.js is not very
+// typescript-oriented.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PostgresOptions = postgres.Options<any>;
 
@@ -48,11 +49,11 @@ export async function tryPingingDatabase() {
 			console.log("Trying to ping database...", { tries });
 			await new Promise((resolve) => setTimeout(resolve, delays[tries]));
 			await pingDatabase();
-			return;
+			return; // do not continue after ping is successful.
 		} catch (error) {
 			console.error({
 				message: "Error pinging database",
-				...Object.entries(error.error),
+				...Object.entries(error.errors), // .errors should be available if there was a database error.
 			});
 		} finally {
 			tries++;
