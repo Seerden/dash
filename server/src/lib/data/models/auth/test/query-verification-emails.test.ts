@@ -2,14 +2,7 @@ import { sqlConnection } from "@/db/init";
 import { insertVerificationEmail } from "@/lib/data/models/auth/insert-verification-email";
 import { queryVerificationEmails } from "@/lib/data/models/auth/query-verification-emails";
 import { createMockEmail, createMockUser } from "@/lib/data/models/auth/test/mocks";
-import type { NewVerificationEmail, VerificationEmail } from "@shared/types/user.types";
-
-const email: VerificationEmail = {
-	created_at: "",
-	email_id: "1",
-	token: "",
-	user_id: "1",
-};
+import type { NewVerificationEmail } from "@shared/types/user.types";
 
 describe("queryVerificationEmails", () => {
 	it("should query all emails", async () => {
