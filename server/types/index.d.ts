@@ -9,13 +9,3 @@ declare module "express-session" {
 		};
 	}
 }
-
-declare namespace Express {
-	interface Request {
-		// TODO: same note as above
-		user?: {
-			user_id: ID;
-			username: string;
-		};
-	}
-}
