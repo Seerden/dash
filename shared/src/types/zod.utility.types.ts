@@ -10,3 +10,5 @@ export const arrayOfNullableStrings = z.array(nullableString);
 export const nullableArrayOfNullableStrings = z.nullable(
 	arrayOfNullableStrings,
 );
+
+export const datelike = z.union([z.date(), z.string()]);

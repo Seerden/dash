@@ -1,16 +1,16 @@
-import type { sqlConnection } from "@/db/init";
 import { insertUser } from "@/lib/data/models/auth/insert-user";
 import { insertEmail } from "@/lib/data/models/email/insert-email";
 import { emailSchema } from "@shared/types/email.types";
 import type { NewUserInput } from "@shared/types/user.types";
+import type { SQL } from "types/utility.types";
 
 export const newUser: NewUserInput = {
 	email: "me@example.com",
 	password_hash: "hunter2",
-	username: "me",
+	username: "i_am_me",
 };
 
-export async function createMockUser(sql: typeof sqlConnection) {
+export async function createMockUser(sql: SQL) {
 	const user = await insertUser({ sql, newUserInput: newUser });
 	return user;
 }
@@ -31,6 +31,6 @@ export const newEmailMock = emailSchema.parse({
 	scheduled_at: null,
 });
 
-export async function createMockEmail(sql: typeof sqlConnection) {
+export async function createMockEmail(sql: SQL) {
 	return await insertEmail({ sql, email: newEmailMock });
 }

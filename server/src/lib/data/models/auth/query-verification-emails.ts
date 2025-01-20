@@ -12,7 +12,7 @@ export const queryVerificationEmails: QueryFunction<
 		};
 	},
 	Array<Maybe<VerificationEmail>>
-> = async ({ sql = sqlConnection, filter }) => {
+> = async ({ sql = sqlConnection, filter = {} }) => {
 	const { user_ids, email_ids } = filter || {};
 
 	const verificationEmails = await sql<[VerificationEmail?]>`
