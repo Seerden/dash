@@ -52,7 +52,7 @@ async function start() {
 			onError: (opts) => {
 				console.log({ error: opts.error, body: opts.req.body }); // TODO: proper error handling
 			},
-			allowBatching: true,
+			allowBatching: true, // this _should_ be the default, but I was having issues with empty request bodies, and this may have fixed it.
 		}),
 	);
 
