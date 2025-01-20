@@ -1,7 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import { httpBatchLink } from "@trpc/client";
 import { useState } from "react";
-import SuperJSON from "superjson";
+import superjson from "superjson";
 
 const DOMAIN = import.meta.env.DOMAIN ?? "localhost";
 const HOST = import.meta.env.NODE_ENV === "production" ? DOMAIN : "localhost";
@@ -13,7 +13,7 @@ export default function useTRPCClient() {
 		trpc.createClient({
 			links: [
 				httpBatchLink({
-					transformer: SuperJSON,
+					transformer: superjson,
 					url,
 					fetch(url, options) {
 						return fetch(url, {

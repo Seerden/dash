@@ -7,7 +7,7 @@ import type { NewUserInput } from "@shared/types/user.types";
 export const newUser: NewUserInput = {
 	email: "me@example.com",
 	password_hash: "hunter2",
-	username: "me",
+	username: "i_am_me",
 };
 
 export async function createMockUser(sql: typeof sqlConnection) {

@@ -21,10 +21,7 @@ export const authenticatedProcedure = publicProcedure.use(async (opts) => {
 						// chain -- it's not copied over if we just do
 						// `...opts.ctx.req.session`
 						destroy: opts.ctx.req.session.destroy,
-						user: opts.ctx.req.session.user satisfies Pick<
-							UserWithoutPassword,
-							"user_id" | "username"
-						>,
+						user: opts.ctx.req.session.user satisfies UserWithoutPassword,
 					},
 				},
 			},
