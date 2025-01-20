@@ -5,3 +5,7 @@ export const verificationEmailSentResponse = {
 	status: RESPONSE_STATUS.SUCCESS,
 	message: verificationEmailSentMessage,
 };
+
+export const logoutResponse = {
+	success: true,
+};

@@ -7,7 +7,7 @@ export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOpti
 	res,
 });
 
-type Context = Awaited<ReturnType<typeof createContext>>;
+export type Context = Awaited<ReturnType<typeof createContext>>;
 
 export const t = initTRPC.context<Context>().create({
 	transformer: superjson,

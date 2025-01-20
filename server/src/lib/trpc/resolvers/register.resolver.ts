@@ -6,55 +6,46 @@ import { credentialsAvailable } from "@/lib/data/models/auth/query-user";
 import verificationTokenStore from "@/lib/data/models/auth/store/verification-token.store";
 import { sendVerificationEmail } from "@/lib/resend/emails/verification-email";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
+import { ERRORS } from "@/lib/trpc/resolvers/constants/errors";
 import { verificationEmailSentResponse } from "@/lib/trpc/resolvers/constants/responses";
 import { newUserSchema } from "@shared/types/user.types";
-import { TRPCError } from "@trpc/server";
 import { hash } from "argon2";
 
+/** Registers a user if the provided credentials are available. Sends them a
+ * verification email, and stores the email in the database, and theverification
+ * token in the store. */
 export const register = publicProcedure
 	.input(newUserSchema)
 	.mutation(async ({ input, ctx }) => {
-		console.log("in here :)");
+		const { username, email, password } = input;
 
-		if (ctx.req.session.user) {
-			throw new TRPCError({
-				code: "UNAUTHORIZED",
-				message: "Can't create a new account: you're already logged in.",
-			});
-		}
+		if (ctx.req.session.user) throw ERRORS.ALREADY_LOGGED_IN;
 
-		const canRegister = await credentialsAvailable({
-			username: input.username,
-			email: input.email,
-		});
-
-		if (!canRegister) {
+		if (!(await credentialsAvailable({ username, email }))) {
 			// Username enumeration vulnerability -- do not communicate that
 			// username/email is taken.
 			return verificationEmailSentResponse;
 		}
-
-		const password_hash = await hash(input.password);
 
 		return await sqlConnection.begin(async (sql) => {
 			try {
 				const user = await insertUser({
 					sql,
 					newUserInput: {
-						email: input.email,
-						username: input.username,
-						password_hash,
+						email,
+						username,
+						password_hash: await hash(password),
 					},
 				});
 
 				const token = generateEmailVerificationToken();
-				const email = await sendVerificationEmail({ sql, token, user });
+				const verificationEmail = await sendVerificationEmail({ sql, token, user });
 
 				await verificationTokenStore.set(token, user.user_id);
 				await insertVerificationEmail({
 					sql,
 					email: {
-						email_id: email.id,
+						email_id: verificationEmail.id,
 						user_id: user.user_id,
 						token,
 					},
@@ -64,10 +55,7 @@ export const register = publicProcedure
 			} catch (error) {
 				await sql`rollback`;
 
-				throw new TRPCError({
-					message: "Failed to register new user.",
-					code: "INTERNAL_SERVER_ERROR",
-				});
+				throw ERRORS.REGISTRATION_FAILED;
 			}
 		});
 	});

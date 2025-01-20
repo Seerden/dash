@@ -3,13 +3,13 @@ import verificationTokenStore from "@/lib/data/models/auth/store/verification-to
 import { activateUser } from "@/lib/data/models/auth/update-user";
 import { stripSensitiveUserData } from "@/lib/data/strip-sensitive-user-data";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
-import { z } from "zod";
+import { ERRORS } from "@/lib/trpc/resolvers/constants/errors";
+import { logUserIn } from "@/lib/trpc/resolvers/log-user-in";
+import { accountVerificationSchema } from "@shared/types/verification.types";
 
-const accountVerificationSchema = z.object({
-	token: z.string(),
-	username: z.string().min(3),
-});
-
+/** If there is an inactive account with an active verification token, this
+ * takes the given `token` and `username`, activates the user's account, and
+ * logs them in. */
 export const verifyMe = publicProcedure
 	.input(accountVerificationSchema)
 	.mutation(async ({ ctx, input }) => {
@@ -25,10 +25,11 @@ export const verifyMe = publicProcedure
 			await activateUser({ user_id: user.user_id }),
 		);
 
-		// remove token from the store!
+		if (!activatedUser) throw ERRORS.ACTIVATION_FAILED;
+
 		await verificationTokenStore.clear(user.user_id);
 
-		ctx.req.session.user = activatedUser;
+		await logUserIn(ctx, activatedUser);
 
 		return activatedUser;
 	});

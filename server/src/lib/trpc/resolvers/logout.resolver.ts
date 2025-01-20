@@ -1,12 +1,14 @@
 import { sessionCookieName } from "@/lib/redis-client";
 import { authenticatedProcedure } from "@/lib/trpc/procedures/authenticated.procedure";
+import { logoutResponse } from "@/lib/trpc/resolvers/constants/responses";
 
-/** Destroys the session cookie and request session object. */
+/** Logs out any existing user by clearing the session. */
 export const logout = authenticatedProcedure.mutation(async ({ ctx }) => {
 	ctx.res.clearCookie(sessionCookieName);
 	ctx.req.session.destroy(() => {});
 
 	return {
-		success: true,
+		...logoutResponse,
+		user: ctx.req.session?.user,
 	};
 });
