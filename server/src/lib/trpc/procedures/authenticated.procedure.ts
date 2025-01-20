@@ -2,7 +2,7 @@ import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 import { TRPCError } from "@trpc/server";
 
 export const authenticatedProcedure = publicProcedure.use(async (opts) => {
-	if (!opts.ctx.session.user) {
+	if (!opts.ctx.req.session.user) {
 		throw new TRPCError({
 			code: "UNAUTHORIZED",
 			message: "Must be logged in to access this resource.",
@@ -12,9 +12,12 @@ export const authenticatedProcedure = publicProcedure.use(async (opts) => {
 			...opts,
 			ctx: {
 				...opts.ctx,
-				session: {
-					...opts.ctx.session,
-					user: opts.ctx.session.user,
+				req: {
+					...opts.ctx.req,
+					session: {
+						...opts.ctx.req.session,
+						user: opts.ctx.req.session.user,
+					},
 				},
 			},
 		});

@@ -1,4 +1,4 @@
-import { t } from "@/lib/trpc";
+import { t } from "@/lib/trpc/trpc-context";
 
 export const publicProcedure = t.procedure.use(async (opts) => {
 	try {

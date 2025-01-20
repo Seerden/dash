@@ -1,15 +1,16 @@
+import { tryPingingDatabase } from "@/db/init";
 import scriptCache from "@/db/scripts/script.cache";
 import { NODE__dirname } from "@/lib/build.utility";
+import { initializeRedisConnection, redisSession } from "@/lib/redis-client";
+import { runAtStartup } from "@/lib/run-at-startup";
+import { appRouter } from "@/lib/trpc";
+import { createContext } from "@/lib/trpc/trpc-context";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import path from "path";
-import { tryPingingDatabase } from "./db/init";
-import { initializeRedisConnection, redisSession } from "./lib/redis-client";
-import { runAtStartup } from "./lib/run-at-startup";
-import { appRouter, createContext } from "./lib/trpc";
 
 async function start() {
 	const app = express();
@@ -47,8 +48,9 @@ async function start() {
 			router: appRouter,
 			createContext,
 			onError: (opts) => {
-				console.log({ error: opts.error }); // TODO: proper error handling
+				console.log({ error: opts.error, body: opts.req.body }); // TODO: proper error handling
 			},
+			allowBatching: true,
 		}),
 	);
 

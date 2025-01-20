@@ -8,16 +8,16 @@ import { verify } from "argon2";
 export const login = publicProcedure
 	.input(userInputSchema)
 	.mutation(async ({ ctx, input }) => {
-		const user = await queryUserByName({ username: input.username });
+		const foundUser = await queryUserByName({ username: input.username });
 
-		if (!user) {
+		if (!foundUser) {
 			throw new TRPCError({
-				code: "NOT_FOUND",
-				message: "User not found.",
+				code: "UNAUTHORIZED",
+				message: "Invalid credentials.",
 			});
 		}
 
-		const passwordMatches = await verify(input.password, user.password_hash);
+		const passwordMatches = await verify(foundUser.password_hash, input.password);
 
 		if (!passwordMatches) {
 			throw new TRPCError({
@@ -26,9 +26,13 @@ export const login = publicProcedure
 			});
 		}
 
+		const user = stripSensitiveUserData(foundUser);
+
+		console.log({ ctx });
 		ctx.req.session.user = user;
+		console.log({ ctx });
 
 		return {
-			user: stripSensitiveUserData(user),
+			user,
 		};
 	});

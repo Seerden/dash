@@ -5,14 +5,15 @@ import type { QueryFunction } from "types/utility.types";
 
 /** Query verification emails. Optionally filter by `user_id` and/or `email_id`. */
 export const queryVerificationEmails: QueryFunction<
-	{
-		filter?: {
-			user_ids?: ID[];
-			email_ids?: ID[];
-		};
-	},
+	| {
+			filter?: {
+				user_ids?: ID[];
+				email_ids?: ID[];
+			};
+	  }
+	| undefined,
 	Array<Maybe<VerificationEmail>>
-> = async ({ sql = sqlConnection, filter }) => {
+> = async ({ sql = sqlConnection, filter = {} } = {}) => {
 	const { user_ids, email_ids } = filter || {};
 
 	const verificationEmails = await sql<[VerificationEmail?]>`
