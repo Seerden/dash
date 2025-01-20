@@ -3,8 +3,8 @@ import { string } from "@shared/types/zod.utility.types";
 import { z } from "zod";
 
 export const userInputSchema = z.object({
-	username: string,
-	password: string,
+	username: string.min(3),
+	password: string.min(3),
 });
 
 export type UserInput = z.infer<typeof userInputSchema>;
