@@ -10,29 +10,27 @@ export const queryUserById: QueryFunction<{ user_id: ID }, Maybe<User>> = async 
 	user_id,
 }) => {
 	const [user] = await sql<[User?]>`
-      SELECT * FROM users
+      SELECT * FROM ${sql(TABLES.USERS)}
       WHERE user_id = ${user_id};
    `;
 
 	return user;
 };
 
-/** Queries a user by `username`. @todo test */
+/** Queries a user by `username`. */
 export const queryUserByName: QueryFunction<{ username: string }, Maybe<User>> = async ({
 	sql = sqlConnection,
 	username,
 }) => {
 	const [user] = await sql<[User?]>`
-      SELECT * FROM users
+      SELECT * FROM ${sql(TABLES.USERS)}
       WHERE username = ${username};
    `;
 
 	return user;
 };
 
-/** Return true if username and email are both not taken yet.
- * @todo test this function
- */
+/** Check if either username or email are taken yet. */
 export const credentialsAvailable: QueryFunction<
 	Pick<User, "email" | "username">,
 	boolean
