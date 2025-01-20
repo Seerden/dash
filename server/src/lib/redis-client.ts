@@ -6,7 +6,7 @@ import Redis from "ioredis";
 // the default port, which we haven't changed.
 export const redisClient = new Redis("redis://store:6379");
 
-export const sessionCookieName = "track-session";
+export const sessionCookieName = "rack-session";
 
 export const redisSession: session.SessionOptions = {
 	store: new RedisStore({ client: redisClient }),
