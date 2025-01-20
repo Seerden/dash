@@ -17,6 +17,8 @@ async function start() {
 
 	app.use(
 		cors({
+			// TODO: use custom origin: allow any port from the base domain, which
+			// will be localhost or process.env.DOMAIN
 			origin: true,
 			credentials: true,
 		}),
