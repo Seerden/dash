@@ -6,12 +6,8 @@ import type { NewVerificationEmail } from "@shared/types/user.types";
 
 describe("queryVerificationEmails", () => {
 	it("should query all emails", async () => {
-		await sqlConnection.begin(async (sql) => {
-			const emails = await queryVerificationEmails({
-				sql,
-			});
-			expect(emails).toEqual([]);
-		});
+		const emails = await queryVerificationEmails({ sql: sqlConnection });
+		expect(emails).toEqual([]);
 
 		await sqlConnection.begin(async (sql) => {
 			const user = await createMockUser(sql);

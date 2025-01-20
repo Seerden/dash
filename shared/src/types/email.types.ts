@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+	datelike,
 	nullableArrayOfNullableStrings,
 	stringArray,
 } from "./zod.utility.types";
@@ -10,7 +11,7 @@ export const emailSchema = z.object({
 	id: z.string(),
 	to: stringArray,
 	from: z.string(),
-	created_at: z.string(),
+	created_at: datelike,
 	subject: z.string(),
 	bcc: nullableArrayOfNullableStrings,
 	cc: nullableArrayOfNullableStrings,

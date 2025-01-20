@@ -1,21 +1,24 @@
+import { tryPingingDatabase } from "@/db/init";
 import scriptCache from "@/db/scripts/script.cache";
 import { NODE__dirname } from "@/lib/build.utility";
+import { initializeRedisConnection, redisSession } from "@/lib/redis-client";
+import { runAtStartup } from "@/lib/run-at-startup";
+import { appRouter } from "@/lib/trpc";
+import { createContext } from "@/lib/trpc/trpc-context";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import path from "path";
-import { tryPingingDatabase } from "./db/init";
-import { initializeRedisConnection, redisSession } from "./lib/redis-client";
-import { runAtStartup } from "./lib/run-at-startup";
-import { appRouter, createContext } from "./lib/trpc";
 
 async function start() {
 	const app = express();
 
 	app.use(
 		cors({
+			// TODO: use custom origin: allow any port from the base domain, which
+			// will be localhost or process.env.DOMAIN
 			origin: true,
 			credentials: true,
 		}),
@@ -47,8 +50,9 @@ async function start() {
 			router: appRouter,
 			createContext,
 			onError: (opts) => {
-				console.log({ error: opts.error }); // TODO: proper error handling
+				console.log({ error: opts.error, body: opts.req.body }); // TODO: proper error handling
 			},
+			allowBatching: true, // this _should_ be the default, but I was having issues with empty request bodies, and this may have fixed it.
 		}),
 	);
 

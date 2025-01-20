@@ -1,17 +1,22 @@
-import { ID } from "@shared/types/utility.types";
-import { string } from "@shared/types/zod.utility.types";
+import { Datelike, ID } from "@shared/types/utility.types";
+import { datelike, string } from "@shared/types/zod.utility.types";
 import { z } from "zod";
 
-export const newUserSchema = z.object({
+export const userInputSchema = z.object({
+	username: string.min(3),
+	password: string.min(3),
+});
+
+export type UserInput = z.infer<typeof userInputSchema>;
+
+export const newUserSchema = userInputSchema.extend({
 	email: string,
-	username: string,
-	password: string,
 });
 
 export const userSchema = newUserSchema.omit({ password: true }).extend({
 	user_id: string,
 	password_hash: string,
-	created_at: string, // or is it a Date?
+	created_at: datelike,
 	is_active: z.boolean(),
 });
 
@@ -45,5 +50,5 @@ export type NewVerificationEmail = {
 };
 
 export type VerificationEmail = NewVerificationEmail & {
-	created_at: string; // or is it a Date?
+	created_at: Datelike;
 };

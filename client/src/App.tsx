@@ -40,6 +40,9 @@ export default function App() {
 						</Link>{" "}
 						<Link to="/about" className="[&.active]:font-bold">
 							About
+						</Link>{" "}
+						<Link to="/register" className="[&.active]:font-bold">
+							Register
 						</Link>
 					</div>
 					<hr />
