@@ -1,4 +1,5 @@
 import { sqlConnection } from "@/db/init";
+import { TABLES } from "@shared/types/table.types";
 import type { User } from "@shared/types/user.types";
 import type { ID, Maybe } from "@shared/types/utility.types";
 import type { QueryFunction } from "types/utility.types";
@@ -27,4 +28,19 @@ export const queryUserByName: QueryFunction<{ username: string }, Maybe<User>> =
    `;
 
 	return user;
+};
+
+/** Return true if username and email are both not taken yet.
+ * @todo test this function
+ */
+export const credentialsAvailable: QueryFunction<
+	Pick<User, "email" | "username">,
+	boolean
+> = async ({ sql = sqlConnection, email, username }) => {
+	const [result] = await sql<[User?]>`
+         SELECT * from ${sql(TABLES.USERS)}
+         WHERE email = ${email} OR username = ${username}
+   `;
+
+	return Boolean(!result?.user_id);
 };
