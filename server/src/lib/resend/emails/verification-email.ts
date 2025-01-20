@@ -2,6 +2,7 @@ import { sqlConnection } from "@/db/init";
 import { sendEmail } from "@/lib/resend/email";
 import type { User } from "@shared/types/user.types";
 import type { CreateEmailOptions } from "resend";
+import type { SQL } from "types/utility.types";
 
 const emailAddress = "auth.dash@seerden.dev";
 
@@ -10,7 +11,7 @@ export async function sendVerificationEmail({
 	token,
 	user,
 }: {
-	sql?: typeof sqlConnection;
+	sql?: SQL;
 	token: string;
 	user: User;
 }) {

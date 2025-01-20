@@ -4,6 +4,7 @@ import { generateEntityId } from "@/lib/resend/domain";
 import { resend } from "@/lib/resend/resend";
 import { emailSchema } from "@shared/types/email.types";
 import type { CreateEmailOptions, CreateEmailRequestOptions } from "resend";
+import type { SQL } from "types/utility.types";
 
 /** Use the resend API to send a transactional email. */
 export async function sendEmail({
@@ -11,7 +12,7 @@ export async function sendEmail({
 	payload,
 	options = {},
 }: {
-	sql?: typeof sqlConnection;
+	sql?: SQL;
 	payload: CreateEmailOptions;
 	options?: CreateEmailRequestOptions;
 }) {

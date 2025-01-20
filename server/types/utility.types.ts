@@ -1,6 +1,6 @@
 import type { sqlConnection } from "@/db/init";
 
-type SQL = typeof sqlConnection;
+export type SQL = typeof sqlConnection;
 
 type WithSQL<T> = T & { sql?: SQL };
 
