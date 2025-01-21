@@ -7,6 +7,7 @@ export const getGroupedDailyUrl = (date: YearMonthDay) =>
 
 /** Fetches from Polygon's "grouped daily (Bars)"" endpoint.
  * @see https://polygon.io/docs/stocks/get_v2_aggs_grouped_locale_us_market_stocks__date
+ * @todo tests (DAS-36)
  */
 export async function fetchGroupedDaily(date: YearMonthDay) {
 	const data = await fetchPolygon<OHLCVResult>({

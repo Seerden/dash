@@ -14,6 +14,7 @@ function getAggregateUrl(options: AggregateOptions) {
  * @note in dash-old, this function returned a single results array, but here,
  * we're returning the entire array of response objects, and we'll iterate over
  * it elsewhere.
+ * @todo tests (DAS-36)
  */
 export async function fetchAggregate({
 	ticker,
