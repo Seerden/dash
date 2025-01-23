@@ -17,11 +17,6 @@ export const datelike = z.union([z.date(), z.string(), z.number()]);
  * numbers. This accomplishes that. */
 export const numeric = (num: number) =>
 	z.preprocess(
-		(value) => {
-			if (typeof value === "string") {
-				return parseFloat(parseFloat(value).toFixed(num));
-			}
-			return value;
-		},
+		(value) => (typeof value === "string" ? +(+value).toFixed(num) : value),
 		z.union([z.number(), z.string()]),
 	);
