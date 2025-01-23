@@ -23,28 +23,29 @@ const insertPriceActionSet: QueryFunction<
 
 /** Insert any number of price action entries in the database, but split the
  * calls up to fit the postgres parameter limit.
- * @note make sure to always run this inside a transaction! This structure
- * allows us to properly unit test function. */
+ * @note make sure to always run this inside a transaction! It allows us to
+ * properly unit test this function. */
 export const insertPriceAction: QueryFunction<
 	{ priceAction: PriceAction[] },
 	PriceActionWithUpdatedAt[]
 > = async ({ sql = sqlConnection, priceAction }) => {
 	// TODO: extract this functionality into a generic bulkInsert function,
 	// because we may need it later for other tables.
-	// postgres parameter limit is 2**16 -1, so split the data up to make each
+	// postgres parameter limit is 2**16 - 1, so split the data up to make each
 	// bulk insert barely fit within the limit.
 	const size = 9250;
 	const setCount = Math.ceil(priceAction.length / size);
-	await sql`savepoint insert_price_action`;
+
+	await sql`savepoint insert_price_action`; // this is the savepoint we roll back to from the test when it's done
 
 	const queries = Array.from({ length: setCount }).map(async (_, i) => {
-		const rows = insertPriceActionSet({
+		return insertPriceActionSet({
 			sql,
 			priceAction: priceAction.slice(i * size, (i + 1) * size),
 		});
-		return rows;
 	});
-	const rows = (await Promise.all(queries)).flat();
-	const parsedRows = rows.map((row) => priceActionWithUpdatedAtSchema.parse(row));
-	return parsedRows;
+
+	return (await Promise.all(queries))
+		.flat()
+		.map((row) => priceActionWithUpdatedAtSchema.parse(row));
 };

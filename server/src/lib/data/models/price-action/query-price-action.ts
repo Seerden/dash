@@ -1,4 +1,8 @@
 import { sqlConnection } from "@/db/init";
+import {
+	sqlTickerFilter,
+	sqlTimestampFilter,
+} from "@/lib/data/models/price-action/filter";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import type { Datelike } from "@shared/types/utility.types";
 import type { Ticker } from "types/data.types";
@@ -6,7 +10,7 @@ import {
 	priceActionWithUpdatedAtSchema,
 	type PriceAction,
 } from "types/price-action.types";
-import type { QueryFunction, SQL } from "types/utility.types";
+import type { QueryFunction } from "types/utility.types";
 
 type QueryPriceActionFlatArgs = {
 	limit?: number;
@@ -21,38 +25,6 @@ type QueryPriceActionFlatArgs = {
 type QueryPriceActionGroupedArgs = QueryPriceActionFlatArgs & {
 	groupBy: "ticker" | "timestamp"; // TODO: refine this type
 };
-
-/** Additional ticker filter for price action queries.
- * @note do not put this as the first condition, since it returns "AND ...". */
-function sqlTickerFilter({ sql, tickers }: { sql: SQL; tickers: Ticker[] }) {
-	return tickers.length > 0 ? sql`and ticker = ANY(${sql(tickers)})` : sql``;
-}
-
-function toTimestamp(timestamp: Datelike) {
-	return new Date(timestamp).valueOf();
-}
-
-function sqlTimestampFilter({
-	sql,
-	from,
-	to,
-}: {
-	sql: SQL;
-	from?: Datelike;
-	to?: Datelike;
-}) {
-	if (!from && !to) return sql``;
-
-	const _from = toTimestamp(from ?? 0);
-	const _to = toTimestamp(to ?? Date.now());
-
-	// TODO: chekc if to is after from
-
-	return sql`
-      AND timestamp >= ${_from} 
-      AND timestamp <= ${_to}
-   `;
-}
 
 export const queryPriceActionFlat: QueryFunction<
 	QueryPriceActionFlatArgs,
