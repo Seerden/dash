@@ -1,18 +1,19 @@
 import type { OHLCV } from "@/lib/polygon/polygon.types";
+import { datelike, numeric } from "@shared/types/zod.utility.types";
 import { z } from "zod";
 
 export const priceActionSchema = z.object({
 	ticker: z.string(),
-	timestamp: z.number(), // unix ms timestamp, or date, depending on whether we parse inside the query
-	open: z.number(),
-	close: z.number(),
-	high: z.number(),
-	low: z.number(),
-	volume: z.number(),
+	timestamp: datelike, // unix ms timestamp, or date, depending on whether we parse inside the query
+	open: numeric(6),
+	close: numeric(6),
+	high: numeric(6),
+	low: numeric(6),
+	volume: numeric(2),
 });
 
 export const priceActionWithUpdatedAtSchema = priceActionSchema.extend({
-	updated_at: z.number(), // see timestamp
+	updated_at: datelike,
 });
 
 export type PriceAction = z.infer<typeof priceActionSchema>;
