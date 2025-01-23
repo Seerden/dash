@@ -13,7 +13,7 @@ export const priceActionSchema = z.object({
 });
 
 export const priceActionWithUpdatedAtSchema = priceActionSchema.extend({
-	updated_at: datelike,
+	updated_at: datelike, // same note as with `timestamp` in `priceActionSchema`
 });
 
 export type PriceAction = z.infer<typeof priceActionSchema>;
