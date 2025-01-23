@@ -11,4 +11,17 @@ export const nullableArrayOfNullableStrings = z.nullable(
 	arrayOfNullableStrings,
 );
 
-export const datelike = z.union([z.date(), z.string()]);
+export const datelike = z.union([z.date(), z.string(), z.number()]);
+
+/** Things that are stored as numeric(x, n), we usually want to parse to
+ * numbers. This accomplishes that. */
+export const numeric = (num: number) =>
+	z.preprocess(
+		(value) => {
+			if (typeof value === "string") {
+				return parseFloat(parseFloat(value).toFixed(num));
+			}
+			return value;
+		},
+		z.union([z.number(), z.string()]),
+	);
