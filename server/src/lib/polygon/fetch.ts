@@ -25,7 +25,8 @@ type FetchPolygonArgs = FetchPolygonBaseArgs & {
 };
 
 /** Pre-sets baseUrl and headers for Polygon API requests, or makes the request
- * to nextUrl. */
+ * to nextUrl.
+ * @todo probably want the caller to wrap this in a try/catch block. */
 export async function fetchPolygon<U>({ endpoint, nextUrl, params }: FetchPolygonArgs) {
 	const url = nextUrl ?? new URL(`${polygonBaseUrl}/${endpoint}`);
 	if (!nextUrl) {
@@ -37,30 +38,25 @@ export async function fetchPolygon<U>({ endpoint, nextUrl, params }: FetchPolygo
 		url.search = searchParams.toString();
 	}
 
-	try {
-		const response = await fetch(url, {
-			headers: new Headers({
-				Authorization: `Bearer ${POLYGON_API_KEY}`,
-			}),
-		});
+	const response = await fetch(url, {
+		headers: new Headers({
+			Authorization: `Bearer ${POLYGON_API_KEY}`,
+		}),
+	});
 
-		const data = (await response.json()) as ResponseBase & { results: U[] };
+	const data = (await response.json()) as ResponseBase & { results: U[] };
 
-		if (data.status === "ERROR")
-			throw new Error(`Polygon returned an error: ${JSON.stringify(data)}`);
+	if (data.status === "ERROR")
+		throw new Error(`Polygon returned an error: ${JSON.stringify(data)}`);
 
-		if (data.results === undefined)
-			throw new Error(
-				`"results" is undefined. This probably means that there is no data (yet) for this date.`,
-			);
-		if (!data.results.length)
-			throw new Error(`Polygon returned no results: ${JSON.stringify(data)}`);
+	if (data.results === undefined)
+		throw new Error(
+			`"results" is undefined. This probably means that there is no data (yet) for this date.`,
+		);
+	if (!data.results.length)
+		throw new Error(`Polygon returned no results: ${JSON.stringify(data)}`);
 
-		if (!data) throw new Error(`Polygon returned no data: ${JSON.stringify(response)}`);
+	if (!data) throw new Error(`Polygon returned no data: ${JSON.stringify(response)}`);
 
-		return data;
-	} catch (e) {
-		console.error(`Error fetching from Polygon: ${e}`);
-		// TODO: persistent error logging (Sentry)
-	}
+	return data;
 }
