@@ -16,6 +16,7 @@
 		"@trpc/server": "11.0.0-rc.700",
 		"argon2": "0.41.1",
 		"bcryptjs": "^2.4.3",
+		"bullmq": "5.37.0",
 		"connect-redis": "^7.1.1",
 		"cors": "^2.8.5",
 		"csv-parse": "5.6.0",
