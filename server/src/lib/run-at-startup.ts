@@ -1,27 +1,51 @@
+import { setAwsCredentials } from "@/lib/polygon/flatfiles/bucket";
+
 export async function runAtStartup() {
-	// const data = await fetchGroupedDaily("2023-09-01");
-	// console.log({ resultsCount: data?.resultsCount });
-	// // put data in a new json file at ./data.json:
-	// const fs = await import("fs/promises");
-	// await fs.writeFile("./data.json", JSON.stringify(data, null, 2));
-	// const aggregateData = await fetchAggregate({
-	// 	from: "2025-01-17",
-	// 	ticker: "MSFT",
-	// 	to: "2025-01-20",
-	// });
-	// console.log({ aggregateData });
-	// await fs.writeFile("./aggregateData.json", JSON.stringify(aggregateData,
-	// null, 2));
-	// console.time("insertPriceAction");
-	// const rows = mockManyPriceActionRows().slice(10);
-	// console.log({ rows });
-	// await sqlConnection.begin(async (sql) => {
-	// 	const inserted = await insertPriceAction({
-	// 		sql,
-	// 		priceAction: rows,
+	await setAwsCredentials();
+	// try {
+	// 	const d = await setAwsCredentials();
+	// 	// const b = await listS3Objects();
+	// 	const b = await listFileContents();
+	// 	console.log({ b });
+	// } catch (error) {
+	// 	console.error(error);
+	// }
+	// const content = await readFile("2025-01-03.csv.gz");
+	// const data = gunzipSync(content);
+	// await writeFile("2025-01-03.csv", data);
+	// await getColumnsAndFirstRow("2025-01-03.csv");
+	// TEST: insert from test gzipped file
+	// try {
+	// 	console.time("insertFromCsv");
+	// 	const count = await insertFromCsv({
+	// 		filename: "test.csv.gz",
+	// 		tableName: "test",
 	// 	});
-	// 	console.log({ inserted });
-	// 	await sql`rollback`;
-	// });
-	// console.timeEnd("insertPriceAction");
+	// 	console.timeEnd("insertFromCsv");
+	// 	console.log({ count, bool: 1 });
+	// } catch (error) {
+	// 	console.error(error);
+	// }
+	// try {
+	// 	console.time("listS3Objects");
+	// 	const files = await listS3Objects();
+	// 	console.timeEnd("listS3Objects");
+	// 	console.log({ files });
+	// } catch (error) {
+	// 	console.error(error);
+	// }
+	// await storeS3Objects();
+
+	// try {
+	// 	for (const year of ["2021", "2022", "2023", "2024", "2025"]) {
+	// 		console.log("Downloading day_aggs_v1 files for year", year);
+	// 		await getFiles({
+	// 			folder: "day_aggs_v1",
+	// 			year,
+	// 		});
+	// 		console.log("Downloaded day_aggs_v1 files for year", year);
+	// 	}
+	// } catch (error) {
+	// 	console.log({ error });
+	// }
 }
