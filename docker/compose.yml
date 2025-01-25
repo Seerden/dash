@@ -15,6 +15,7 @@ services:
       - ./pg-data:/var/lib/postgresql/data
       - ../server/src/db/scripts/scripts:/docker-entrypoint-initdb.d
       - ./database-backup:/psql-backups
+      - ../flatfiles:/var/lib/postgresql/flatfiles
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "log_statement=all"]
