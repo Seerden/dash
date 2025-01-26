@@ -6,4 +6,11 @@ export async function runAtStartup() {
 	} catch (error) {
 		console.error("Error setting AWS credentials", error);
 	}
+
+	await dev();
+}
+
+async function dev() {
+	// const objects = await listS3Objects();
+	// console.log({ objects });
 }

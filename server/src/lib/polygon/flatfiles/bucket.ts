@@ -32,7 +32,6 @@ export async function setAwsCredentials() {
 					resolve(null);
 				} else {
 					resolve(null);
-					// throw new Error("Failed to set AWS credentials");
 				}
 			});
 		});
@@ -44,7 +43,7 @@ export async function setAwsCredentials() {
 export async function listS3Objects({
 	folder = FOLDERS.DAY_AGGS,
 }: {
-	folder?: string;
+	folder?: `${FOLDERS}`;
 } = {}) {
 	await setAwsCredentials();
 
@@ -53,13 +52,7 @@ export async function listS3Objects({
 		const awsProcess = spawn(
 			"aws",
 			[
-				"s3",
-				"ls",
-				`s3://${BUCKET}/${PREFIX}/${folder}/`,
-				"--endpoint-url",
-				ENDPOINT,
-				"--recursive",
-				"| awk '{print $4}'",
+				`s3 ls s3://${BUCKET}/${PREFIX}/${folder}/ --endpoint-url ${ENDPOINT} --recursive | awk '{print $4}'`,
 			],
 			{ shell: true },
 		);
