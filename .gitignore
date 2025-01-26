@@ -27,3 +27,5 @@ logs/
 **/.yarn/*  
 
 /flatfiles
+
+.aws

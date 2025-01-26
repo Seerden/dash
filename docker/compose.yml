@@ -28,6 +28,7 @@ services:
       - ../:/dash
       - ../server:/dash/server
       - ../server/node_modules:/dash/server/node_modules
+      - ./.aws:/dash/server/.aws
     depends_on:
       - database
       - store
@@ -53,10 +54,10 @@ services:
 
   client:
     build:
-      context: ../
-      dockerfile: ./client/Dockerfile
+      context: ../client
+      dockerfile: Dockerfile
     volumes:
-      - shared_lib:/dash/shared
+      - ../:/dash
       - ../client:/dash/client
       - ../client/node_modules:/dash/client/node_modules
     ports:
@@ -64,13 +65,3 @@ services:
       - "4173:4173"
       - "6016:6016"
     command: /bin/sh -c "yarn install && yarn dev"
-
-# This _might_ be necessary still, but I don't think so because the volume is
-# defined in the server service above.
-volumes:
-    shared_lib:
-      driver: local
-      driver_opts:
-          type: none
-          o: bind
-          device: ../shared
