@@ -94,3 +94,12 @@ export const queryPriceActionGrouped: QueryFunction<
 
 	return result.price_action;
 };
+
+export const queryTimestamps: QueryFunction<object, { unix: number }[]> = async ({
+	sql = sqlConnection,
+}) => {
+	const rows = await sql<{ unix: Date }[]>`
+      SELECT DISTINCT timestamp as unix FROM ${sql(PRICE_ACTION_TABLES.DAILY)}
+   `;
+	return rows.map((row) => ({ unix: row.unix.valueOf() }));
+};
