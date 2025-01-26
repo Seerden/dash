@@ -28,7 +28,9 @@ services:
       - ../:/dash
       - ../server:/dash/server
       - ../server/node_modules:/dash/server/node_modules
-      - ./.aws:/dash/server/.aws
+      # I can't get the aws cli to pick this up automatically (even when in
+      # /dash/.aws), so leaving it out for now 
+      # - ./.aws:/dash/server/.aws 
     depends_on:
       - database
       - store
