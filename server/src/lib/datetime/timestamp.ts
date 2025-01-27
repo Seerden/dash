@@ -1,4 +1,5 @@
 import type { Datelike } from "@shared/types/utility.types";
+import dayjs from "dayjs";
 import { isYearMonthDay } from "types/data.types";
 
 /** Takes a Datelike and returns the unix millisecond timestamp for it.
@@ -8,11 +9,10 @@ export function toTimestamp(timestamp: Datelike) {
 }
 
 /** Parse a Date to YYYY-MM-DD (@note don't have dayjs installed yet) */
-export function formatToYearMonthDate(date: Date) {
-	const formatted = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+export function formatToYearMonthDay(date: Date) {
+	const formatted = dayjs(date).format("YYYY-MM-DD");
 
-	if (!isYearMonthDay(formatted)) {
-		throw new Error(`Invalid date: ${formatted}`);
-	}
+	if (!isYearMonthDay(formatted)) throw new Error(`Invalid date: ${formatted}`);
+
 	return formatted;
 }

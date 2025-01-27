@@ -1,5 +1,5 @@
 import { queryTimestamps } from "@/lib/data/models/price-action/query-price-action";
-import { formatToYearMonthDate } from "@/lib/datetime/timestamp";
+import { formatToYearMonthDay } from "@/lib/datetime/timestamp";
 import {
 	parseDailyAggsFilename,
 	yearMonthDayToString,
@@ -56,7 +56,7 @@ async function clear() {
  * database. */
 async function synchronize() {
 	const dateStrings = (await queryTimestamps({ table: PRICE_ACTION_TABLES.DAILY })).map(
-		(ts) => formatToYearMonthDate(new Date(ts.unix)),
+		(ts) => formatToYearMonthDay(new Date(ts.unix)),
 	);
 
 	for (const dateString of dateStrings) {
