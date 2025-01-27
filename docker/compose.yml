@@ -15,6 +15,7 @@ services:
       - ./pg-data:/var/lib/postgresql/data
       - ../server/src/db/scripts/scripts:/docker-entrypoint-initdb.d
       - ./database-backup:/psql-backups
+      - ../flatfiles:/var/lib/postgresql/flatfiles
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "log_statement=all"]
@@ -27,6 +28,9 @@ services:
       - ../:/dash
       - ../server:/dash/server
       - ../server/node_modules:/dash/server/node_modules
+      # I can't get the aws cli to pick this up automatically (even when in
+      # /dash/.aws), so leaving it out for now 
+      # - ./.aws:/dash/server/.aws 
     depends_on:
       - database
       - store
@@ -52,10 +56,10 @@ services:
 
   client:
     build:
-      context: ../
-      dockerfile: ./client/Dockerfile
+      context: ../client
+      dockerfile: Dockerfile
     volumes:
-      - shared_lib:/dash/shared
+      - ../:/dash
       - ../client:/dash/client
       - ../client/node_modules:/dash/client/node_modules
     ports:
@@ -63,13 +67,3 @@ services:
       - "4173:4173"
       - "6016:6016"
     command: /bin/sh -c "yarn install && yarn dev"
-
-# This _might_ be necessary still, but I don't think so because the volume is
-# defined in the server service above.
-volumes:
-    shared_lib:
-      driver: local
-      driver_opts:
-          type: none
-          o: bind
-          device: ../shared

@@ -26,6 +26,8 @@ type QueryPriceActionGroupedArgs = QueryPriceActionFlatArgs & {
 	groupBy: "ticker" | "timestamp"; // TODO: refine this type
 };
 
+/** Queries price action rows from the database using the given constraints.
+ * Does not group or parse the data in any way. */
 export const queryPriceActionFlat: QueryFunction<
 	QueryPriceActionFlatArgs,
 	PriceAction[]
@@ -93,4 +95,15 @@ export const queryPriceActionGrouped: QueryFunction<
 	}
 
 	return result.price_action;
+};
+
+/** Queries the unique timestamps (as unix milliseconds) from a price action table. */
+export const queryTimestamps: QueryFunction<
+	{ table?: `${PRICE_ACTION_TABLES}` },
+	{ unix: number }[]
+> = async ({ sql = sqlConnection, table = PRICE_ACTION_TABLES.DAILY }) => {
+	const rows = await sql<{ unix: Date }[]>`
+      SELECT DISTINCT timestamp as unix FROM ${sql(table)}
+   `;
+	return rows.map((row) => ({ unix: row.unix.valueOf() }));
 };
