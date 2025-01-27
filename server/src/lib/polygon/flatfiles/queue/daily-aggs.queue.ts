@@ -1,7 +1,7 @@
+import { flatFilesDailyAggsStore } from "@/lib/polygon/flatfiles/daily-aggs.store";
 import { QUEUES } from "@/lib/polygon/flatfiles/queue/constants";
 import { bulkAddDailyAggsJobs } from "@/lib/polygon/flatfiles/queue/jobs";
 import type { PriceActionJobOptions } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
-import { flatfilesStore } from "@/lib/polygon/flatfiles/store";
 import { redisClient } from "@/lib/redis-client";
 import type { Job } from "bullmq";
 import { Queue } from "bullmq";
@@ -36,7 +36,7 @@ async function getJobs() {
 async function requeueFailedJobs() {
 	const failedJobs: Job<PriceActionJobOptions>[] =
 		await dailyAggsProcessingQueue.getFailed();
-	const processedFiles = await flatfilesStore.list();
+	const processedFiles = await flatFilesDailyAggsStore.list();
 	for (const job of failedJobs) {
 		const isAlreadyProcesssed = processedFiles.includes(job.data.filename);
 		if (isAlreadyProcesssed) {

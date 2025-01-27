@@ -8,7 +8,10 @@ import type { QueryFunction } from "types/utility.types";
 import { fileURLToPath } from "url";
 
 /** This is really just here to test the functionality. It's missing job
- * scheduling, caching etc.  */
+ * scheduling, caching etc.
+ * @deprecated for now, we're only using historical data from the bucket,
+ * instead of the API.
+ */
 export const fetchParseAndInsertGroupedDaily: QueryFunction<
 	{ date: YearMonthDay },
 	PriceAction[]
@@ -19,9 +22,18 @@ export const fetchParseAndInsertGroupedDaily: QueryFunction<
 	// instead of inserting, create a .json file with the parsed data, using the
 	// date as the filename
 	const fs = await import("fs/promises");
+	await fs.mkdir(new URL(`./parsed-data`, import.meta.url), { recursive: true });
 	const path = fileURLToPath(new URL(`./parsed-data/${date}.json`, import.meta.url));
-	await fs.writeFile(path, JSON.stringify(parsedData, null, 0));
+	await fs.writeFile(path, JSON.stringify(parsedData, null, 0), {});
 
 	const priceAction = await insertPriceAction({ sql, priceAction: parsedData });
 	return priceAction;
 };
+
+/** Removes a file from the `parsed-data` directory.
+ * @note this one is tested by the test for `parseAndInsertPriceAction`. */
+export async function removeParsedDataFile(date: YearMonthDay) {
+	const fs = await import("fs/promises");
+	const path = fileURLToPath(new URL(`./parsed-data/${date}.json`, import.meta.url));
+	await fs.rm(path);
+}

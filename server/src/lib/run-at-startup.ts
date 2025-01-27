@@ -14,3 +14,8 @@ async function dev() {
 	// const objects = await listS3Objects();
 	// console.log({ objects });
 }
+
+export async function runClusteredTasks() {
+	// const _worker = createDailyAggsPriceActionWorker();
+	// return _worker;
+}

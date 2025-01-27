@@ -1,4 +1,5 @@
 import { sqlConnection } from "@/db/init";
+import { parseDailyAggsFilename } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import type { SQL } from "types/utility.types";
 
@@ -16,17 +17,20 @@ type InsertFromCsvArgs = {
 };
 
 /** This takes an uncompressed or gzipped csv file, transforms the polygon data
-inside it and inserts it into the database as PriceAction rows. */
-export async function insertFromCsv({
+ * inside it and inserts it into the database as PriceAction rows.
+ * @todo once we start working with 1m data, this needs to be adjusted. At that
+ * time, also test this function. I'm already done with 1d insertion, so there's
+ * no point in testing it after the fact because I've verified manually that it
+ * worked. 🫠
+ */
+export async function insertDailyAggsFromCsv({
 	sql = sqlConnection,
 	filename,
 	tableName,
 	returnCount = false,
 }: InsertFromCsvArgs) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const filepath = filename.split("/").at(-1)!;
 	const isGzipped = filename.endsWith(".gz");
-	const [year, month, day] = filepath.split(".")[0].split("-");
+	const { year, month, day } = parseDailyAggsFilename(filename);
 	const tempTableName = tableName
 		? `price_action_temp_${tableName}`
 		: `price_action_temp_${year}${month}${day}`;
@@ -71,7 +75,7 @@ export async function insertFromCsv({
 		let insertedCount: undefined | { count: number };
 
 		if (returnCount) {
-			const [insertedCount] = await q<[{ count: number }]>`
+			insertedCount = await q<[{ count: number }]>`
             WITH inserted_rows AS (
                INSERT INTO ${q(PRICE_ACTION_TABLES.DAILY)} 
                   ("ticker", "timestamp", "open", "close", "high", "low", "volume")

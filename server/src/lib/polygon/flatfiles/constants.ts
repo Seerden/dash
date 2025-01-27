@@ -7,3 +7,9 @@ export enum FOLDERS {
 	TRADES = "trades_v1",
 }
 export const ENDPOINT = "https://files.polygon.io";
+
+export const {
+	POLYGON_SECRET_ACCESS_KEY,
+	POLYGON_ACCESS_KEY_ID,
+	POLYGON_FLAT_FILES_URL,
+} = process.env;

@@ -5,6 +5,7 @@ import {
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import { redisClient } from "@/lib/redis-client";
+import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import { isYearMonthDay } from "types/data.types";
 
 const storeKey = "polygon:flatfiles:daily:parsed";
@@ -49,18 +50,21 @@ async function clear() {
 	await redisClient.del(storeKey);
 }
 
+/** For all the unique timestamps that have data associated with them, adds the
+ * corresponding date to the flatfiles store.
+ * @todo also remove any dates that are in the store but don't have data in the
+ * database. */
 async function synchronize() {
-	// get all the unique timestamps from the database
-	const dateStrings = (await queryTimestamps({})).map((ts) =>
-		formatToYearMonthDate(new Date(ts.unix)),
+	const dateStrings = (await queryTimestamps({ table: PRICE_ACTION_TABLES.DAILY })).map(
+		(ts) => formatToYearMonthDate(new Date(ts.unix)),
 	);
-	// add each year-month-day to the store
+
 	for (const dateString of dateStrings) {
 		await add(dateString);
 	}
 }
 
-export const flatfilesStore = {
+export const flatFilesDailyAggsStore = {
 	__key: storeKey,
 	list,
 	check,

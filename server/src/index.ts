@@ -1,9 +1,8 @@
 import { tryPingingDatabase } from "@/db/init";
 import scriptCache from "@/db/scripts/script.cache";
 import { NODE__dirname } from "@/lib/build.utility";
-import { createPriceActionWorker } from "@/lib/polygon/flatfiles/queue/worker";
 import { initializeRedisConnection, redisSession } from "@/lib/redis-client";
-import { runAtStartup } from "@/lib/run-at-startup";
+import { runAtStartup, runClusteredTasks } from "@/lib/run-at-startup";
 import { appRouter } from "@/lib/trpc";
 import { createContext } from "@/lib/trpc/trpc-context";
 import * as trpcExpress from "@trpc/server/adapters/express";
@@ -27,11 +26,12 @@ async function start() {
 		await tryPingingDatabase();
 		await scriptCache.synchronize();
 
-		for (const _ of Array(cpuCount / 2).keys()) {
+		for (const _ of Array(cpuCount).keys()) {
 			cluster.fork();
 		}
+		// TODO: consider not running this many express servers in development
 	} else {
-		const _worker = createPriceActionWorker();
+		await runClusteredTasks();
 
 		const app = express();
 

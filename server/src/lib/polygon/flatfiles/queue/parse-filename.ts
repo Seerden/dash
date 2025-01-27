@@ -1,9 +1,10 @@
+import type { YearMonthDayObject } from "types/data.types";
 import { isYearMonthDay, type YearMonthDay } from "types/data.types";
 
-/** Takes a path like
+/** Extracts a `YearMonthDayObject` from a filepath like
  * `[/dash/]flatfiles/daily_aggs_v1/<year>/<month>/<year>-<month>-<day>.csv[.gz]`
- * and returns an object containing { year, month, day }. */
-export function parseDailyAggsFilename(filepath: string) {
+ **/
+export function parseDailyAggsFilename(filepath: string): YearMonthDayObject {
 	const file = filepath.split("/").at(-1);
 	if (!file) {
 		// TODO: put this in an ERRORS constant somewhere

@@ -4,7 +4,7 @@ import type { PriceActionJob } from "@/lib/polygon/flatfiles/queue/price-action-
 import { redisClient } from "@/lib/redis-client";
 import { Worker } from "bullmq";
 
-export function createPriceActionWorker() {
+export function createDailyAggsPriceActionWorker() {
 	const worker = new Worker(
 		QUEUES.DAILY_AGGS_PROCESSING,
 		async (job: PriceActionJob) => dailyAggsProcessingHandler(job),

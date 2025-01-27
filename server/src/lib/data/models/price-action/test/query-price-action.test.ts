@@ -4,6 +4,7 @@ import { mockManyPriceActionRows } from "@/lib/data/models/price-action/mock";
 import {
 	queryPriceActionFlat,
 	queryPriceActionGrouped,
+	queryTimestamps,
 } from "@/lib/data/models/price-action/query-price-action";
 import { priceActionWithUpdatedAtSchema } from "types/price-action.types";
 
@@ -55,6 +56,25 @@ describe("queryPriceAction", () => {
 
 				const parsed = priceActionWithUpdatedAtSchema.safeParse(rows[key].at(0));
 				expect(parsed.success).toBe(true);
+
+				await sql`rollback`;
+			});
+		});
+	});
+
+	describe("queryTimestamps", () => {
+		it("should return a list of timestamps", async () => {
+			await sqlConnection.begin(async (sql) => {
+				await insertPriceAction({
+					sql,
+					priceAction: mockManyPriceActionRows(10).concat(
+						mockManyPriceActionRows(11),
+					),
+				});
+
+				// the first 10 items are entered twice, so we should have 11 unique timestamps.
+				const timestamps = await queryTimestamps({ sql });
+				expect(timestamps.length).toBe(11);
 
 				await sql`rollback`;
 			});

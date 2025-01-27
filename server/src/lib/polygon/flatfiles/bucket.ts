@@ -1,12 +1,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { BUCKET, ENDPOINT, FOLDERS, PREFIX } from "@/lib/polygon/flatfiles/constants";
+import {
+	BUCKET,
+	ENDPOINT,
+	FOLDERS,
+	POLYGON_ACCESS_KEY_ID,
+	POLYGON_FLAT_FILES_URL,
+	POLYGON_SECRET_ACCESS_KEY,
+	PREFIX,
+} from "@/lib/polygon/flatfiles/constants";
 import { ensureFlatFilesFolderExists } from "@/lib/polygon/flatfiles/ensure-folder";
 import { spawn } from "child_process";
 import fs from "fs/promises";
 import _path from "path";
+import type { YearMonthDayObject } from "types/data.types";
 import { fileURLToPath } from "url";
-
-const { POLYGON_SECRET_ACCESS_KEY, POLYGON_ACCESS_KEY_ID } = process.env;
 
 /** Sets the AWS credentials so we can interact with the CLI.
  * @usage run this once on startup.
@@ -40,15 +47,15 @@ export async function setAwsCredentials() {
 	return Promise.all(promises);
 }
 
+type ListS3ObjectsArgs = {
+	folder?: `${FOLDERS}`;
+};
+
+/** Lists all objects in the given folder of the flatfiles bucket. */
 export async function listS3Objects({
 	folder = FOLDERS.DAY_AGGS,
-}: {
-	folder?: `${FOLDERS}`;
-} = {}) {
-	await setAwsCredentials();
-
+}: ListS3ObjectsArgs = {}) {
 	return new Promise((resolve, reject) => {
-		// aws s3 ls s3://flatfiles/us_stocks_sip/minute_aggs_v1/ --endpoint-url https://files.polygon.io --recursive | awk '{print $4}'
 		const awsProcess = spawn(
 			"aws",
 			[
@@ -61,6 +68,8 @@ export async function listS3Objects({
 
 		awsProcess.stdout.on("data", (data) => {
 			const line: string = (data.toString() as string).trim();
+			// for some reason, there are sometimes multiple filenames in the same
+			// line even after trimming, hence the following if-else block.
 			if (line.split("\n").length > 1) {
 				output.push(...line.split("\n"));
 			} else {
@@ -83,10 +92,10 @@ export async function listS3Objects({
 	});
 }
 
+/** DEV function. Gets all the objects from the specified flatfiles s3 folder
+ * and stores them in a .json file (in this directory). */
 export async function storeS3Objects() {
 	const filenames = await listS3Objects();
-	console.log({ filenames });
-	// create a json file in this folder containing the filenames
 	await fs.writeFile(
 		fileURLToPath(new URL("s3objects.json", import.meta.url)),
 		JSON.stringify(
@@ -100,24 +109,15 @@ export async function storeS3Objects() {
 	);
 }
 
-export async function getFile({
-	folder,
-	year,
-	month,
-	day,
-}: {
+type GetFileArgs = {
 	folder: `${FOLDERS}`;
-	year: string;
-	month: string;
-	day: string;
-}) {
-	await setAwsCredentials();
+} & YearMonthDayObject;
 
-	// day_aggs_v1 path
+/** Downloads a single file from the flatfiles bucket and stores it in
+ * `[dash/]/flatfiles/...` */
+export async function getFile({ folder, year, month, day }: GetFileArgs) {
+	// day_aggs_v1 or minute_aggs_v1 path
 	const path = `${folder}/${year}/${month}/${year}-${month}-${day}.csv.gz`;
-	// const filename = "2025-01-02.csv.gz";
-
-	console.log({ path });
 
 	await ensureFlatFilesFolderExists(`${folder}/${year}/${month}`);
 	const outputPath = _path.join("/dash", "flatfiles", folder, `${year}`, `${month}`);
@@ -136,12 +136,14 @@ export async function getFile({
 			{ shell: true },
 		);
 
-		let output = "";
+		// this will be an array of download state strings or something. We don't
+		// need it, but keeping it here doesn't hurt in case we ever want to debug
+		// it.
+		const output: string[] = [""];
 
 		awsProcess.stdout.on("data", (data) => {
 			const string: string = data.toString();
-			// const str = string.replace(/PRE /g, "").replace(/\s/g, "").split("/");
-			output += string;
+			output.push(string);
 		});
 
 		awsProcess.stderr.on("data", (data) => {
@@ -159,6 +161,11 @@ export async function getFile({
 	});
 }
 
+/** Downloads all the files in the specified folder on the flatfiles bucket for
+ * the given year.
+ * @note depending on the Polygon subscription, data for a given year may not be
+ * available. The starter subscription allows going back 5 years from the
+ * current date. */
 export async function getFiles({
 	folder,
 	year,
@@ -168,14 +175,10 @@ export async function getFiles({
 	year: string;
 	month?: string;
 }) {
-	await setAwsCredentials();
-
 	const path = `${folder}/${year}/`;
-
-	console.log({ path });
-
-	await ensureFlatFilesFolderExists(`${folder}/${year}/`);
-	const outputPath = _path.join("/dash", "flatfiles", folder, `${year}`);
+	await ensureFlatFilesFolderExists(path);
+	const BUCKET_PATH = `${BUCKET}/${PREFIX}/${path}`;
+	const OUTPUT_PATH = `/dash/flatfiles/${path}`;
 
 	return new Promise((resolve, reject) => {
 		const awsProcess = spawn(
@@ -184,20 +187,20 @@ export async function getFiles({
 				"s3",
 				"cp",
 				"--recursive",
-				`s3://${BUCKET}/${PREFIX}/${path}`,
-				outputPath,
+				`s3://${BUCKET_PATH}`,
+				OUTPUT_PATH,
 				"--endpoint-url",
-				"https://files.polygon.io",
+				POLYGON_FLAT_FILES_URL!,
 			],
 			{ shell: true },
 		);
 
-		let output = "";
+		// see note with `getFile`, this is the same thing, just for more files.
+		const output: string[] = [];
 
 		awsProcess.stdout.on("data", (data) => {
 			const string: string = data.toString();
-			// const str = string.replace(/PRE /g, "").replace(/\s/g, "").split("/");
-			output += string;
+			output.push(string);
 		});
 
 		awsProcess.stderr.on("data", (data) => {
@@ -209,7 +212,7 @@ export async function getFiles({
 			if (code === 0) {
 				resolve(output); // Resolve with the output
 			} else {
-				reject(`child process exited with code ${code}`);
+				reject(`getFiles errored out with code ${code}`);
 			}
 		});
 	});
