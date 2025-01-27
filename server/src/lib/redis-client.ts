@@ -4,7 +4,10 @@ import Redis from "ioredis";
 
 // NOTE: `store` is the name of our redis service in docker-compose, and 6379 is
 // the default port, which we haven't changed.
-export const redisClient = new Redis("redis://store:6379");
+export const redisClient = new Redis("redis://store:6379", {
+	maxRetriesPerRequest: null,
+	enableReadyCheck: false,
+});
 
 export const sessionCookieName = "rack-session";
 
