@@ -20,6 +20,9 @@ import { Route as RegisterImport } from './routes/register'
 
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const PriceActionDailyRecapLazyImport = createFileRoute(
+  '/price-action/daily-recap',
+)()
 
 // Create/Update Routes
 
@@ -46,6 +49,14 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const PriceActionDailyRecapLazyRoute = PriceActionDailyRecapLazyImport.update({
+  id: '/price-action/daily-recap',
+  path: '/price-action/daily-recap',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/price-action/daily-recap.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -79,6 +90,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/price-action/daily-recap': {
+      id: '/price-action/daily-recap'
+      path: '/price-action/daily-recap'
+      fullPath: '/price-action/daily-recap'
+      preLoaderRoute: typeof PriceActionDailyRecapLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -89,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/verify-me': typeof VerifyMeRoute
   '/about': typeof AboutLazyRoute
+  '/price-action/daily-recap': typeof PriceActionDailyRecapLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -96,6 +115,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/verify-me': typeof VerifyMeRoute
   '/about': typeof AboutLazyRoute
+  '/price-action/daily-recap': typeof PriceActionDailyRecapLazyRoute
 }
 
 export interface FileRoutesById {
@@ -104,14 +124,26 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/verify-me': typeof VerifyMeRoute
   '/about': typeof AboutLazyRoute
+  '/price-action/daily-recap': typeof PriceActionDailyRecapLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/register' | '/verify-me' | '/about'
+  fullPaths:
+    | '/'
+    | '/register'
+    | '/verify-me'
+    | '/about'
+    | '/price-action/daily-recap'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/register' | '/verify-me' | '/about'
-  id: '__root__' | '/' | '/register' | '/verify-me' | '/about'
+  to: '/' | '/register' | '/verify-me' | '/about' | '/price-action/daily-recap'
+  id:
+    | '__root__'
+    | '/'
+    | '/register'
+    | '/verify-me'
+    | '/about'
+    | '/price-action/daily-recap'
   fileRoutesById: FileRoutesById
 }
 
@@ -120,6 +152,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   VerifyMeRoute: typeof VerifyMeRoute
   AboutLazyRoute: typeof AboutLazyRoute
+  PriceActionDailyRecapLazyRoute: typeof PriceActionDailyRecapLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -127,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   VerifyMeRoute: VerifyMeRoute,
   AboutLazyRoute: AboutLazyRoute,
+  PriceActionDailyRecapLazyRoute: PriceActionDailyRecapLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -142,7 +176,8 @@ export const routeTree = rootRoute
         "/",
         "/register",
         "/verify-me",
-        "/about"
+        "/about",
+        "/price-action/daily-recap"
       ]
     },
     "/": {
@@ -156,6 +191,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.lazy.tsx"
+    },
+    "/price-action/daily-recap": {
+      "filePath": "price-action/daily-recap.lazy.tsx"
     }
   }
 }

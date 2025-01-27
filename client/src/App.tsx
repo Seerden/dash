@@ -43,6 +43,9 @@ export default function App() {
 						</Link>{" "}
 						<Link to="/register" className="[&.active]:font-bold">
 							Register
+						</Link>{" "}
+						<Link to="/price-action/daily-recap" className="[&.active]:font-bold">
+							Daily Recap
 						</Link>
 					</div>
 					<hr />
