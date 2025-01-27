@@ -2,8 +2,8 @@ import { sqlConnection } from "@/db/init";
 import { insertPriceAction } from "@/lib/data/models/price-action/insert-price-action";
 import { parseGroupedDailyToPriceAction } from "@/lib/data/models/price-action/parse-polygon";
 import { fetchGroupedDaily } from "@/lib/polygon/endpoints/grouped-daily";
+import type { PriceAction } from "@shared/types/price-action.types";
 import type { YearMonthDay } from "types/data.types";
-import type { PriceAction } from "types/price-action.types";
 import type { QueryFunction } from "types/utility.types";
 import { fileURLToPath } from "url";
 

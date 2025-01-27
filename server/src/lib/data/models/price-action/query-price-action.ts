@@ -3,16 +3,18 @@ import {
 	sqlTickerFilter,
 	sqlTimestampFilter,
 } from "@/lib/data/models/price-action/filter";
-import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
-import type { Datelike } from "@shared/types/utility.types";
-import type { Ticker } from "types/data.types";
+import type { PriceActionWithUpdatedAt } from "@shared/types/price-action.types";
 import {
 	priceActionWithUpdatedAtSchema,
 	type PriceAction,
-} from "types/price-action.types";
+} from "@shared/types/price-action.types";
+import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
+import type { Datelike, Nullable } from "@shared/types/utility.types";
+import type { Ticker } from "types/data.types";
 import type { QueryFunction } from "types/utility.types";
 
-type QueryPriceActionFlatArgs = {
+// TODO: instead of using this type, infer it from the zod validator
+export type QueryPriceActionFlatArgs = {
 	limit?: number;
 	tickers?: Ticker[];
 	minVolume?: number;
@@ -22,15 +24,18 @@ type QueryPriceActionFlatArgs = {
 	to?: Datelike; // TODO: refine this type
 };
 
-type QueryPriceActionGroupedArgs = QueryPriceActionFlatArgs & {
+// TODO: same as above, infer this from zod validator
+export type QueryPriceActionGroupedArgs = QueryPriceActionFlatArgs & {
 	groupBy: "ticker" | "timestamp"; // TODO: refine this type
 };
 
 /** Queries price action rows from the database using the given constraints.
- * Does not group or parse the data in any way. */
+ * Does not group or parse the data in any way.
+ * @todo make sure from cannot be after to? (same goes for next function, and
+ * also the typing, also for the resolver) */
 export const queryPriceActionFlat: QueryFunction<
 	QueryPriceActionFlatArgs,
-	PriceAction[]
+	PriceActionWithUpdatedAt[]
 > = async ({
 	sql = sqlConnection,
 	limit = 1e4, // 10_000 row limit by default to prevent accidentally fetching 100 million rows. 😀
@@ -45,7 +50,8 @@ export const queryPriceActionFlat: QueryFunction<
       WHERE volume >= ${minVolume}
       ${sqlTickerFilter({ sql, tickers })}
       ${sqlTimestampFilter({ sql, from, to })}
-      LIMIT ${limit};
+      ORDER BY ticker asc
+      LIMIT ${limit}
    `;
 	return rows.map((row) => priceActionWithUpdatedAtSchema.parse(row));
 };
@@ -55,7 +61,7 @@ export const queryPriceActionFlat: QueryFunction<
  * unix ms values. */
 export const queryPriceActionGrouped: QueryFunction<
 	QueryPriceActionGroupedArgs,
-	Record<string, PriceAction[]>
+	Nullable<Record<string, PriceActionWithUpdatedAt[]>>
 > = async ({
 	sql = sqlConnection,
 	limit = 1e4, // 10_000 row limit by default to prevent accidentally fetching 100 million rows. 😀

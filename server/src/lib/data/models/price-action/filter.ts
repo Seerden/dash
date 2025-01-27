@@ -6,7 +6,7 @@ import type { SQL } from "types/utility.types";
 /** Ticker filter for price action queries.
  * @note do not put this as the first condition, since it returns "AND ...". */
 export function sqlTickerFilter({ sql, tickers }: { sql: SQL; tickers: Ticker[] }) {
-	return tickers.length > 0 ? sql`and ticker = ANY(${sql(tickers)})` : sql``;
+	return tickers.length > 0 ? sql`and ticker = ANY(${sql.array(tickers)})` : sql``;
 }
 
 type TimestampFilterArgs = {
