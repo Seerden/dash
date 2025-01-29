@@ -1,7 +1,7 @@
 import type { fetchAggregate } from "@/lib/polygon/endpoints/aggregate";
 import type { fetchGroupedDaily } from "@/lib/polygon/endpoints/grouped-daily";
 import type { OHLCV } from "@/lib/polygon/polygon.types";
-import type { PriceAction } from "types/price-action.types";
+import type { PriceAction } from "@shared/types/price-action.types";
 import { typedObjectEntries } from "types/utility.types";
 
 type Aggregate = Awaited<ReturnType<typeof fetchAggregate>>;

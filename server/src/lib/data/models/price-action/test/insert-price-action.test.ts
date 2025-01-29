@@ -1,7 +1,7 @@
 import { sqlConnection } from "@/db/init";
 import { insertPriceAction } from "@/lib/data/models/price-action/insert-price-action";
 import { mockManyPriceActionRows } from "@/lib/data/models/price-action/mock";
-import { priceActionWithUpdatedAtSchema } from "types/price-action.types";
+import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 
 describe("insertPriceAction", () => {
 	it("should insert a single row", async () => {
