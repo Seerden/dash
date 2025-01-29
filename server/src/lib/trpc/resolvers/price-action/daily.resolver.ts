@@ -10,9 +10,8 @@ import {
 } from "types/price-action.types";
 import { z } from "zod";
 
-/*
-   If we want to refine the typing to make "from", "to", or "both" required, we can
-   use something like this:
+/* If we want to refine the typing to make "from", "to", or "both" required, we can
+   use a pattern like this:
       const schema = z.object({
       email: z.string().optional(),
       username: z.string().optional(),
@@ -25,9 +24,7 @@ import { z } from "zod";
       ], {errorMap: (issue, ctx) => ({message: "Either email or username must be
       filled in"})}));
       which I found in this discussion:
-      https://github.com/colinhacks/zod/issues/61#issuecomment-1534255967 
-
-*/
+      https://github.com/colinhacks/zod/issues/61#issuecomment-1534255967 */
 
 export const flatDailyPriceActionResolver = publicProcedure
 	.input(flatPriceActionQuerySchema)
