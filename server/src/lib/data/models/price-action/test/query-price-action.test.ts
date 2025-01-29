@@ -53,9 +53,11 @@ describe("queryPriceAction", () => {
 					groupBy: groupBy as "ticker" | "timestamp",
 				});
 
-				expect(Object.keys(rows!)).toContain(key);
+				expect(Array.from(rows!.keys())).toContain(key);
 
-				const parsed = priceActionWithUpdatedAtSchema.safeParse(rows![key].at(0));
+				const parsed = priceActionWithUpdatedAtSchema.safeParse(
+					rows!.get(key)!.at(0),
+				);
 				expect(parsed.success).toBe(true);
 
 				await sql`rollback`;

@@ -1,13 +1,13 @@
 import { formatToYearMonthDay } from "@/lib/datetime/timestamp";
 import { proxyClient } from "@/lib/trpc";
-import {
-	flatPriceActionQuerySchema,
-	groupedPriceActionQuerySchema,
-	type FlatPriceActionQuery,
-} from "@/lib/trpc/resolvers/price-action/daily.resolver";
 import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import dayjs from "dayjs";
+import type { FlatPriceActionQuery } from "types/price-action.types";
+import {
+	flatPriceActionQuerySchema,
+	groupedPriceActionQuerySchema,
+} from "types/price-action.types";
 
 describe("flatDailyPriceActionResolver", () => {
 	it("should make a query with the proper limit", async () => {
@@ -82,7 +82,7 @@ describe("groupedDailyPriceActionResolver", () => {
 		const output = await proxyClient.priceAction.daily.grouped.query(input);
 		expect(output).toBeDefined();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		expect(Object.keys(output!).length).toBe(10);
+		expect(output?.size).toBe(10);
 	});
 	it("should make a query with the proper tickers", async () => {
 		const input = {
@@ -96,10 +96,10 @@ describe("groupedDailyPriceActionResolver", () => {
 		};
 		const output = await proxyClient.priceAction.daily.grouped.query(input);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		expect(Object.keys(output!).length).toBe(2);
+		expect(output?.size).toBe(2);
 	});
 
-	it("should return empty object when querying the future", async () => {
+	it("should return null when querying the future", async () => {
 		const input = {
 			limit: 10,
 			tickers: ["MSFT", "NVDA"],
@@ -110,7 +110,7 @@ describe("groupedDailyPriceActionResolver", () => {
 			groupBy: "ticker" as const,
 		};
 		const output = await proxyClient.priceAction.daily.grouped.query(input);
-		expect(output).toBe(null);
+		expect(output).toBeNull();
 	});
 
 	it("should not filter out groupBy from input object", async () => {
@@ -143,11 +143,11 @@ describe("groupedDailyPriceActionResolver", () => {
 		const output = await proxyClient.priceAction.daily.grouped.query(input);
 		console.log({ output });
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		expect(Object.keys(output!).length).toBe(1);
+		expect(output?.size).toBe(1);
 
 		input.to = formatToYearMonthDay(dayjs("2025-01-21").add(2, "day").toDate());
 		const output2 = await proxyClient.priceAction.daily.grouped.query(input);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		expect(Object.keys(output2!).length).toBe(2);
+		expect(output2?.size).toBe(2);
 	});
 });

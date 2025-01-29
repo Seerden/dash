@@ -4,8 +4,10 @@ import {
 } from "@/lib/data/models/price-action/query-price-action";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
-import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
-import { datelike } from "@shared/types/zod.utility.types";
+import {
+	flatPriceActionQuerySchema,
+	groupedPriceActionQuerySchema,
+} from "types/price-action.types";
 import { z } from "zod";
 
 /*
@@ -27,24 +29,6 @@ import { z } from "zod";
 
 */
 
-/** Validator that matches QueryPriceActionFlatArgs | QueryPriceActionGroupedArgs
- * The difference being that "from" and "to" are both required. I might change
- * my mind on this. */
-export const flatPriceActionQuerySchema = z.object({
-	limit: z.number().optional().default(1e4),
-	tickers: z.array(z.string()).optional(),
-	minVolume: z.number().optional().default(0),
-	table: z.nativeEnum(PRICE_ACTION_TABLES),
-	from: datelike,
-	to: datelike,
-});
-export type FlatPriceActionQuery = z.infer<typeof flatPriceActionQuerySchema>;
-
-export const groupedPriceActionQuerySchema = flatPriceActionQuerySchema.extend({
-	groupBy: z.union([z.literal("ticker"), z.literal("timestamp")]),
-});
-export type GroupedPriceActionQuery = z.infer<typeof groupedPriceActionQuerySchema>;
-
 export const flatDailyPriceActionResolver = publicProcedure
 	.input(flatPriceActionQuerySchema)
 	.output(z.array(priceActionWithUpdatedAtSchema))
@@ -56,7 +40,7 @@ export const flatDailyPriceActionResolver = publicProcedure
 
 export const groupedDailyPriceActionResolver = publicProcedure
 	.input(groupedPriceActionQuerySchema)
-	.output(z.record(z.string(), z.array(priceActionWithUpdatedAtSchema)).nullable())
+	.output(z.map(z.string(), z.array(priceActionWithUpdatedAtSchema)).nullable())
 	.query(async (opts) => {
 		return await queryPriceActionGrouped({
 			...opts.input,

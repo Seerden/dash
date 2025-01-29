@@ -1,5 +1,6 @@
 import { toTimestamp } from "@/lib/datetime/timestamp";
 import type { Datelike } from "@shared/types/utility.types";
+import dayjs from "dayjs";
 import type { Ticker } from "types/data.types";
 import type { SQL } from "types/utility.types";
 
@@ -21,6 +22,10 @@ export function sqlTimestampFilter({ sql, from, to }: TimestampFilterArgs) {
 
 	const _from = toTimestamp(from ?? 0);
 	const _to = toTimestamp(to ?? Date.now());
+
+	if (dayjs(_to).isBefore(dayjs(_from))) {
+		throw new Error("to cannot be before from");
+	}
 
 	// TODO: ensure that `to` is after `from`
 
