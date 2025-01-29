@@ -1,4 +1,4 @@
-import type { PriceAction } from "types/price-action.types";
+import type { PriceAction } from "@shared/types/price-action.types";
 
 function mockPriceAction(index: number): PriceAction {
 	return {

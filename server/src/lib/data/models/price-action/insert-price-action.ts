@@ -1,10 +1,10 @@
 import { sqlConnection } from "@/db/init";
+import type {
+	PriceAction,
+	PriceActionWithUpdatedAt,
+} from "@shared/types/price-action.types";
+import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
-import {
-	priceActionWithUpdatedAtSchema,
-	type PriceAction,
-	type PriceActionWithUpdatedAt,
-} from "types/price-action.types";
 import { type QueryFunction } from "types/utility.types";
 
 /** Insert a number of price action entries into the database.

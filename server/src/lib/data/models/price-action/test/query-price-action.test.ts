@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { sqlConnection } from "@/db/init";
 import { insertPriceAction } from "@/lib/data/models/price-action/insert-price-action";
 import { mockManyPriceActionRows } from "@/lib/data/models/price-action/mock";
@@ -6,7 +7,7 @@ import {
 	queryPriceActionGrouped,
 	queryTimestamps,
 } from "@/lib/data/models/price-action/query-price-action";
-import { priceActionWithUpdatedAtSchema } from "types/price-action.types";
+import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 
 describe("queryPriceAction", () => {
 	describe("flat", () => {
@@ -52,9 +53,11 @@ describe("queryPriceAction", () => {
 					groupBy: groupBy as "ticker" | "timestamp",
 				});
 
-				expect(Object.keys(rows)).toContain(key);
+				expect(Array.from(rows!.keys())).toContain(key);
 
-				const parsed = priceActionWithUpdatedAtSchema.safeParse(rows[key].at(0));
+				const parsed = priceActionWithUpdatedAtSchema.safeParse(
+					rows!.get(key)!.at(0),
+				);
 				expect(parsed.success).toBe(true);
 
 				await sql`rollback`;

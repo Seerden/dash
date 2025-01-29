@@ -3,8 +3,8 @@ import {
 	fetchParseAndInsertGroupedDaily,
 	removeParsedDataFile,
 } from "@/lib/data/models/price-action/parse-and-insert-price-action";
+import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 import fs from "fs/promises";
-import { priceActionWithUpdatedAtSchema } from "types/price-action.types";
 
 describe("parseAndInsertPriceAction", () => {
 	it("should parse and insert price action", async () => {

@@ -3,34 +3,24 @@ import {
 	sqlTickerFilter,
 	sqlTimestampFilter,
 } from "@/lib/data/models/price-action/filter";
-import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
-import type { Datelike } from "@shared/types/utility.types";
-import type { Ticker } from "types/data.types";
+import type { PriceActionWithUpdatedAt } from "@shared/types/price-action.types";
 import {
 	priceActionWithUpdatedAtSchema,
 	type PriceAction,
+} from "@shared/types/price-action.types";
+import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
+import type { Nullable } from "@shared/types/utility.types";
+import type {
+	FlatPriceActionQuery,
+	GroupedPriceActionQuery,
 } from "types/price-action.types";
 import type { QueryFunction } from "types/utility.types";
-
-type QueryPriceActionFlatArgs = {
-	limit?: number;
-	tickers?: Ticker[];
-	minVolume?: number;
-	table?: `${PRICE_ACTION_TABLES}`;
-	// everything below is not yet implemented
-	from?: Datelike; // TODO: refine this type
-	to?: Datelike; // TODO: refine this type
-};
-
-type QueryPriceActionGroupedArgs = QueryPriceActionFlatArgs & {
-	groupBy: "ticker" | "timestamp"; // TODO: refine this type
-};
 
 /** Queries price action rows from the database using the given constraints.
  * Does not group or parse the data in any way. */
 export const queryPriceActionFlat: QueryFunction<
-	QueryPriceActionFlatArgs,
-	PriceAction[]
+	FlatPriceActionQuery,
+	PriceActionWithUpdatedAt[]
 > = async ({
 	sql = sqlConnection,
 	limit = 1e4, // 10_000 row limit by default to prevent accidentally fetching 100 million rows. 😀
@@ -45,17 +35,20 @@ export const queryPriceActionFlat: QueryFunction<
       WHERE volume >= ${minVolume}
       ${sqlTickerFilter({ sql, tickers })}
       ${sqlTimestampFilter({ sql, from, to })}
-      LIMIT ${limit};
+      ORDER BY ticker asc
+      LIMIT ${limit}
    `;
 	return rows.map((row) => priceActionWithUpdatedAtSchema.parse(row));
 };
+
+type QueryResult = [{ price_action: Record<string, PriceActionWithUpdatedAt[]> }?];
 
 /** Query price action rows and group them by `timestamp` or `ticker`.
  * When grouping by timestamps, the returned keys (timestamps) will be integer
  * unix ms values. */
 export const queryPriceActionGrouped: QueryFunction<
-	QueryPriceActionGroupedArgs,
-	Record<string, PriceAction[]>
+	GroupedPriceActionQuery,
+	Nullable<Map<string, PriceActionWithUpdatedAt[]>>
 > = async ({
 	sql = sqlConnection,
 	limit = 1e4, // 10_000 row limit by default to prevent accidentally fetching 100 million rows. 😀
@@ -67,8 +60,8 @@ export const queryPriceActionGrouped: QueryFunction<
 	groupBy,
 }) => {
 	// query price_action_1d, and use json agg or something to group the rows by ticker
-	const [result] = await sql<[{ price_action: Record<string, PriceAction[]> }]>`
-      SELECT jsonb_object_agg(${sql(groupBy)}, price_actions) as price_action
+	const [result] =
+		await sql<QueryResult>`SELECT jsonb_object_agg(${sql(groupBy)}, price_actions) as price_action
       FROM (
          SELECT 
             ${
@@ -87,14 +80,22 @@ export const queryPriceActionGrouped: QueryFunction<
       ) AS subquery;
    `;
 
-	if (groupBy === "timestamp") {
-		return Object.entries(result.price_action).reduce((acc, [key, value]) => {
-			const mappedTimestamp = Number(key).toFixed(0);
-			return { ...acc, [mappedTimestamp]: value };
-		}, {});
+	if (!result?.price_action) {
+		return null;
 	}
 
-	return result.price_action;
+	if (groupBy === "timestamp") {
+		const hashObject = Object.entries(result.price_action).reduce(
+			(acc, [key, value]) => {
+				const mappedTimestamp = Number(key).toFixed(0);
+				return { ...acc, [mappedTimestamp]: value };
+			},
+			{},
+		);
+		return new Map(Object.entries(hashObject));
+	}
+
+	return new Map(Object.entries(result.price_action));
 };
 
 /** Queries the unique timestamps (as unix milliseconds) from a price action table. */
