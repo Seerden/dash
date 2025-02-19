@@ -377,6 +377,7 @@ __metadata:
   resolution: "@dash/client@workspace:client"
   dependencies:
     "@chromatic-com/storybook": "npm:^3.2.2"
+    "@emotion/babel-plugin": "npm:11.13.5"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
     "@floating-ui/react": "npm:0.26.28"
@@ -508,7 +509,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@emotion/babel-plugin@npm:^11.13.5":
+"@emotion/babel-plugin@npm:11.13.5, @emotion/babel-plugin@npm:^11.13.5":
   version: 11.13.5
   resolution: "@emotion/babel-plugin@npm:11.13.5"
   dependencies:
