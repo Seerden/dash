@@ -1,4 +1,4 @@
-import { pad } from "@/lib/style/spacing";
+import { gap, pad } from "@/lib/style/spacing";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -22,7 +22,7 @@ const TableRow = styled.div`
 	${subgridColumn};
 
 	padding: 0rem 1rem;
-	gap: 1rem;
+	${gap.large};
 `;
 
 const Cell = styled.div``;

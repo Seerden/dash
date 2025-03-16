@@ -13,12 +13,12 @@ type SpacingSize = 0.2 | 0.3 | 0.5 | 1 | 2 | 3;
  * spacings. */
 type SpacingRatio = 1 | 2 | 3 | 5 | 8;
 
-const spacing: Record<SpacingKey, `${SpacingSize}rem`> = {
-	smaller: "0.3rem",
-	small: "0.5rem",
-	large: "1rem",
-	larger: "2rem"
-} as const;
+const spacing = {
+	smaller: "0.3rem" as const,
+	small: "0.5rem" as const,
+	large: "1rem" as const,
+	larger: "2rem" as const
+} satisfies Record<SpacingKey, `${SpacingSize}rem`>;
 
 function wide(rule: SpacingRule) {
 	return (size: SpacingSize, ratio: SpacingRatio) => css`
