@@ -24,11 +24,7 @@ export function yearMonthDayToString({
 	year,
 	month,
 	day,
-}: {
-	year: string;
-	month: string;
-	day: string;
-}): YearMonthDay {
+}: YearMonthDayObject): YearMonthDay {
 	const yearMonthDay = `${year}-${month}-${day}`;
 
 	if (!isYearMonthDay(yearMonthDay)) {
