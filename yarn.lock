@@ -463,7 +463,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:8.19.1"
     argon2: "npm:0.41.1"
     bcryptjs: "npm:^2.4.3"
-    bullmq: "npm:5.37.0"
+    bullmq: "npm:5.45.1"
     connect-redis: "npm:^7.1.1"
     cors: "npm:^2.8.5"
     csv-parse: "npm:5.6.0"
@@ -4224,9 +4224,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bullmq@npm:5.37.0":
-  version: 5.37.0
-  resolution: "bullmq@npm:5.37.0"
+"bullmq@npm:5.45.1":
+  version: 5.45.1
+  resolution: "bullmq@npm:5.45.1"
   dependencies:
     cron-parser: "npm:^4.9.0"
     ioredis: "npm:^5.4.1"
@@ -4235,7 +4235,7 @@ __metadata:
     semver: "npm:^7.5.4"
     tslib: "npm:^2.0.0"
     uuid: "npm:^9.0.0"
-  checksum: 10c0/9282826c8fa92dd6b0a21ef2c9f70888b3c02f787155c72d9b724dc79c6945a8efd60ba597ebf46fce003f35c78a9530f0e5790752d454f0a999dcb257ffe399
+  checksum: 10c0/1c35e02e57c4acad56f89ad19a954d9cbd3e72ba3380201a53c8c61c37f275e186cc08766aec161d07c82ce8456b2c7fae895405f7e6b175c9581e03577567ce
   languageName: node
   linkType: hard
 
