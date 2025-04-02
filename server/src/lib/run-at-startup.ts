@@ -10,10 +10,7 @@ export async function runAtStartup() {
 	await dev();
 }
 
-async function dev() {
-	// const objects = await listS3Objects();
-	// console.log({ objects });
-}
+async function dev() {}
 
 export async function runClusteredTasks() {
 	// const _worker = createDailyAggsPriceActionWorker();

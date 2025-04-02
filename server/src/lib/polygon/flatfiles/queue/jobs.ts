@@ -26,7 +26,7 @@ export async function bulkAddDailyAggsJobs(jobs: PriceActionJobOptions[]) {
 			opts: defaultBulkJobOptions,
 		}));
 
-	return await dailyAggsQueue.addBulk(jobOptions);
+	await dailyAggsQueue.__queue.addBulk(jobOptions);
 }
 
 /** Create jobs for all unprocessed files in `[/dash]/flatfiles/day_aggs_v1/` */

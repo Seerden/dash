@@ -1,7 +1,8 @@
 import { flatFilesDailyAggsStore } from "@/lib/polygon/flatfiles/daily-aggs.store";
-import { insertDailyAggsFromCsv } from "@/lib/polygon/flatfiles/insert-from-csv";
+import { insertAggsFromCsv } from "@/lib/polygon/flatfiles/insert-from-csv";
 import { parseDailyAggsJobFilenameToCsvFilename } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import type { PriceActionJobOptions } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
+import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import type { Job } from "bullmq";
 
 /** This handler is passed to the daily_aggs worker(s). It inserts the data
@@ -15,8 +16,9 @@ export async function dailyAggsProcessingHandler(job: Job<PriceActionJobOptions>
 
 		console.log(`file ${job.data.filename} being processed by job ${job.id}`);
 
-		await insertDailyAggsFromCsv({
+		await insertAggsFromCsv({
 			filename: parseDailyAggsJobFilenameToCsvFilename(job.data.filename),
+			targetTable: PRICE_ACTION_TABLES.DAILY,
 		});
 
 		await flatFilesDailyAggsStore.add(job.data.filename);

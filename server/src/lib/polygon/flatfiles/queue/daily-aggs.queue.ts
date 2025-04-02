@@ -8,6 +8,7 @@ import { Queue } from "bullmq";
 
 const dailyAggsProcessingQueue = new Queue(QUEUES.DAILY_AGGS_PROCESSING, {
 	connection: redisClient,
+	telemetry: undefined,
 });
 
 async function getJobCounts() {
@@ -59,5 +60,6 @@ export const dailyAggsQueue = {
 	getFailedJobs,
 	getJob,
 	requeueFailedJobs,
+	add: dailyAggsProcessingQueue.add,
 	addBulk: dailyAggsProcessingQueue.addBulk,
 };

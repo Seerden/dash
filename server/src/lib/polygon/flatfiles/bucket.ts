@@ -173,6 +173,7 @@ export async function getFiles({
 }: {
 	folder: `${FOLDERS}`;
 	year: string;
+	/** @deprecated doesn't do anything, I get the whole year at once */
 	month?: string;
 }) {
 	const path = `${folder}/${year}/`;
