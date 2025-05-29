@@ -1,6 +1,6 @@
 import { QUEUES } from "@/lib/polygon/flatfiles/queue/constants";
+import type { PriceActionJob } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
 import { redisClient } from "@/lib/redis-client";
-import type { Job } from "bullmq";
 import { Queue, Worker } from "bullmq";
 
 /** In contrast to how I handled the daily aggregation, I'm keeping all the
@@ -21,13 +21,10 @@ const getJobs = {
 	one: async (jobId: string) => await queue.getJob(jobId),
 };
 
-// TODO: actually type this. I guess we can use PriceActionJobOptions though
-type JobOptions = Job<object>;
-
 /** Go over all failed jobs. Remove that have been processed in the meantime and
  * requeue those that haven't. */
 async function requeueFailedJobs() {
-	const failedJobs: JobOptions[] = [];
+	const failedJobs: PriceActionJob[] = [];
 
 	for (const job of failedJobs) {
 		const isAlreadyProcessed = false; // TODO: check if these options are already processed
@@ -44,7 +41,7 @@ async function requeueFailedJobs() {
 /** Worker for `flatfiles` minute aggregation processing. */
 const worker = new Worker(
 	queue.name,
-	async (opts: JobOptions) => {
+	async (opts: PriceActionJob) => {
 		// do the thing
 	},
 	{
