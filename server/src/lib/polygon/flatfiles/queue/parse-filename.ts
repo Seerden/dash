@@ -1,3 +1,4 @@
+import type { FOLDERS } from "@/lib/polygon/flatfiles/constants";
 import type { YearMonthDayObject } from "types/data.types";
 import { isYearMonthDay, type YearMonthDay } from "types/data.types";
 
@@ -36,8 +37,17 @@ export function yearMonthDayToString({
 	return yearMonthDay;
 }
 
-/** Helper that parses YYYY-MM-DD to a filename that can be passed to `insertFromCsv`. */
-export function parseDailyAggsJobFilenameToCsvFilename(filename: YearMonthDay) {
+/** Helper that parses YYYY-MM-DD to a filename that can be passed to `insertAggsFromCsv`.
+ * @note this works for both daily and minute aggs */
+export function parseAggsJobFilenameToCsvFilename({
+	filename,
+	folder,
+}: {
+	filename: YearMonthDay;
+	folder: `${FOLDERS}`;
+}) {
 	const [year, month, _day] = filename.split("-");
-	return `day_aggs_v1/${year}/${month}/${filename}.csv.gz`;
+	// TODO: extract first part (folder name) to a variable so we can use minute
+	// aggs, too
+	return `${folder}/${year}/${month}/${filename}.csv.gz`;
 }
