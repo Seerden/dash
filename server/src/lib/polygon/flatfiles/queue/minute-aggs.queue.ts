@@ -1,4 +1,6 @@
+import { flatFilesMinuteAggsStore } from "@/lib/polygon/flatfiles/minute-aggs.store";
 import { QUEUES } from "@/lib/polygon/flatfiles/queue/constants";
+import { minuteAggsProcessingHandler } from "@/lib/polygon/flatfiles/queue/handler";
 import type { PriceActionJob } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
 import { redisClient } from "@/lib/redis-client";
 import { Queue, Worker } from "bullmq";
@@ -27,7 +29,9 @@ async function requeueFailedJobs() {
 	const failedJobs: PriceActionJob[] = [];
 
 	for (const job of failedJobs) {
-		const isAlreadyProcessed = false; // TODO: check if these options are already processed
+		const isAlreadyProcessed = !!(await flatFilesMinuteAggsStore.check(
+			job.data.filename,
+		));
 
 		if (isAlreadyProcessed) {
 			// do something?
@@ -47,8 +51,8 @@ async function requeueFailedJobs() {
  */
 const worker = new Worker(
 	queue.name,
-	async (opts: PriceActionJob) => {
-		// TODO: minute aggs version of dailyAggsProccesingHandler
+	async (jobOpts: PriceActionJob) => {
+		await minuteAggsProcessingHandler(jobOpts);
 	},
 	{
 		connection: redisClient,
