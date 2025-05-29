@@ -38,7 +38,13 @@ async function requeueFailedJobs() {
 	}
 }
 
-/** Worker for `flatfiles` minute aggregation processing. */
+/** Worker for `flatfiles` minute aggregation processing.
+ * @note the difference between this and the daily aggs worker is that this one
+ * does not autorun.
+ * @note Each node process can run a single worker, so to run multiple ones, run
+ * it inside a child process (e.g. through runClusteredTasks, which is called in
+ * `index.ts`).
+ */
 const worker = new Worker(
 	queue.name,
 	async (opts: PriceActionJob) => {
@@ -47,5 +53,18 @@ const worker = new Worker(
 	{
 		connection: redisClient,
 		concurrency: 30,
+		autorun: false,
 	},
 );
+
+/** Interact with the minute aggs queue through this object.
+ * @TODO do we need more functions in here?
+ */
+export const minuteAggsQueue = {
+	__queue: queue,
+	getJobs,
+	requeueFailedJobs,
+	startWorker: async () => {
+		return await worker.run();
+	},
+};

@@ -4,6 +4,8 @@ import type { PriceActionJob } from "@/lib/polygon/flatfiles/queue/price-action-
 import { redisClient } from "@/lib/redis-client";
 import { Worker } from "bullmq";
 
+/** Worker for daily aggs. Note that this autoruns, so calling the function
+ * automatically invokes the worker. */
 export function createDailyAggsPriceActionWorker() {
 	const worker = new Worker(
 		dailyAggsQueue.__queue.name,
