@@ -173,10 +173,14 @@ export async function getFiles({
 }: {
 	folder: `${FOLDERS}`;
 	year: string;
-	/** @deprecated doesn't do anything, I get the whole year at once */
+	/** Get only a single month (expects e.g. `01`, not `1`) */
 	month?: string;
 }) {
-	const path = `${folder}/${year}/`;
+	let path = `${folder}/${year}/`;
+
+	if (month) {
+		path = path.concat(`/${month}`);
+	}
 	await ensureFlatFilesFolderExists(path);
 	const BUCKET_PATH = `${BUCKET}/${PREFIX}/${path}`;
 	const OUTPUT_PATH = `/dash/flatfiles/${path}`;
