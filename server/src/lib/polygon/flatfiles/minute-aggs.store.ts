@@ -66,7 +66,7 @@ async function synchronize() {
 	}
 }
 
-export const flatFilesDailyAggsStore = {
+export const flatFilesMinuteAggsStore = {
 	__key: storeKey,
 	list,
 	check,
