@@ -42,7 +42,7 @@ async function requeueFailedJobs() {
 const worker = new Worker(
 	queue.name,
 	async (opts: PriceActionJob) => {
-		// do the thing
+		// TODO: minute aggs version of dailyAggsProccesingHandler
 	},
 	{
 		connection: redisClient,
