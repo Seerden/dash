@@ -1,7 +1,14 @@
 import { flatFilesMinuteAggsStore } from "@/lib/polygon/flatfiles/minute-aggs.store";
-import { QUEUES } from "@/lib/polygon/flatfiles/queue/constants";
+import {
+	defaultBulkJobOptions,
+	JOB_NAMES,
+	QUEUES,
+} from "@/lib/polygon/flatfiles/queue/constants";
 import { minuteAggsProcessingHandler } from "@/lib/polygon/flatfiles/queue/handler";
-import type { PriceActionJob } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
+import type {
+	PriceActionJob,
+	PriceActionJobOptions,
+} from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
 import { redisClient } from "@/lib/redis-client";
 import { Queue, Worker } from "bullmq";
 
@@ -22,6 +29,29 @@ const getJobs = {
 	all: async () => await queue.getJobs(),
 	one: async (jobId: string) => await queue.getJob(jobId),
 };
+
+/** TODO: wip helper to check out job creation */
+async function DEV_addBulk(jobs: PriceActionJobOptions[]) {
+	const jobOpts = jobs.map((j) => ({
+		data: j,
+		name: JOB_NAMES.MINUTE_AGGS,
+		opts: defaultBulkJobOptions,
+	}));
+
+	return await queue.addBulk(jobOpts);
+}
+
+export async function DEV_addTestMinuteAggsJob() {
+	const jobs: PriceActionJobOptions[] = [
+		{
+			// TODO: the handler (csv insert thing) doesn't check if the filename
+			// actually exists, so if this data wasn't fetched/downloaded, it will fail
+			filename: "2025-05-22",
+		},
+	];
+
+	return await DEV_addBulk(jobs);
+}
 
 /** Go over all failed jobs. Remove that have been processed in the meantime and
  * requeue those that haven't. */
