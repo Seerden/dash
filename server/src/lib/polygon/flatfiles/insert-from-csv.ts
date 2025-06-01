@@ -2,6 +2,7 @@ import { sqlConnection } from "@/db/init";
 import { parseDailyAggsFilename } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import type { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import type { Maybe } from "@shared/types/utility.types";
+import { stat } from "fs/promises";
 import type { SQL } from "types/utility.types";
 
 export type InsertFromCsvArgs = {
@@ -90,11 +91,13 @@ async function copyFromTempTableToMainTable({
 	sql?: SQL;
 }) {
 	const alias = `inserted_rows`;
-	const maybeReturningTicker = returnCount ? `RETURNING ticker` : ``;
-	const maybeSelectCount = returnCount ? `SELECT count(*) as count FROM ${alias}` : ``;
+	const maybeReturningTicker = returnCount ? sql`RETURNING ticker` : sql``;
+	const maybeSelectCount = returnCount
+		? sql`SELECT count(*) as count FROM ${alias}`
+		: sql`SELECT NULL as count`;
 
 	const inserted: Maybe<{ count: number }> = await sql<[{ count: number }]>`
-      WITH ${alias} AS (
+      WITH ${sql(alias)} AS (
          INSERT INTO ${sql(targetTable)} 
             ("ticker", "timestamp", "open", "close", "high", "low", "volume")
          SELECT
@@ -139,6 +142,13 @@ export async function insertAggsFromCsv({
 }: InsertFromCsvArgs) {
 	// this needs to match the path we bind the volume to in the compose.yml
 	const containerFilePath = `/var/lib/postgresql/flatfiles/${filename}`;
+
+	const csvExists = (await stat(`/dash/flatfiles/${filename}`)).isFile();
+
+	if (!csvExists) {
+		throw new Error(`CSV file ${filename} does not exist.`);
+	}
+
 	const isGzipped = isGzippedFile(filename);
 	// TODO: can we rename this to parseAggsFilename? Since 1m != 1d
 	const { year, month, day } = parseDailyAggsFilename(filename);
