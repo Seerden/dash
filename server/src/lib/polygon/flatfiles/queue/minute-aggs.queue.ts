@@ -30,7 +30,9 @@ const getJobs = {
 	one: async (jobId: string) => await queue.getJob(jobId),
 };
 
-/** TODO: wip helper to check out job creation */
+/** TODO: wip helper to check out job creation
+ * @todo DAS-48: clean this up
+ */
 async function DEV_addBulk(jobs: PriceActionJobOptions[]) {
 	const jobOpts = jobs.map((j) => ({
 		data: j,
@@ -41,6 +43,7 @@ async function DEV_addBulk(jobs: PriceActionJobOptions[]) {
 	return await queue.addBulk(jobOpts);
 }
 
+/** @todo DAS-48 clean this up */
 export async function DEV_addTestMinuteAggsJob() {
 	const jobs: PriceActionJobOptions[] = [
 		{

@@ -18,8 +18,8 @@ import { type PriceActionJobOptions } from "@/lib/polygon/flatfiles/queue/price-
 export async function bulkAddDailyAggsJobs(jobs: PriceActionJobOptions[]) {
 	const processedFiles = await flatFilesDailyAggsStore.list();
 
-	// TODO: these aren't equal to PriceActionJob[], so do we need to create a
-	// separate type to match the input for queue.addBulk()?
+	// TODO DAS-48: these aren't equal to PriceActionJob[], so do we need to
+	// create a  separate type to match the input for queue.addBulk()?
 	const jobOptions = jobs
 		.filter((job) => !processedFiles.includes(job.filename))
 		.map((job) => ({
