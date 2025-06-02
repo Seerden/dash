@@ -10,9 +10,8 @@ import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import { isYearMonthDay } from "types/data.types";
 
 /*
-   TODO: this file is basically a copy of daily-aggs.store.ts, but for minute
-   aggs.
-   Instead of duplicating the code, we can refactor a single store to take the
+   TODO DAS-48: this file is basically a copy of daily-aggs.store.ts, but for minute
+   aggs. Instead of duplicating the code, we can refactor a single store to take the
    store key as a parameter, then we can use the store for daily and minute
    aggs, without having to manually keep the two at parity.
 */
