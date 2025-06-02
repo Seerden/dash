@@ -173,9 +173,26 @@ export async function getFiles({
 }: {
 	folder: `${FOLDERS}`;
 	year: string;
-	month?: string;
+	/** If supplied, get only a single month (expects e.g. `01`, not `1`) */
+	month?:
+		| "01"
+		| "02"
+		| "03"
+		| "04"
+		| "05"
+		| "06"
+		| "07"
+		| "08"
+		| "09"
+		| "10"
+		| "11"
+		| "12";
 }) {
-	const path = `${folder}/${year}/`;
+	let path = `${folder}/${year}/`;
+
+	if (month) {
+		path = path.concat(`${month}/`);
+	}
 	await ensureFlatFilesFolderExists(path);
 	const BUCKET_PATH = `${BUCKET}/${PREFIX}/${path}`;
 	const OUTPUT_PATH = `/dash/flatfiles/${path}`;

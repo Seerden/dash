@@ -6,7 +6,7 @@ import {
 } from "@/lib/polygon/flatfiles/queue/constants";
 import { dailyAggsQueue } from "@/lib/polygon/flatfiles/queue/daily-aggs.queue";
 import {
-	parseDailyAggsFilename,
+	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import { type PriceActionJobOptions } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
@@ -18,6 +18,8 @@ import { type PriceActionJobOptions } from "@/lib/polygon/flatfiles/queue/price-
 export async function bulkAddDailyAggsJobs(jobs: PriceActionJobOptions[]) {
 	const processedFiles = await flatFilesDailyAggsStore.list();
 
+	// TODO DAS-48: these aren't equal to PriceActionJob[], so do we need to
+	// create a  separate type to match the input for queue.addBulk()?
 	const jobOptions = jobs
 		.filter((job) => !processedFiles.includes(job.filename))
 		.map((job) => ({
@@ -26,7 +28,7 @@ export async function bulkAddDailyAggsJobs(jobs: PriceActionJobOptions[]) {
 			opts: defaultBulkJobOptions,
 		}));
 
-	return await dailyAggsQueue.addBulk(jobOptions);
+	await dailyAggsQueue.__queue.addBulk(jobOptions);
 }
 
 /** Create jobs for all unprocessed files in `[/dash]/flatfiles/day_aggs_v1/` */
@@ -38,7 +40,7 @@ export async function seedDayAggsJobs() {
 	await bulkAddDailyAggsJobs(
 		unprocessedFiles.map((filename) => ({
 			// have to parse each filename to `YearMonthDay`
-			filename: yearMonthDayToString(parseDailyAggsFilename(filename)),
+			filename: yearMonthDayToString(aggsFilenameToYMD(filename)),
 		})),
 	);
 }
