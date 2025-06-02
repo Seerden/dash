@@ -2,7 +2,7 @@
 import type { FOLDERS } from "@/lib/polygon/flatfiles/constants";
 import { flatFilesDailyAggsStore } from "@/lib/polygon/flatfiles/daily-aggs.store";
 import {
-	parseDailyAggsFilename,
+	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import dayjs from "dayjs";
@@ -28,7 +28,7 @@ export async function listFlatFiles(folder: `${FOLDERS}`) {
  * @todo test this function */
 export async function listMissingAvailableFlatFiles(folder: `${FOLDERS}`) {
 	const files = (await listFlatFiles(folder)).map((file) =>
-		yearMonthDayToString(parseDailyAggsFilename(file)),
+		yearMonthDayToString(aggsFilenameToYMD(file)),
 	);
 	const storedFiles = new Set(await flatFilesDailyAggsStore.list());
 	const missingFiles = files.filter((file) => !storedFiles.has(file));

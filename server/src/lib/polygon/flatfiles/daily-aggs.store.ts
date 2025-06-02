@@ -1,7 +1,7 @@
 import { queryTimestamps } from "@/lib/data/models/price-action/query-price-action";
 import { formatToYearMonthDay } from "@/lib/datetime/timestamp";
 import {
-	parseDailyAggsFilename,
+	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import { ERRORS, priceActionStoreKeys } from "@/lib/polygon/flatfiles/store-constants";
@@ -31,7 +31,7 @@ async function check(filename: string) {
 		throw ERRORS.INVALID_FILENAME(filename);
 	}
 
-	const filepath = yearMonthDayToString(parseDailyAggsFilename(filename));
+	const filepath = yearMonthDayToString(aggsFilenameToYMD(filename));
 	return await redisClient.sismember(storeKey, filepath);
 }
 

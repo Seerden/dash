@@ -1,5 +1,5 @@
 import { sqlConnection } from "@/db/init";
-import { parseDailyAggsFilename } from "@/lib/polygon/flatfiles/queue/parse-filename";
+import { aggsFilenameToYMD } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import type { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import type { Maybe } from "@shared/types/utility.types";
 import { stat } from "fs/promises";
@@ -140,7 +140,7 @@ export async function insertAggsFromCsv({
 	targetTable,
 	returnCount = false,
 }: InsertFromCsvArgs) {
-	// this needs to match the path we bind the volume to in the compose.yml
+	// NOTE: this must match the path we bind the volume to in compose.yml
 	const containerFilePath = `/var/lib/postgresql/flatfiles/${filename}`;
 
 	const csvExists = (await stat(`/dash/flatfiles/${filename}`)).isFile();
@@ -150,8 +150,7 @@ export async function insertAggsFromCsv({
 	}
 
 	const isGzipped = isGzippedFile(filename);
-	// TODO: can we rename this to parseAggsFilename? Since 1m != 1d
-	const { year, month, day } = parseDailyAggsFilename(filename);
+	const { year, month, day } = aggsFilenameToYMD(filename);
 
 	const tempTableName = tableName
 		? `price_action_temp_${tableName}`

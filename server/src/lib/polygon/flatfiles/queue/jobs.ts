@@ -6,7 +6,7 @@ import {
 } from "@/lib/polygon/flatfiles/queue/constants";
 import { dailyAggsQueue } from "@/lib/polygon/flatfiles/queue/daily-aggs.queue";
 import {
-	parseDailyAggsFilename,
+	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import { type PriceActionJobOptions } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
@@ -40,7 +40,7 @@ export async function seedDayAggsJobs() {
 	await bulkAddDailyAggsJobs(
 		unprocessedFiles.map((filename) => ({
 			// have to parse each filename to `YearMonthDay`
-			filename: yearMonthDayToString(parseDailyAggsFilename(filename)),
+			filename: yearMonthDayToString(aggsFilenameToYMD(filename)),
 		})),
 	);
 }
