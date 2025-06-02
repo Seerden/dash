@@ -7,4 +7,5 @@ export enum TABLES {
 
 export enum PRICE_ACTION_TABLES {
 	DAILY = "price_action_1d",
+	MINUTE = "price_action_1m",
 }

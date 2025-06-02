@@ -9,6 +9,8 @@ import {
 	groupedPriceActionQuerySchema,
 } from "types/price-action.types";
 
+// TODO: these might fail if the database isn't populated (which is the case on
+// my laptop).)
 describe("flatDailyPriceActionResolver", () => {
 	it("should make a query with the proper limit", async () => {
 		const input: FlatPriceActionQuery = {
