@@ -47,7 +47,5 @@ export function parseAggsJobFilenameToCsvFilename({
 	folder: `${FOLDERS}`;
 }) {
 	const [year, month, _day] = filename.split("-");
-	// TODO: extract first part (folder name) to a variable so we can use minute
-	// aggs, too
 	return `${folder}/${year}/${month}/${filename}.csv.gz`;
 }
