@@ -14,6 +14,8 @@ import { isYearMonthDay } from "types/data.types";
    aggs. Instead of duplicating the code, we can refactor a single store to take the
    store key as a parameter, then we can use the store for daily and minute
    aggs, without having to manually keep the two at parity.
+
+   TODO: clean up usage of no-non-null-assertion by using type guards properly.
 */
 
 const storeKey = priceActionStoreKeys.daily;
