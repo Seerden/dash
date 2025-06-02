@@ -9,8 +9,7 @@ export function toTimestamp(timestamp: Datelike) {
 	return new Date(timestamp).valueOf();
 }
 
-/** Parse a Date to YYYY-MM-DD (@note don't have dayjs installed yet) */
-// TODO: we _do_ have dayjs installed now
+/** Parse a Date to YYYY-MM-DD */
 export function formatToYearMonthDay(date: Date) {
 	const formatted = dayjs(date).format("YYYY-MM-DD");
 
