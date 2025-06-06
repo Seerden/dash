@@ -10,6 +10,12 @@ import { Dayjs } from "dayjs";
 
 /** Generates a list of YYYY-MM-DD values in the inclusive range [from, to]. */
 export function generateDateRange(from: YearMonthDay, to: YearMonthDay) {
+	const fromDayjs = day(from);
+	const toDayjs = day(to);
+	if (fromDayjs.isSame(toDayjs, "day") || !toDayjs.isAfter(fromDayjs, "day")) {
+		return [];
+	}
+
 	const dates: YearMonthDay[] = [from];
 
 	const [fromDate, toDate] = [from, to].map(day);
