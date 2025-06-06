@@ -102,6 +102,6 @@ export const minuteAggsQueue = {
 	getJobs,
 	requeueFailedJobs,
 	startWorker: async () => {
-		return await worker.run();
+		return worker.run();
 	},
 };
