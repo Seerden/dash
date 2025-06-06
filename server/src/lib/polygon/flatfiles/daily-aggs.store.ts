@@ -1,11 +1,11 @@
 import { queryTimestamps } from "@/lib/data/models/price-action/query-price-action";
-import { formatToYearMonthDay } from "@/lib/datetime/timestamp";
 import {
 	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
 import { ERRORS, priceActionStoreKeys } from "@/lib/polygon/flatfiles/store-constants";
 import { redisClient } from "@/lib/redis-client";
+import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import { isYearMonthDay } from "types/data.types";
 

@@ -1,4 +1,4 @@
-import { toTimestamp } from "@/lib/datetime/timestamp";
+import { toTimestamp } from "@shared/lib/datetime/timestamp";
 import type { Datelike } from "@shared/types/utility.types";
 import dayjs from "dayjs";
 import type { Ticker } from "types/data.types";
