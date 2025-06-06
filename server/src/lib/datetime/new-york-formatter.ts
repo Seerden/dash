@@ -1,4 +1,7 @@
-/** DateTimeFormat formatter for the New York timezone. */
+/** DateTimeFormat formatter for the New York timezone.
+ * @deprecated Use `dateFormatter` from
+ * shared/src/lib/datetime/new-york-formatter.ts instead.
+ */
 export const dateFormatter = Intl.DateTimeFormat("en-US", {
 	year: "numeric",
 	month: "2-digit",
@@ -6,7 +9,10 @@ export const dateFormatter = Intl.DateTimeFormat("en-US", {
 	timeZone: "America/New_York",
 });
 
-/** Create a time formatter in New York's timezone, optionally with seconds. */
+/** Create a time formatter in New York's timezone, optionally with seconds.
+ * @deprecrated Use `getTimeFormatter` from
+ * shared/src/lib/datetime/new-york-formatter.ts instead.
+ */
 export function getTimeFormatter(second = false) {
 	return Intl.DateTimeFormat("en-US", {
 		hour12: false,
