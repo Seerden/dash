@@ -7,6 +7,7 @@ export default defineConfig({
 	test: {
 		include: ["**/*.test.ts", "**/*.test.tsx"],
 		globals: true,
+		passWithNoTests: true,
 		environment: "node",
 		setupFiles: ["./dotenv-config.ts", "./vitest.setup.ts"],
 		alias: {
