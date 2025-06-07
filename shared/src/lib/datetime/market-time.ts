@@ -9,7 +9,13 @@ import { Datelike } from "@shared/types/utility.types";
 import { Dayjs } from "dayjs";
 
 /** Generates a list of YYYY-MM-DD values in the inclusive range [from, to]. */
-export function generateDateRange(from: YearMonthDay, to: YearMonthDay) {
+export function generateDateRange({
+	from,
+	to,
+}: {
+	from: YearMonthDay;
+	to: YearMonthDay;
+}) {
 	const fromDayjs = day(from);
 	const toDayjs = day(to);
 	if (fromDayjs.isSame(toDayjs, "day") || !toDayjs.isAfter(fromDayjs, "day")) {
@@ -38,11 +44,16 @@ export function generateMarketDateRange({
 }) {
 	let start = from;
 	let end = to;
+
+	if (!day(end).isAfter(day(start), "day")) {
+		return [];
+	}
+
 	const lastSession = lastCompleteMarketSession();
 	if (day(start).isAfter(lastSession)) start = lastSession;
 	if (day(end).isAfter(lastSession)) end = lastSession;
 
-	const dates = generateDateRange(start, end);
+	const dates = generateDateRange({ from: start, to: end });
 	return dates.filter(isMarketDay);
 }
 
