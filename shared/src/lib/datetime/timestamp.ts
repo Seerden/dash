@@ -1,16 +1,20 @@
+import day from "@shared/lib/datetime/day";
+import {
+	isYearMonthDay,
+	YearMonthDay,
+	YearMonthDayObject,
+} from "@shared/types/date.types";
 import type { Datelike } from "@shared/types/utility.types";
 import dayjs from "dayjs";
-import type { YearMonthDay, YearMonthDayObject } from "types/data.types";
-import { isYearMonthDay } from "types/data.types";
 
 /** Takes a Datelike and returns the unix millisecond timestamp for it.
  * @todo test this once we've implemented more functionality to test it with. */
 export function toTimestamp(timestamp: Datelike) {
-	return new Date(timestamp).valueOf();
+	return day(timestamp).valueOf();
 }
 
 /** Parse a Date to YYYY-MM-DD */
-export function formatToYearMonthDay(date: Date) {
+export function formatToYearMonthDay(date: Datelike): YearMonthDay {
 	const formatted = dayjs(date).format("YYYY-MM-DD");
 
 	if (!isYearMonthDay(formatted)) throw new Error(`Invalid date: ${formatted}`);

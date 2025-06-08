@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"vitest": "vitest",
+		"test": "vitest",
 		"dev": "tsx watch --clear-screen=false ./src/index.ts",
 		"build": "node esbuild.config.js --bundle"
 	},

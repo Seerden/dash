@@ -23,5 +23,5 @@ async function dev() {
 export async function runClusteredTasks() {
 	// const _worker = createDailyAggsPriceActionWorker();
 	// return _worker;
-	await minuteAggsQueue.startWorker();
+	minuteAggsQueue.startWorker();
 }

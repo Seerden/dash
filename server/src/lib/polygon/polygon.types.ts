@@ -1,4 +1,5 @@
-import type { Ticker, YearMonthDay } from "types/data.types";
+import type { YearMonthDay } from "@shared/types/date.types";
+import type { Ticker } from "types/data.types";
 
 export type ResponseBase = {
 	/** The exchange symbol that this item is traded under. */

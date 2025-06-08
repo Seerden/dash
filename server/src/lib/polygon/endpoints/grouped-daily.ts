@@ -1,6 +1,6 @@
 import { fetchPolygon } from "@/lib/polygon/fetch";
 import type { OHLCVResult } from "@/lib/polygon/polygon.types";
-import type { YearMonthDay } from "types/data.types";
+import type { YearMonthDay } from "@shared/types/date.types";
 
 function getGroupedDailyUrl(date: YearMonthDay) {
 	return `v2/aggs/grouped/locale/us/market/stocks/${date}`;
