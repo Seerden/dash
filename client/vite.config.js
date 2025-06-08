@@ -5,7 +5,15 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [TanStackRouterVite(), react(), tsconfigPaths()],
+	plugins: [
+		TanStackRouterVite(),
+		react({
+			babel: {
+				plugins: [["@emotion/babel-plugin", { sourceMap: true }]]
+			}
+		}),
+		tsconfigPaths()
+	],
 	resolve: {
 		alias: {
 			"@": fileURLToPath(new URL("./src", import.meta.url)),
