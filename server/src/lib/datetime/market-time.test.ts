@@ -5,12 +5,21 @@
 
 import day from "@shared/lib/datetime/day";
 import {
+	dayAfter,
+	dayBefore,
 	generateDateRange,
 	generateMarketDateRange,
 	getNextMarketDate,
 	getPreviousMarketDate,
 	isMarketDay,
+	lastCompleteMarketSession,
+	marketTime,
 	maxPolygonLookback,
+	nMarketDaysAfter,
+	nMarketDaysBefore,
+	timestampToMarketDate,
+	timestampToMarketTime,
+	toUnixMs,
 } from "@shared/lib/datetime/market-time";
 import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
 
@@ -102,7 +111,11 @@ describe("marketTime", () => {
 		});
 	});
 
-	describe("lastCompleteMarketSession", () => {});
+	describe("lastCompleteMarketSession", () => {
+		const lastSession = lastCompleteMarketSession();
+		const diff = day().diff(day(lastSession), "day");
+		expect(diff).not.toBeLessThan(0); // should never be in the future
+	});
 
 	describe("getPreviousMarketDate", () => {
 		it("should not see a holiday as a previous trading date", () => {
@@ -128,11 +141,28 @@ describe("marketTime", () => {
 		});
 	});
 
-	describe("toUnixMs", () => {});
-	describe("dayBefore", () => {});
-	describe("nMarketDaysfter", () => {});
-	describe("nMarketDaysBefore");
-	describe("dayAfter", () => {});
+	describe("toUnixMs", () => {
+		expect(toUnixMs("2025-01-02")).toEqual(1735776000000);
+	});
+	describe("dayBefore", () => {
+		expect(dayBefore("2025-01-02")).toEqual("2025-01-01");
+		expect(dayBefore("2025-01-01")).toEqual("2024-12-31");
+	});
+	describe("nMarketDaysfter", () => {
+		expect(nMarketDaysAfter("2025-01-02", 1)).toEqual("2025-01-03");
+		expect(nMarketDaysAfter("2025-06-02", 4)).toEqual("2025-06-06");
+		expect(nMarketDaysAfter("2025-05-23", 7)).toEqual("2025-06-04");
+	});
+	describe("nMarketDaysBefore", () => {
+		// inverse of nMarketDaysAfter
+		expect(nMarketDaysBefore("2025-01-03", 1)).toEqual("2025-01-02");
+		expect(nMarketDaysBefore("2025-06-06", 4)).toEqual("2025-06-02");
+		expect(nMarketDaysBefore("2025-06-04", 7)).toEqual("2025-05-23");
+	});
+	describe("dayAfter", () => {
+		expect(dayAfter("2025-01-02")).toEqual("2025-01-03");
+		expect(dayAfter("2024-12-31")).toEqual("2025-01-01");
+	});
 
 	describe("maxPolygonLookback", () => {
 		it("should return a date five years ago", () => {
@@ -142,14 +172,49 @@ describe("marketTime", () => {
 		});
 	});
 
-	describe("timestampToMarketTime", () => {});
-	describe("timestampToMarketDate", () => {});
+	describe("timestampToMarketTime", () => {
+		it("should return the correct market (New York) time for a timestamp", () => {
+			const t = timestampToMarketTime("2025-01-02T15:30:00Z");
+			expect(t).toEqual("01/02/2025, 10:30");
+		});
+	});
+	describe("timestampToMarketDate", () => {
+		it("should return the correct market (New York) date for a timestamp", () => {
+			const t = timestampToMarketDate("2025-01-02T15:30:00Z");
+			expect(t).toEqual("2025-01-02");
+		});
+	});
 
 	describe("marketTime", () => {
-		describe("timestamp", () => {});
-		describe("marketClose", () => {});
-		describe("marketOpen", () => {});
-		describe("premarketOpen", () => {});
-		describe("afterHoursClose", () => {});
+		describe("timestamp", () => {
+			it("should return the correct timestamp for a given date and time in New York timezone", () => {
+				const timestamp = marketTime.timestamp({ date: "2025-01-02", time: "09:30" });
+				expect(timestamp).toEqual(1735828200000); // 2025-01-02 09:30:00 in New York timezone
+			});
+		});
+		describe("marketClose", () => {
+			it("should return the correct market close timestamp for a given date in New York timezone", () => {
+				const closeTimestamp = marketTime.close("2025-01-02");
+				expect(closeTimestamp).toEqual(1735851600000); // 2025-01-02 16:00:00 in New York timezone
+			});
+		});
+		describe("marketOpen", () => {
+			it("should return the correct market open timestamp for a given date in New York timezone", () => {
+				const openTimestamp = marketTime.open("2025-01-02");
+				expect(openTimestamp).toEqual(1735828200000); // 2025-01-02 09:30:00 in New York timezone
+			});
+		});
+		describe("premarketOpen", () => {
+			it("should return the correct premarket open timestamp for a given date in New York timezone", () => {
+				const premarketTimestamp = marketTime.premarketOpen("2025-01-02");
+				expect(premarketTimestamp).toEqual(1735808400000); // 2025-01-02 04:00:00 in New York timezone
+			});
+		});
+		describe("afterHoursClose", () => {
+			it("should return the correct after-hours close timestamp for a given date in New York timezone", () => {
+				const afterHoursTimestamp = marketTime.afterHoursClose("2025-01-02");
+				expect(afterHoursTimestamp).toEqual(1735866000000); // 2025-01-02 20:00:00 in New York timezone
+			});
+		});
 	});
 });

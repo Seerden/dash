@@ -14,7 +14,7 @@ export function toTimestamp(timestamp: Datelike) {
 }
 
 /** Parse a Date to YYYY-MM-DD */
-export function formatToYearMonthDay(date: Datelike) {
+export function formatToYearMonthDay(date: Datelike): YearMonthDay {
 	const formatted = dayjs(date).format("YYYY-MM-DD");
 
 	if (!isYearMonthDay(formatted)) throw new Error(`Invalid date: ${formatted}`);

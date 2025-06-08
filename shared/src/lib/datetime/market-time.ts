@@ -3,7 +3,7 @@ import day from "@shared/lib/datetime/day";
 import { holidays } from "@shared/lib/datetime/market-holidays";
 import { dateFormatter } from "@shared/lib/datetime/new-york-formatter";
 import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
-import { YearMonthDay } from "@shared/types/date.types";
+import { HourAndMinute, YearMonthDay } from "@shared/types/date.types";
 import { PriceAction } from "@shared/types/price-action.types";
 import { Datelike } from "@shared/types/utility.types";
 import { Dayjs } from "dayjs";
@@ -136,26 +136,35 @@ export function maxPolygonLookback() {
 
 /** Create a timestamp for `date` and `time`, where `date` and `time` are New
  * York (market time) local. */
-function marketTimestamp(date: YearMonthDay, time: string) {
+function marketTimestamp({
+	date,
+	time,
+}: {
+	date: YearMonthDay;
+	time: HourAndMinute;
+}) {
 	return day.tz(`${date} ${time}`, "America/New_York").unix() * 1000;
 }
 
 function marketOpen(date: YearMonthDay) {
-	return marketTimestamp(date, time.market.open);
+	return marketTimestamp({ date, time: time.market.open });
 }
 
 function marketClose(date: YearMonthDay) {
-	return marketTimestamp(date, time.market.close);
+	return marketTimestamp({ date, time: time.market.close });
 }
 
 function premarketOpen(date: YearMonthDay) {
-	return marketTimestamp(date, time.market.premarketOpen);
+	return marketTimestamp({ date, time: time.market.premarketOpen });
 }
 
 function afterHoursClose(date: YearMonthDay) {
-	return marketTimestamp(date, time.market.afterHoursClose);
+	return marketTimestamp({ date, time: time.market.afterHoursClose });
 }
 
+/** Gets the datetime (like "01/02/2025, 10:30", i.e. in New York timezone
+ * format) for a server-local timestamp (which should be Amsterdam by default;
+ * @todo maybe we should explicitly set it somewhere).*/
 export function timestampToMarketTime(timestamp: PriceAction["timestamp"]) {
 	const timestampAsDate = day(timestamp).toDate();
 	return dateFormatter.format(timestampAsDate); // Use the formatter instead of dayjs because it's 100x faster
