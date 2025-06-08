@@ -1,6 +1,6 @@
 import type { FOLDERS } from "@/lib/polygon/flatfiles/constants";
-import type { YearMonthDayObject } from "types/data.types";
-import { isYearMonthDay, type YearMonthDay } from "types/data.types";
+import type { YearMonthDay, YearMonthDayObject } from "@shared/types/date.types";
+import { isYearMonthDay } from "@shared/types/date.types";
 
 /** Extracts a `YearMonthDayObject` from a filepath like
  * `[/dash/]flatfiles/{daily_aggs_v1|minute_aggs_v1}/<year>/<month>/<year>-<month>-<day>.csv[.gz]`

@@ -1,5 +1,5 @@
-import { formatToYearMonthDay } from "@/lib/datetime/timestamp";
 import { proxyClient } from "@/lib/trpc";
+import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
 import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import dayjs from "dayjs";

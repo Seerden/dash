@@ -9,10 +9,10 @@ import {
 	PREFIX,
 } from "@/lib/polygon/flatfiles/constants";
 import { ensureFlatFilesFolderExists } from "@/lib/polygon/flatfiles/ensure-folder";
+import type { YearMonthDayObject } from "@shared/types/date.types";
 import { spawn } from "child_process";
 import fs from "fs/promises";
 import _path from "path";
-import type { YearMonthDayObject } from "types/data.types";
 import { fileURLToPath } from "url";
 
 /** Sets the AWS credentials so we can interact with the CLI.

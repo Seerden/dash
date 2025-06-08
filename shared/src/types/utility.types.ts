@@ -1,3 +1,5 @@
+import type { Dayjs } from "dayjs";
+
 export type Nullable<T> = T | null;
 
 /** IDs in our database are represented by bigints, which postgres.js interprets
@@ -13,4 +15,4 @@ export type OmitStrict<T, K extends keyof T> = T extends any
 	? Pick<T, Exclude<keyof T, K>>
 	: never;
 
-export type Datelike = string | Date | number;
+export type Datelike = string | Date | number | Dayjs;

@@ -4,6 +4,9 @@ export const dateFormatter = Intl.DateTimeFormat("en-US", {
 	month: "2-digit",
 	day: "2-digit",
 	timeZone: "America/New_York",
+	hour12: false,
+	hour: "2-digit",
+	minute: "2-digit",
 });
 
 /** Create a time formatter in New York's timezone, optionally with seconds. */
