@@ -1,19 +1,19 @@
 import { sqlConnection } from "@/db/init";
-import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
-import { login } from "@/lib/trpc/resolvers/login.resolver";
-import { logout } from "@/lib/trpc/resolvers/logout.resolver";
-import { me } from "@/lib/trpc/resolvers/me.resolver";
-import {
-	flatDailyPriceActionResolver,
-	groupedDailyPriceActionResolver,
-} from "@/lib/trpc/resolvers/price-action/daily.resolver";
-import { flatFilesStatusResolver } from "@/lib/trpc/resolvers/price-action/flatfiles.resolver";
-import { register } from "@/lib/trpc/resolvers/register.resolver";
-import { verifyMe } from "@/lib/trpc/resolvers/verify-me.resolver";
-import { t } from "@/lib/trpc/trpc-context";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import superjson from "superjson";
 import { z } from "zod";
+import { publicProcedure } from "./trpc/procedures/public.procedure";
+import { login } from "./trpc/resolvers/login.resolver";
+import { logout } from "./trpc/resolvers/logout.resolver";
+import { me } from "./trpc/resolvers/me.resolver";
+import {
+	flatDailyPriceActionResolver,
+	groupedDailyPriceActionResolver,
+} from "./trpc/resolvers/price-action/daily.resolver";
+import { flatFilesStatusResolver } from "./trpc/resolvers/price-action/flatfiles.resolver";
+import { register } from "./trpc/resolvers/register.resolver";
+import { verifyMe } from "./trpc/resolvers/verify-me.resolver";
+import { t } from "./trpc/trpc-context";
 
 export const appRouter = t.router({
 	hello: publicProcedure

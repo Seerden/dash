@@ -1,3 +1,5 @@
+import { queryClient } from "@/lib/query-client";
+import { trpc } from "@/lib/trpc";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -18,7 +20,10 @@ if (import.meta.env.NODE_ENV === "development") {
 	});
 }
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({ routeTree, context: {
+   trpc: trpc,
+   queryClient: queryClient
+} });
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
