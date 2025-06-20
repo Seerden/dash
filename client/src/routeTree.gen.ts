@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as VerifyMeImport } from './routes/verify-me'
 import { Route as RegisterImport } from './routes/register'
+import { Route as PriceActionFlatfilesStatusImport } from './routes/price-action/flatfiles/status'
 
 // Create Virtual Routes
 
@@ -58,6 +59,14 @@ const PriceActionDailyRecapLazyRoute = PriceActionDailyRecapLazyImport.update({
   import('./routes/price-action/daily-recap.lazy').then((d) => d.Route),
 )
 
+const PriceActionFlatfilesStatusRoute = PriceActionFlatfilesStatusImport.update(
+  {
+    id: '/price-action/flatfiles/status',
+    path: '/price-action/flatfiles/status',
+    getParentRoute: () => rootRoute,
+  } as any,
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -97,6 +106,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PriceActionDailyRecapLazyImport
       parentRoute: typeof rootRoute
     }
+    '/price-action/flatfiles/status': {
+      id: '/price-action/flatfiles/status'
+      path: '/price-action/flatfiles/status'
+      fullPath: '/price-action/flatfiles/status'
+      preLoaderRoute: typeof PriceActionFlatfilesStatusImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -108,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/verify-me': typeof VerifyMeRoute
   '/about': typeof AboutLazyRoute
   '/price-action/daily-recap': typeof PriceActionDailyRecapLazyRoute
+  '/price-action/flatfiles/status': typeof PriceActionFlatfilesStatusRoute
 }
 
 export interface FileRoutesByTo {
@@ -116,6 +133,7 @@ export interface FileRoutesByTo {
   '/verify-me': typeof VerifyMeRoute
   '/about': typeof AboutLazyRoute
   '/price-action/daily-recap': typeof PriceActionDailyRecapLazyRoute
+  '/price-action/flatfiles/status': typeof PriceActionFlatfilesStatusRoute
 }
 
 export interface FileRoutesById {
@@ -125,6 +143,7 @@ export interface FileRoutesById {
   '/verify-me': typeof VerifyMeRoute
   '/about': typeof AboutLazyRoute
   '/price-action/daily-recap': typeof PriceActionDailyRecapLazyRoute
+  '/price-action/flatfiles/status': typeof PriceActionFlatfilesStatusRoute
 }
 
 export interface FileRouteTypes {
@@ -135,8 +154,15 @@ export interface FileRouteTypes {
     | '/verify-me'
     | '/about'
     | '/price-action/daily-recap'
+    | '/price-action/flatfiles/status'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/register' | '/verify-me' | '/about' | '/price-action/daily-recap'
+  to:
+    | '/'
+    | '/register'
+    | '/verify-me'
+    | '/about'
+    | '/price-action/daily-recap'
+    | '/price-action/flatfiles/status'
   id:
     | '__root__'
     | '/'
@@ -144,6 +170,7 @@ export interface FileRouteTypes {
     | '/verify-me'
     | '/about'
     | '/price-action/daily-recap'
+    | '/price-action/flatfiles/status'
   fileRoutesById: FileRoutesById
 }
 
@@ -153,6 +180,7 @@ export interface RootRouteChildren {
   VerifyMeRoute: typeof VerifyMeRoute
   AboutLazyRoute: typeof AboutLazyRoute
   PriceActionDailyRecapLazyRoute: typeof PriceActionDailyRecapLazyRoute
+  PriceActionFlatfilesStatusRoute: typeof PriceActionFlatfilesStatusRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -161,6 +189,7 @@ const rootRouteChildren: RootRouteChildren = {
   VerifyMeRoute: VerifyMeRoute,
   AboutLazyRoute: AboutLazyRoute,
   PriceActionDailyRecapLazyRoute: PriceActionDailyRecapLazyRoute,
+  PriceActionFlatfilesStatusRoute: PriceActionFlatfilesStatusRoute,
 }
 
 export const routeTree = rootRoute
@@ -177,7 +206,8 @@ export const routeTree = rootRoute
         "/register",
         "/verify-me",
         "/about",
-        "/price-action/daily-recap"
+        "/price-action/daily-recap",
+        "/price-action/flatfiles/status"
       ]
     },
     "/": {
@@ -194,6 +224,9 @@ export const routeTree = rootRoute
     },
     "/price-action/daily-recap": {
       "filePath": "price-action/daily-recap.lazy.tsx"
+    },
+    "/price-action/flatfiles/status": {
+      "filePath": "price-action/flatfiles/status.tsx"
     }
   }
 }

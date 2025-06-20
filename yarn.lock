@@ -400,9 +400,9 @@ __metadata:
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/jest-dom": "npm:^6.6.3"
     "@testing-library/react": "npm:^16.0.1"
-    "@trpc/client": "npm:11.0.0-rc.700"
-    "@trpc/react-query": "npm:11.0.0-rc.700"
-    "@trpc/server": "npm:^11.0.0-rc.700"
+    "@trpc/client": "npm:11.4.2"
+    "@trpc/server": "npm:11.4.2"
+    "@trpc/tanstack-react-query": "npm:11.4.2"
     "@types/node": "npm:22.10.7"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
@@ -431,7 +431,7 @@ __metadata:
     shared: "npm:*"
     storybook: "npm:^8.4.5"
     superjson: "npm:2.2.2"
-    typescript: "npm:^5.2.2"
+    typescript: "npm:5.8.3"
     vite: "npm:^6.0.7"
     vite-bundle-visualizer: "npm:1.2.1"
     vite-tsconfig-paths: "npm:^5.1.2"
@@ -451,8 +451,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dash/server@workspace:server"
   dependencies:
-    "@trpc/client": "npm:^11.0.0-rc.700"
-    "@trpc/server": "npm:11.0.0-rc.700"
+    "@trpc/client": "npm:11.4.2"
+    "@trpc/server": "npm:11.4.2"
     "@types/bcryptjs": "npm:^2.4.6"
     "@types/connect-redis": "npm:^0.0.23"
     "@types/cors": "npm:^2.8.17"
@@ -486,7 +486,7 @@ __metadata:
     tsc-alias: "npm:1.8.10"
     tsconfig-paths: "npm:^4.2.0"
     tsx: "npm:4.19.2"
-    typescript: "npm:^5.5.4"
+    typescript: "npm:5.8.3"
     vite-tsconfig-paths: "npm:^5.1.4"
     vitest: "npm:^2.1.8"
     zod: "npm:3.24.1"
@@ -503,7 +503,7 @@ __metadata:
     dayjs: "npm:^1.11.13"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
-    typescript: "npm:^5.2.2"
+    typescript: "npm:5.8.3"
     zod: "npm:3.24.1"
   languageName: unknown
   linkType: soft
@@ -2881,36 +2881,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:11.0.0-rc.700, @trpc/client@npm:^11.0.0-rc.700":
-  version: 11.0.0-rc.700
-  resolution: "@trpc/client@npm:11.0.0-rc.700"
+"@trpc/client@npm:11.4.2":
+  version: 11.4.2
+  resolution: "@trpc/client@npm:11.4.2"
   peerDependencies:
-    "@trpc/server": 11.0.0-rc.700+e5c0c1a82
+    "@trpc/server": 11.4.2
     typescript: ">=5.7.2"
-  checksum: 10c0/4603e869c5acc7255fc2ccdca8310621a0e7f75d43cb1a92bb407ef73a9acde52e8cbeb5d3f27d734128c4e9a9f1928116d1663a13673ac3aba3c79e83a5b220
+  checksum: 10c0/5fea326c628d31474c1ea8673cc3999c84ce5bf051be3c102616d994113f2b0cd1968f43c09c133da7991f8ad61ee336042b617efb7adcb49288cb1b1a1a4ab1
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:11.0.0-rc.700":
-  version: 11.0.0-rc.700
-  resolution: "@trpc/react-query@npm:11.0.0-rc.700"
+"@trpc/server@npm:11.4.2":
+  version: 11.4.2
+  resolution: "@trpc/server@npm:11.4.2"
   peerDependencies:
-    "@tanstack/react-query": ^5.62.8
-    "@trpc/client": 11.0.0-rc.700+e5c0c1a82
-    "@trpc/server": 11.0.0-rc.700+e5c0c1a82
+    typescript: ">=5.7.2"
+  checksum: 10c0/9c3b07ae67a11fe8f883bb30fd4b4afcb9069889e9f654b6cc845ebc884793efccbfeceeb8a72744f6f1666a9ce8937ff99294cccf5f281f112303913668f076
+  languageName: node
+  linkType: hard
+
+"@trpc/tanstack-react-query@npm:11.4.2":
+  version: 11.4.2
+  resolution: "@trpc/tanstack-react-query@npm:11.4.2"
+  peerDependencies:
+    "@tanstack/react-query": ^5.80.3
+    "@trpc/client": 11.4.2
+    "@trpc/server": 11.4.2
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
     typescript: ">=5.7.2"
-  checksum: 10c0/e19fc39af3aeb5aba969699634ffb0aa0f4d1602357e94d431dd56461884d247dd41e0851898b0b052f5ca7e377b64769143640480159a5c959ea478419f89f7
-  languageName: node
-  linkType: hard
-
-"@trpc/server@npm:11.0.0-rc.700, @trpc/server@npm:^11.0.0-rc.700":
-  version: 11.0.0-rc.700
-  resolution: "@trpc/server@npm:11.0.0-rc.700"
-  peerDependencies:
-    typescript: ">=5.7.2"
-  checksum: 10c0/05e14feb9dc5586d799f0ca71a37685c1dc90a615270c31717400990845e46522d93774eccb2d0d8e65bb78a756149f82654def0a19e2de05f5cff06485149ed
+  checksum: 10c0/95d682d652daebf962abb752525a09cc5ca9226f4970784f64f78a9e5aeff4d634624841daab87514382321c9d63515ec80526b1a9bc355a24287f594d727fbf
   languageName: node
   linkType: hard
 
@@ -10056,7 +10056,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.2.2, typescript@npm:^5.5.4":
+"typescript@npm:5.8.3":
+  version: 5.8.3
+  resolution: "typescript@npm:5.8.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/5f8bb01196e542e64d44db3d16ee0e4063ce4f3e3966df6005f2588e86d91c03e1fb131c2581baf0fb65ee79669eea6e161cd448178986587e9f6844446dbb48
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^5.2.2":
   version: 5.7.3
   resolution: "typescript@npm:5.7.3"
   bin:
@@ -10066,7 +10076,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.2.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>":
+  version: 5.8.3
+  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/39117e346ff8ebd87ae1510b3a77d5d92dae5a89bde588c747d25da5c146603a99c8ee588c7ef80faaf123d89ed46f6dbd918d534d641083177d5fac38b8a1cb
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^5.2.2#optional!builtin<compat/typescript>":
   version: 5.7.3
   resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"
   bin:

@@ -7,6 +7,7 @@ import {
 	flatDailyPriceActionResolver,
 	groupedDailyPriceActionResolver,
 } from "@/lib/trpc/resolvers/price-action/daily.resolver";
+import { flatFilesStatusResolver } from "@/lib/trpc/resolvers/price-action/flatfiles.resolver";
 import { register } from "@/lib/trpc/resolvers/register.resolver";
 import { verifyMe } from "@/lib/trpc/resolvers/verify-me.resolver";
 import { t } from "@/lib/trpc/trpc-context";
@@ -46,6 +47,7 @@ export const appRouter = t.router({
 			flat: flatDailyPriceActionResolver,
 			grouped: groupedDailyPriceActionResolver,
 		},
+		status: flatFilesStatusResolver,
 	},
 });
 
