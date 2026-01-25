@@ -1,7 +1,8 @@
-import { trpc } from "@/lib/trpc";
 import type { PriceActionWithUpdatedAt } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
+import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { trpc } from "@/lib/trpc";
 
 function roundVolumeToMillions(volume: number) {
 	return (volume / 1e6).toFixed(2);
@@ -10,25 +11,29 @@ function roundVolumeToMillions(volume: number) {
 // TODO: search param (YearMonthDay) for the date. Default it to the latest
 // market session.
 export const Route = createLazyFileRoute("/price-action/daily-recap")({
-	component: DailyRecap
+	component: DailyRecap,
 });
 
 // TODO: this is just a placeholder for the daily recap view
 function DailyRecap() {
-	const { data: priceActionData } = trpc.priceAction.daily.flat.useQuery({
-		from: "2025-01-22",
-		to: "2025-01-23",
-		table: PRICE_ACTION_TABLES.DAILY,
-		minVolume: 1e7
-	});
+	const { data: priceActionData } = useQuery(
+		trpc.priceAction.flatDailyPriceAction.queryOptions({
+			from: "2025-01-22",
+			to: "2025-01-23",
+			table: PRICE_ACTION_TABLES.DAILY,
+			minVolume: 1e7,
+		})
+	);
 
-	const { data: groupedPriceActionData } = trpc.priceAction.daily.grouped.useQuery({
-		from: "2025-01-22",
-		to: "2025-01-23",
-		table: PRICE_ACTION_TABLES.DAILY,
-		minVolume: 1e7,
-		groupBy: "ticker"
-	});
+	const { data: groupedPriceActionData } = useQuery(
+		trpc.priceAction.groupedDailyPriceAction.queryOptions({
+			from: "2025-01-22",
+			to: "2025-01-23",
+			table: PRICE_ACTION_TABLES.DAILY,
+			minVolume: 1e7,
+			groupBy: "ticker",
+		})
+	);
 
 	console.log({ groupedPriceActionData });
 
@@ -43,7 +48,7 @@ function DailyRecap() {
 					margin: "1.5rem",
 					display: "grid",
 					rowGap: "0.5rem",
-					gridTemplateColumns: "repeat(6, max-content)"
+					gridTemplateColumns: "repeat(6, max-content)",
 				}}
 			>
 				{(priceActionData as PriceActionWithUpdatedAt[]).map(
@@ -54,7 +59,7 @@ function DailyRecap() {
 								display: "grid",
 								gap: "0.5rem",
 								gridTemplateColumns: "subgrid",
-								gridColumn: "1 / -1"
+								gridColumn: "1 / -1",
 							}}
 						>
 							<div>{d.ticker}</div>

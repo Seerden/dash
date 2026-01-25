@@ -1,0 +1,66 @@
+services:
+  store:
+    container_name: dash-store
+    image: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./redis-data:/data
+
+  database:
+    container_name: dash-database
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=$PG_PASS
+      - POSTGRES_USER=$PG_USER
+      - POSTGRES_DB=$PG_DB
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+      #  - ./database-setup:/docker-entrypoint-initdb.d
+      #    I'm not sure if this works. If we try to run the containers on a
+      #    new machine and it doesn't, this is the place to check. :) Can
+      #    always move the scripts from /server to the old ./database-setup
+      #    folder (see commented line above) to initialize the database
+      #    anyway, so it's not a big deal. Don't forget to do the same for the
+      #    test-database container below!
+      - ../server/src/db/scripts:/docker-entrypoint-initdb.d
+      - ./database-backup:/psql-backups
+    ports:
+      - "5432:5432"
+    command: ["postgres", "-c", "log_statement=all"]
+
+  server:
+    container_name: dash-server
+    image: seerden/dash:${SERVER_TAG:-latest}
+    
+    build:
+      # TODO (DAS-55) set up environment variables and build args, here, in .env
+      # files and in Dockerfiles
+      # args:
+      #   - VITE_DOMAIN=${VITE_DOMAIN:-}
+      #   - VITE_VAPID_PUBLIC_KEY=${VITE_VAPID_PUBLIC_KEY:-}
+      context: ../
+      dockerfile: ./server/Dockerfile.prod
+    depends_on:
+      - database
+      - store
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - SERVER_PORT=5000
+      - IS_TEST_ENVIRONMENT=false
+      - DOMAIN=seerden.app
+    command: ["node", "./dist/server.js"] 
+  nginx:
+      container_name: dash-nginx
+      image: nginx:latest
+      ports:
+        - "80:80" 
+        - "443:443"
+      depends_on:
+        - server
+      volumes:
+        - ../docker/config/nginx.conf:/etc/nginx/conf.d/default.conf:ro 
+        - ../ssl:/etc/ssl
+      restart: always

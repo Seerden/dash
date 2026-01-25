@@ -1,8 +1,8 @@
-import { z } from "zod";
 import {
 	datelike,
 	nullableArrayOfNullableStrings,
 	stringArray,
+	z,
 } from "./zod.utility.types";
 
 /** Validator for the `emails` table. */

@@ -1,67 +1,53 @@
-import { sqlConnection } from "@/db/init";
-import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
-import { login } from "@/lib/trpc/resolvers/login.resolver";
-import { logout } from "@/lib/trpc/resolvers/logout.resolver";
-import { me } from "@/lib/trpc/resolvers/me.resolver";
 import {
-	flatDailyPriceActionResolver,
-	groupedDailyPriceActionResolver,
-} from "@/lib/trpc/resolvers/price-action/daily.resolver";
-import { register } from "@/lib/trpc/resolvers/register.resolver";
-import { verifyMe } from "@/lib/trpc/resolvers/verify-me.resolver";
-import { t } from "@/lib/trpc/trpc-context";
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
+	createTRPCClient,
+	httpBatchLink,
+	httpLink,
+	isNonJsonSerializable,
+	splitLink,
+} from "@trpc/client";
 import superjson from "superjson";
-import { z } from "zod";
+import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
+import { authRouter } from "@/lib/trpc/routers/auth.router";
+import { priceActionRouter } from "@/lib/trpc/routers/price-action.router";
+import { t } from "@/lib/trpc/trpc-context";
+
+// TODO: needs to match what we use in the client, I guess
+// TODO (DAS-55) production-aware
+const url = "http://localhost:5000/api/trpc";
 
 export const appRouter = t.router({
-	hello: publicProcedure
-		.input(z.object({ name: z.string() }))
-		.query(({ input, ctx }) => {
-			return { message: `Hello, ${input.name}!` };
-		}),
-	bye: publicProcedure.input(z.object({ name: z.string() })).query(({ input, ctx }) => {
-		return { message: `Hello, ${input.name}!` };
+	auth: authRouter,
+	priceAction: priceActionRouter,
+	test: publicProcedure.query(async () => {
+		return "hello";
 	}),
-	dbTest: publicProcedure.query(async () => {
-		{
-			// const result = await pingDatabase();
-			return {
-				sql: sqlConnection,
-				db: await sqlConnection`select array[1]`,
-				env: process.env,
-				who: "am i",
-			};
-		}
-	}),
-	auth: {
-		me,
-		logout,
-		login,
-		register,
-		verifyMe,
-	},
-	priceAction: {
-		daily: {
-			flat: flatDailyPriceActionResolver,
-			grouped: groupedDailyPriceActionResolver,
-		},
-	},
 });
 
 export type AppRouter = typeof appRouter;
 
 export const proxyClient = createTRPCClient<AppRouter>({
 	links: [
-		httpBatchLink({
-			transformer: superjson,
-			url: "http://localhost:5000/api/trpc", // TODO: needs to match what we use in the client, I guess
-			fetch(url, options) {
-				return fetch(url, {
-					...options,
-					credentials: "include",
-				});
-			},
+		splitLink({
+			condition: (op) => isNonJsonSerializable(op.input),
+			true: httpLink({
+				url,
+				transformer: {
+					// request - convert data before sending to the tRPC server
+					serialize: (data) => data,
+					// response - convert the tRPC response before using it in client
+					deserialize: superjson.deserialize, // or your other transformer
+				},
+			}),
+			false: httpBatchLink({
+				transformer: superjson,
+				url,
+				fetch(url, options) {
+					return fetch(url, {
+						...options,
+						credentials: "include",
+					});
+				},
+			}),
 		}),
 	],
 });

@@ -1,5 +1,4 @@
-import { datelike, numeric } from "@shared/types/zod.utility.types";
-import { z } from "zod";
+import { datelike, numeric, z } from "./zod.utility.types";
 
 export const priceActionSchema = z.object({
 	ticker: z.string(),

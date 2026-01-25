@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+import day from "@shared/lib/datetime/day";
+import fs from "fs/promises";
 import type { FOLDERS } from "@/lib/polygon/flatfiles/constants";
 import { flatFilesDailyAggsStore } from "@/lib/polygon/flatfiles/daily-aggs.store";
 import {
 	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
-import dayjs from "dayjs";
-import fs from "fs/promises";
 
 /** Lists (recursively) all (compressed and uncompressed) csv files in
  * `[/dash]/flatfiles/<folder>`.
@@ -14,7 +15,9 @@ import fs from "fs/promises";
 export async function listFlatFiles(folder: `${FOLDERS}`) {
 	const path = `/dash/flatfiles/${folder}`;
 	const files = await fs.readdir(path, { recursive: true });
-	return files.filter((file) => file.endsWith(".csv") || file.endsWith(".csv.gz"));
+	return files.filter(
+		(file) => file.endsWith(".csv") || file.endsWith(".csv.gz")
+	);
 }
 
 /**
@@ -28,10 +31,12 @@ export async function listFlatFiles(folder: `${FOLDERS}`) {
  * @todo test this function */
 export async function listMissingAvailableFlatFiles(folder: `${FOLDERS}`) {
 	const files = (await listFlatFiles(folder)).map((file) =>
-		yearMonthDayToString(aggsFilenameToYMD(file)),
+		yearMonthDayToString(aggsFilenameToYMD(file))
 	);
 	const storedFiles = new Set(await flatFilesDailyAggsStore.list());
 	const missingFiles = files.filter((file) => !storedFiles.has(file));
-	const fiveYearsAgo = dayjs().subtract(5, "year").add(1, "day");
-	return missingFiles.filter((file) => dayjs(file, "YYYY-MM-DD").isAfter(fiveYearsAgo));
+	const fiveYearsAgo = day().subtract(5, "year").add(1, "day");
+	return missingFiles.filter((file) =>
+		day(file, "YYYY-MM-DD").isAfter(fiveYearsAgo)
+	);
 }

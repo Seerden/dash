@@ -1,12 +1,15 @@
 services:
   store:
     image: redis
-    command: ["redis-server", "--appendonly", "yes"]
+    container_name: dash-store
+    command: /bin/sh -c "redis-server /usr/local/etc/redis/redis.conf --appendonly yes --requirepass $REDIS_PASS"
     volumes:
       - ./redis-data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
 
   database:
     image: postgres:14-alpine
+    container_name: dash-database
     environment:
       - POSTGRES_PASSWORD=$PG_PASS
       - POSTGRES_USER=$PG_USER
@@ -15,19 +18,21 @@ services:
       - ./pg-data:/var/lib/postgresql/data
       - ../server/src/db/scripts/scripts:/docker-entrypoint-initdb.d
       - ./database-backup:/psql-backups
+      # TODO (DAS-55) figure out what creates /flatfiles, whether or not (and
+      # why) it's still necessary
       - ../flatfiles:/var/lib/postgresql/flatfiles
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "log_statement=all"]
 
   server:
+    container_name: dash-server
     build:
-      context: ../server
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: server/Dockerfile
     volumes:
       - ../:/dash
-      - ../server:/dash/server
-      - ../server/node_modules:/dash/server/node_modules
+      - ../node_modules:/dash/node_modules
       # I can't get the aws cli to pick this up automatically (even when in
       # /dash/.aws), so leaving it out for now 
       # - ./.aws:/dash/server/.aws 
@@ -36,9 +41,14 @@ services:
       - store
     ports:
       - "5000:5000"
-    command: /bin/sh -c "yarn install && yarn dev"
+    # TODO (DAS-55) in track, we npm run dev, but I wonder if bun dev works as
+    # well if not better. iirc I couldn't do bun run dev because of performance
+    # reasons. 
+    command: //bin/sh -c "bun install && npm run dev"
+    restart: unless-stopped
 
   test-database:
+    container_name: dash-test-database
     image: postgres:14-alpine
     environment:
       - POSTGRES_PASSWORD=$PG_PASS
@@ -55,15 +65,18 @@ services:
     command: ["postgres", "-p 5434", "-c", "log_statement=all"]
 
   client:
+    container_name: dash-client
     build:
-      context: ../client
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: client/Dockerfile
     volumes:
       - ../:/dash
-      - ../client:/dash/client
-      - ../client/node_modules:/dash/client/node_modules
+      - ../node_modules:/dash/node_modules
     ports:
       - "5175:5175"
+      # TODO (DAS-55) c.f. track: I don't think 4173 is used for anything.
       - "4173:4173"
       - "6016:6016"
-    command: /bin/sh -c "yarn install && yarn dev"
+    # TODO (DAS-55) same as `server`, I wonder if bun dev works
+    command: //bin/sh -c "bun install && npm run dev"
+    restart: unless-stopped

@@ -1,8 +1,8 @@
-import { sqlConnection } from "@/db/init";
-import { redisClient } from "@/lib/redis-client";
 import fs, { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { sqlConnection } from "@/db/init";
+import { redisClient } from "@/lib/redis-client";
 
 const scriptCacheKeys = {
 	database: {
@@ -17,7 +17,9 @@ const scriptCacheKeys = {
  * on whether or not we're in the test environment. */
 function getScriptCacheKey() {
 	const isTestEnv = process.env.IS_TEST_ENVIRONMENT === "true";
-	return isTestEnv ? scriptCacheKeys.testDatabase.up : scriptCacheKeys.database.up;
+	return isTestEnv
+		? scriptCacheKeys.testDatabase.up
+		: scriptCacheKeys.database.up;
 }
 
 /** Gets the list of script filenames that redis says were executed. */
@@ -64,7 +66,7 @@ async function executeNewScripts() {
 	const filenames = await listAllScripts();
 	const executedScriptFilenames = await listExecutedScripts();
 	const unexecutedScriptFilenames = filenames.filter(
-		(filename) => !executedScriptFilenames.includes(filename),
+		(filename) => !executedScriptFilenames.includes(filename)
 	);
 
 	if (unexecutedScriptFilenames.length === 0) return;
@@ -74,7 +76,7 @@ async function executeNewScripts() {
 			for (const filename of unexecutedScriptFilenames) {
 				const queryAsString = await readFile(
 					path.join(pathToScripts, `${filename}.sql`),
-					"utf-8",
+					"utf-8"
 				);
 				const response = await q.unsafe(queryAsString);
 				console.log({ message: `Ran sql script "${filename}"`, response });
@@ -94,7 +96,9 @@ async function executeNewScripts() {
 async function allScriptsWereExecuted() {
 	const filenames = await listAllScripts();
 	const executedScriptFilenames = await listExecutedScripts();
-	return filenames.every((filename) => executedScriptFilenames.includes(filename));
+	return filenames.every((filename) =>
+		executedScriptFilenames.includes(filename)
+	);
 }
 
 const scriptCache = {

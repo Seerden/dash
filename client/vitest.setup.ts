@@ -4,9 +4,7 @@
  * breaks, don't worry about it. Same goes for render-utils.
  */
 
-import { setupServer } from "msw/node";
 import "whatwg-fetch";
-import { handlers } from "./src/mocks/handlers";
 
 import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
@@ -15,16 +13,6 @@ import { afterEach, expect } from "vitest";
 expect.extend(matchers);
 
 global.structuredClone = (val) => JSON.parse(JSON.stringify(val));
-
-const server = setupServer(...handlers);
-
-global.beforeAll(() => {
-	server.listen();
-});
-
-global.afterAll(() => {
-	server.close();
-});
 
 afterEach(() => {
 	cleanup();

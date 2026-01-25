@@ -4,7 +4,7 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"target": "ES2021",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"sourceMap": true,
 		"outDir": "dist",
       "jsx": "react-jsx",
@@ -31,5 +31,5 @@
       { "path": "../shared" }
    ],
 	"exclude": ["./node_modules", "node_modules", "public"],
-	"include": ["../server/src", "../server/types", "../shared", "types", "../server/tsconfig.json"]
+	"include": ["../server/src", "../server/index.ts", "../server/types", "../shared", "types", "../server/tsconfig.json"]
 }

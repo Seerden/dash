@@ -1,4 +1,4 @@
-import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
+import { formatToYearMonthDay } from "./timestamp";
 
 /** Get the YearMonthDay string for the given date string (like `January 2nd`)
  * and year (like 2025).
@@ -111,5 +111,5 @@ const holidaysMap: Record<string, string[]> = {
 };
 
 export const holidays = Object.entries(holidaysMap).flatMap(([year, dates]) =>
-	dates.map((dateString) => yearAndDateToYearMonthDate({ dateString, year })),
+	dates.map((dateString) => yearAndDateToYearMonthDate({ dateString, year }))
 );
