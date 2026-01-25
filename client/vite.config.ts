@@ -1,4 +1,4 @@
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 import { visualizer } from "rollup-plugin-visualizer";
@@ -7,7 +7,12 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [TanStackRouterVite(), react(), tsconfigPaths(), visualizer()],
+   // TODO: PWA stuff
+	plugins: [tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
+      quoteStyle: "double"
+   }), react(), tsconfigPaths(), visualizer()],
 	build: {
 		minify: "esbuild"
 	},

@@ -24,6 +24,4 @@ server/.sentryclirc
 
 logs/
 
-**/.yarn/*  
-
 /flatfiles
