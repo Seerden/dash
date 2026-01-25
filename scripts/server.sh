@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it docker-server-1 //bin/sh
+docker exec -it dash-server //bin/sh

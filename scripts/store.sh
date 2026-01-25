@@ -1,2 +1,3 @@
 #!/bin/bash
-docker exec -it docker-store-1 redis-cli
+source ./docker/.env
+docker compose -f ./docker/compose.yml exec -it store redis-cli -a $REDIS_PASS
