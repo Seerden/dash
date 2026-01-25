@@ -1,6 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import type { PriceActionWithUpdatedAt } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
+import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 function roundVolumeToMillions(volume: number) {
@@ -15,20 +16,20 @@ export const Route = createLazyFileRoute("/price-action/daily-recap")({
 
 // TODO: this is just a placeholder for the daily recap view
 function DailyRecap() {
-	const { data: priceActionData } = trpc.priceAction.daily.flat.useQuery({
+	const { data: priceActionData } = useQuery(trpc.priceAction.daily.flat.queryOptions({
 		from: "2025-01-22",
 		to: "2025-01-23",
 		table: PRICE_ACTION_TABLES.DAILY,
 		minVolume: 1e7
-	});
+	}))
 
-	const { data: groupedPriceActionData } = trpc.priceAction.daily.grouped.useQuery({
+	const { data: groupedPriceActionData } = useQuery(trpc.priceAction.daily.grouped.queryOptions({
 		from: "2025-01-22",
 		to: "2025-01-23",
 		table: PRICE_ACTION_TABLES.DAILY,
 		minVolume: 1e7,
 		groupBy: "ticker"
-	});
+	}));
 
 	console.log({ groupedPriceActionData });
 

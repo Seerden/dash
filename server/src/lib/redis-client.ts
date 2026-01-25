@@ -8,7 +8,7 @@ export const redisClient = new Redis("redis://store:6379", {
 	maxRetriesPerRequest: null,
 });
 
-export const sessionCookieName = "rack-session";
+export const sessionCookieName = "dash-session";
 
 export const redisSession: session.SessionOptions = {
 	store: new RedisStore({ client: redisClient }),

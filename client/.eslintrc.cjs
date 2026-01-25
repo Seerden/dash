@@ -21,7 +21,7 @@ module.exports = {
 	},
 	plugins: ["react", "@typescript-eslint"],
 	root: true,
-	ignorePatterns: ["node_modules", "build", "dist"],
+	ignorePatterns: ["node_modules", "build", "dist", "*.json"],
 	settings: {
 		react: {
 			version: "detect"

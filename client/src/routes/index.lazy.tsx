@@ -1,7 +1,7 @@
 import { queryClient } from "@/lib/query-client";
 import { trpc } from "@/lib/trpc";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { getQueryKey } from "@trpc/react-query";
 import { useEffect } from "react";
 
 export const Route = createLazyFileRoute("/")({
@@ -10,23 +10,29 @@ export const Route = createLazyFileRoute("/")({
 
 function Index() {
 	// TODO: get rid of this stuff
-	const { mutate } = trpc.auth.login.useMutation();
+	const { mutateAsync } = useMutation(trpc.auth.login.mutationOptions());
+	const { mutateAsync: mutateLogout } = useMutation(trpc.auth.logout.mutationOptions());
 	useEffect(() => {
-		mutate(
-			{
-				username: "admin",
-				password: "test"
-			},
-			{
-				onSuccess: () => {
-					queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.auth.me) });
+		(async function () {
+			// await mutateLogout();
+
+			await mutateAsync(
+				{
+					username: "test",
+					password: "123"
+				},
+				{
+					onSuccess: () => {
+						queryClient.invalidateQueries({
+							queryKey: trpc.auth.me.queryKey()
+						});
+					}
 				}
-			}
-		);
+			);
+		})();
 	}, []);
 
-	// const { data } = trpc.dbTest.useQuery();
-	const { data: me } = trpc.auth.me.useQuery();
+	const { data: me } = useQuery(trpc.auth.me.queryOptions());
 	// console.log({ data });
 	console.log({ me });
 

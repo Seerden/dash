@@ -1,7 +1,6 @@
 import { queryClient } from "@/lib/query-client";
 import { theme } from "@/lib/theme";
-import { trpc } from "@/lib/trpc";
-import useTRPCClient from "@/lib/use-trpc-client";
+import { trpcClient, trpcReactQuery } from "@/lib/trpc";
 import { ThemeProvider } from "@emotion/react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Link, Outlet } from "@tanstack/react-router";
@@ -28,11 +27,10 @@ const ReactQueryDevtools =
 			);
 
 export default function App() {
-	const trpcClient = useTRPCClient();
 
 	return (
 		<ThemeProvider theme={theme}>
-			<trpc.Provider client={trpcClient} queryClient={queryClient}>
+			<trpcReactQuery.TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
 				<QueryClientProvider client={queryClient}>
 					<div className="p-2 flex gap-2">
 						<Link to="/" className="[&.active]:font-bold">
@@ -53,7 +51,7 @@ export default function App() {
 					<TanStackRouterDevtools />
 					<ReactQueryDevtools initialIsOpen={false} position="bottom" />
 				</QueryClientProvider>
-			</trpc.Provider>
+			</trpcReactQuery.TRPCProvider>
 		</ThemeProvider>
 	);
 }

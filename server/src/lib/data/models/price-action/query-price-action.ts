@@ -1,12 +1,7 @@
-import { sqlConnection } from "@/db/init";
-import {
-	sqlTickerFilter,
-	sqlTimestampFilter,
-} from "@/lib/data/models/price-action/filter";
 import type { PriceActionWithUpdatedAt } from "@shared/types/price-action.types";
 import {
-	priceActionWithUpdatedAtSchema,
 	type PriceAction,
+	priceActionWithUpdatedAtSchema,
 } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import type { Nullable } from "@shared/types/utility.types";
@@ -15,6 +10,11 @@ import type {
 	GroupedPriceActionQuery,
 } from "types/price-action.types";
 import type { QueryFunction } from "types/utility.types";
+import { sqlConnection } from "@/db/init";
+import {
+	sqlTickerFilter,
+	sqlTimestampFilter,
+} from "@/lib/data/models/price-action/filter";
 
 /** Queries price action rows from the database using the given constraints.
  * Does not group or parse the data in any way. */
@@ -41,7 +41,9 @@ export const queryPriceActionFlat: QueryFunction<
 	return rows.map((row) => priceActionWithUpdatedAtSchema.parse(row));
 };
 
-type QueryResult = [{ price_action: Record<string, PriceActionWithUpdatedAt[]> }?];
+type QueryResult = [
+	{ price_action: Record<string, PriceActionWithUpdatedAt[]> }?,
+];
 
 /** Query price action rows and group them by `timestamp` or `ticker`.
  * When grouping by timestamps, the returned keys (timestamps) will be integer
@@ -65,10 +67,10 @@ export const queryPriceActionGrouped: QueryFunction<
       FROM (
          SELECT 
             ${
-					groupBy === "timestamp"
-						? sql`extract(epoch from ${sql(groupBy)}) * 1000 as timestamp`
-						: sql`${sql(groupBy)}`
-				}, 
+							groupBy === "timestamp"
+								? sql`extract(epoch from ${sql(groupBy)}) * 1000 as timestamp`
+								: sql`${sql(groupBy)}`
+						}, 
             jsonb_agg(to_jsonb(price_action)) 
          AS price_actions
          FROM ${sql(table)} price_action
@@ -90,7 +92,7 @@ export const queryPriceActionGrouped: QueryFunction<
 				const mappedTimestamp = Number(key).toFixed(0);
 				return { ...acc, [mappedTimestamp]: value };
 			},
-			{},
+			{}
 		);
 		return new Map(Object.entries(hashObject));
 	}

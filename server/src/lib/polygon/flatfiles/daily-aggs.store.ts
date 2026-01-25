@@ -1,13 +1,16 @@
+import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
+import { isYearMonthDay } from "@shared/types/date.types";
+import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import { queryTimestamps } from "@/lib/data/models/price-action/query-price-action";
 import {
 	aggsFilenameToYMD,
 	yearMonthDayToString,
 } from "@/lib/polygon/flatfiles/queue/parse-filename";
-import { ERRORS, priceActionStoreKeys } from "@/lib/polygon/flatfiles/store-constants";
+import {
+	ERRORS,
+	priceActionStoreKeys,
+} from "@/lib/polygon/flatfiles/store-constants";
 import { redisClient } from "@/lib/redis-client";
-import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
-import { isYearMonthDay } from "@shared/types/date.types";
-import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 
 /*
    TODO DAS-48: this file is basically a copy of minute-aggs.store.ts, but for minute
@@ -25,7 +28,7 @@ async function list() {
 }
 
 async function check(filename: string) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	// biome-ignore lint/style/noNonNullAssertion: assume exists
 	const yearMonthDay = filename.split("/").at(-1)!.split(".")[0];
 	if (!isYearMonthDay(yearMonthDay)) {
 		throw ERRORS.INVALID_FILENAME(filename);
@@ -36,7 +39,7 @@ async function check(filename: string) {
 }
 
 async function add(filename: string) {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	// biome-ignore lint/style/noNonNullAssertion: assume exists
 	const yearMonthDay = filename.split("/").at(-1)!.split(".")[0];
 	if (!isYearMonthDay(yearMonthDay)) {
 		throw ERRORS.INVALID_FILENAME(filename);
@@ -58,9 +61,9 @@ async function clear() {
  * @todo also remove any dates that are in the store but don't have data in the
  * database. */
 async function synchronize() {
-	const dateStrings = (await queryTimestamps({ table: PRICE_ACTION_TABLES.DAILY })).map(
-		(ts) => formatToYearMonthDay(new Date(ts.unix)),
-	);
+	const dateStrings = (
+		await queryTimestamps({ table: PRICE_ACTION_TABLES.DAILY })
+	).map((ts) => formatToYearMonthDay(new Date(ts.unix)));
 
 	for (const dateString of dateStrings) {
 		await add(dateString);
