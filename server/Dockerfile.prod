@@ -1,23 +1,52 @@
-FROM node:20-alpine as build
+# NOTE: this whole file is basically copy-pasted from `track` because the
+# architecture is pretty much identical
+# TODO: build ARGs
 
-RUN corepack enable
+# Stage 0: base node image
+FROM node:22-alpine AS base
+
+# Stage 1: build everything
+FROM base AS deps
 
 WORKDIR /dash
-COPY . .
-RUN yarn install
+
+# ARG VITE_DOMAIN
+# ARG VITE_VAPID_PUBLIC_KEY
+# ENV VITE_DOMAIN=${VITE_DOMAIN}
+# ENV VITE_VAPID_PUBLIC_KEY=${VITE_VAPID_PUBLIC_KEY}
+
+COPY package*.json ./
+COPY bunfig.toml ./
+COPY bun.lock* ./
+COPY shared/package*.json ./shared/
+COPY server/package*.json ./server/
+COPY client/package*.json ./client/
+
+RUN npm i -gE bun@1.3.3
+RUN bun i 
+
 COPY . .
 
 WORKDIR /dash/server
-RUN yarn build
-COPY ./server/dist ./dist
+RUN npm run build
 
 WORKDIR /dash/client
-RUN yarn build
+RUN npm run build
 
-COPY ../ .
+# stage 2: production
+FROM node:22-alpine AS runner
 
-USER node
+WORKDIR /dash
+
+COPY --from=deps /dash/node_modules/ /dash/node_modules/
+COPY --from=deps /dash/server/dist /dash/server/dist
+COPY --from=deps /dash/client/dist/ /dash/server/dist/
+
+
+# Set environment variables for production
+ENV NODE_ENV=production
 ENV PORT=5000
 EXPOSE 5000
-
 WORKDIR /dash/server
+
+# NOTE: there is no CMD, we run it from the compose file
