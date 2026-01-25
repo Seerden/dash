@@ -1,6 +1,9 @@
-import type { FOLDERS } from "@/lib/polygon/flatfiles/constants";
-import type { YearMonthDay, YearMonthDayObject } from "@shared/types/date.types";
+import type {
+	YearMonthDay,
+	YearMonthDayObject,
+} from "@shared/types/date.types";
 import { isYearMonthDay } from "@shared/types/date.types";
+import type { FOLDERS } from "@/lib/polygon/flatfiles/constants";
 
 /** Extracts a `YearMonthDayObject` from a filepath like
  * `[/dash/]flatfiles/{daily_aggs_v1|minute_aggs_v1}/<year>/<month>/<year>-<month>-<day>.csv[.gz]`
@@ -10,7 +13,7 @@ export function aggsFilenameToYMD(filepath: string): YearMonthDayObject {
 	if (!file) {
 		// TODO: put this in an ERRORS constant somewhere
 		throw new Error(
-			`Invalid filename: ${filepath}, flatFiles must be formatted like  "<year>-<month>-<day>.csv.gz"`,
+			`Invalid filename: ${filepath}, flatFiles must be formatted like  "<year>-<month>-<day>.csv.gz"`
 		);
 	}
 
@@ -30,7 +33,7 @@ export function yearMonthDayToString({
 
 	if (!isYearMonthDay(yearMonthDay)) {
 		throw new Error(
-			`Invalid filename: ${yearMonthDay}, flatFiles must be formatted like  "<year>-<month>-<day>.csv.gz"`,
+			`Invalid filename: ${yearMonthDay}, flatFiles must be formatted like  "<year>-<month>-<day>.csv.gz"`
 		);
 	}
 

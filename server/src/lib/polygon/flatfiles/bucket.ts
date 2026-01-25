@@ -1,4 +1,10 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/** biome-ignore-all lint/style/noNonNullAssertion: keys exist */
+
+import type { YearMonthDayObject } from "@shared/types/date.types";
+import { spawn } from "child_process";
+import fs from "fs/promises";
+import _path from "path";
+import { fileURLToPath } from "url";
 import {
 	BUCKET,
 	ENDPOINT,
@@ -9,11 +15,6 @@ import {
 	PREFIX,
 } from "@/lib/polygon/flatfiles/constants";
 import { ensureFlatFilesFolderExists } from "@/lib/polygon/flatfiles/ensure-folder";
-import type { YearMonthDayObject } from "@shared/types/date.types";
-import { spawn } from "child_process";
-import fs from "fs/promises";
-import _path from "path";
-import { fileURLToPath } from "url";
 
 /** Sets the AWS credentials so we can interact with the CLI.
  * @usage run this once on startup.
@@ -61,7 +62,7 @@ export async function listS3Objects({
 			[
 				`s3 ls s3://${BUCKET}/${PREFIX}/${folder}/ --endpoint-url ${ENDPOINT} --recursive | awk '{print $4}'`,
 			],
-			{ shell: true },
+			{ shell: true }
 		);
 
 		const output: string[] = [];
@@ -104,8 +105,8 @@ export async function storeS3Objects() {
 				filenames,
 			},
 			null,
-			0,
-		),
+			0
+		)
 	);
 }
 
@@ -120,7 +121,13 @@ export async function getFile({ folder, year, month, day }: GetFileArgs) {
 	const path = `${folder}/${year}/${month}/${year}-${month}-${day}.csv.gz`;
 
 	await ensureFlatFilesFolderExists(`${folder}/${year}/${month}`);
-	const outputPath = _path.join("/dash", "flatfiles", folder, `${year}`, `${month}`);
+	const outputPath = _path.join(
+		"/dash",
+		"flatfiles",
+		folder,
+		`${year}`,
+		`${month}`
+	);
 
 	return new Promise((resolve, reject) => {
 		const awsProcess = spawn(
@@ -133,7 +140,7 @@ export async function getFile({ folder, year, month, day }: GetFileArgs) {
 				"--endpoint-url",
 				"https://files.polygon.io",
 			],
-			{ shell: true },
+			{ shell: true }
 		);
 
 		// this will be an array of download state strings or something. We don't
@@ -209,7 +216,7 @@ export async function getFiles({
 				"--endpoint-url",
 				POLYGON_FLAT_FILES_URL!,
 			],
-			{ shell: true },
+			{ shell: true }
 		);
 
 		// see note with `getFile`, this is the same thing, just for more files.

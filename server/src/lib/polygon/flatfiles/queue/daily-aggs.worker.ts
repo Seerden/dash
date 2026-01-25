@@ -1,8 +1,8 @@
+import { Worker } from "bullmq";
 import { dailyAggsQueue } from "@/lib/polygon/flatfiles/queue/daily-aggs.queue";
 import { dailyAggsProcessingHandler } from "@/lib/polygon/flatfiles/queue/handler";
 import type { PriceActionJob } from "@/lib/polygon/flatfiles/queue/price-action-queue.types";
 import { redisClient } from "@/lib/redis-client";
-import { Worker } from "bullmq";
 
 /** Worker for daily aggs. Note that this autoruns, so calling the function
  * automatically invokes the worker. */
@@ -19,7 +19,7 @@ export function createDailyAggsPriceActionWorker() {
 			concurrency: 30,
 			// telemetry: undefined,
 			// prefix: "bull",
-		},
+		}
 	);
 
 	return worker;

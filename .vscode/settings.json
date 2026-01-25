@@ -1,3 +1,21 @@
 {
-   "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.hg/store/**": true,
+    "**/.git/**": true,
+    "**/node_modules/**": true,
+    "**/.vscode/**": true
+  },
+   "biome.enabled": true,
+   "biome.lsp.bin": "./biome.exe",
+   "biome.configurationPath": "./biome.jsonc",
+   "[json]": {
+      "editor.quickSuggestions": {
+         "strings": true
+      },
+      "editor.suggest.insertMode": "replace",
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+   },
 }
