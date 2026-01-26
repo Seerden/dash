@@ -25,3 +25,5 @@ server/.sentryclirc
 logs/
 
 /flatfiles
+
+biome.exe
