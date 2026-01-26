@@ -33,7 +33,7 @@
 			"@shared/*": ["shared/src/*"],
 			"@server/*": ["server/src/*"]
 		},
-		"types": ["vitest/globals", "node"]
+		"types": ["vitest/globals", "node", "@emotion/react"]
 	},
 	"references": [
 		{
@@ -41,5 +41,5 @@
 		}
 	],
 	"include": ["src", "../shared", "../server", "../server/tsconfig.json"],
-	"exclude": ["node_modules"]
+   "exclude": ["node_modules", "../server/esbuild.config.ts"],
 }

@@ -1,3 +1,6 @@
+import * as trpcExpress from "@trpc/server/adapters/express";
+import cluster from "cluster";
+import cors from "cors";
 import { tryPingingDatabase } from "@/db/init";
 import scriptCache from "@/db/scripts/script.cache";
 import { NODE__dirname } from "@/lib/build.utility";
@@ -5,9 +8,6 @@ import { initializeRedisConnection, redisSession } from "@/lib/redis-client";
 import { runAtStartup, runClusteredTasks } from "@/lib/run-at-startup";
 import { appRouter } from "@/lib/trpc";
 import { createContext } from "@/lib/trpc/trpc-context";
-import * as trpcExpress from "@trpc/server/adapters/express";
-import cluster from "cluster";
-import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import session from "express-session";
@@ -41,7 +41,7 @@ async function start() {
 				// will be localhost or process.env.DOMAIN
 				origin: true,
 				credentials: true,
-			}),
+			})
 		);
 
 		app.use(
@@ -49,7 +49,7 @@ async function start() {
 				limit: "10mb",
 				parameterLimit: 10000,
 				extended: true,
-			}),
+			})
 		);
 
 		app.use(session(redisSession));
@@ -69,7 +69,7 @@ async function start() {
 					console.log({ error: opts.error, body: opts.req.body }); // TODO: proper error handling
 				},
 				allowBatching: true, // this _should_ be the default, but I was having issues with empty request bodies, and this may have fixed it.
-			}),
+			})
 		);
 
 		const port = process.env.PORT ?? 5000;
@@ -88,7 +88,7 @@ async function start() {
 
 		app.listen(port, () => {
 			console.log(
-				`${new Date().toISOString()}: pid ${process.pid} - server is running on port ${port}`,
+				`${new Date().toISOString()}: pid ${process.pid} - server is running on port ${port}`
 			);
 		});
 	}

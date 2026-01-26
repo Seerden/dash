@@ -1,10 +1,10 @@
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { RouterProvider } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import { worker } from "./mocks/browser";
 import "./normalize.css";
-import { routeTree } from "./routeTree.gen";
+import { createRouter } from "@/router";
 
 declare module "@tanstack/react-router" {
 	interface Register {
@@ -13,16 +13,15 @@ declare module "@tanstack/react-router" {
 }
 
 if (import.meta.env.NODE_ENV === "development") {
-	await worker.start({
-		onUnhandledRequest: "bypass"
-	});
+	// do nothing
 }
 
-export const router = createRouter({ routeTree });
+export const router = createRouter();
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+// biome-ignore lint/style/noNonNullAssertion: exists
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<RouterProvider router={router} />
+		<TanStackRouterDevtools router={router} />
 	</React.StrictMode>
 );

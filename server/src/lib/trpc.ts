@@ -1,5 +1,11 @@
-import { sqlConnection } from "@/db/init";
-import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
+import {
+	createTRPCClient,
+	httpBatchLink,
+	httpLink,
+	isNonJsonSerializable,
+	splitLink,
+} from "@trpc/client";
+import superjson from "superjson";
 import { login } from "@/lib/trpc/resolvers/login.resolver";
 import { logout } from "@/lib/trpc/resolvers/logout.resolver";
 import { me } from "@/lib/trpc/resolvers/me.resolver";
@@ -10,30 +16,12 @@ import {
 import { register } from "@/lib/trpc/resolvers/register.resolver";
 import { verifyMe } from "@/lib/trpc/resolvers/verify-me.resolver";
 import { t } from "@/lib/trpc/trpc-context";
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import superjson from "superjson";
-import { z } from "zod";
+
+// TODO: needs to match what we use in the client, I guess
+// TODO (DAS-55) production-aware
+const url ="http://localhost:5000/api/trpc";
 
 export const appRouter = t.router({
-	hello: publicProcedure
-		.input(z.object({ name: z.string() }))
-		.query(({ input, ctx }) => {
-			return { message: `Hello, ${input.name}!` };
-		}),
-	bye: publicProcedure.input(z.object({ name: z.string() })).query(({ input, ctx }) => {
-		return { message: `Hello, ${input.name}!` };
-	}),
-	dbTest: publicProcedure.query(async () => {
-		{
-			// const result = await pingDatabase();
-			return {
-				sql: sqlConnection,
-				db: await sqlConnection`select array[1]`,
-				env: process.env,
-				who: "am i",
-			};
-		}
-	}),
 	auth: {
 		me,
 		logout,
@@ -53,15 +41,27 @@ export type AppRouter = typeof appRouter;
 
 export const proxyClient = createTRPCClient<AppRouter>({
 	links: [
-		httpBatchLink({
-			transformer: superjson,
-			url: "http://localhost:5000/api/trpc", // TODO: needs to match what we use in the client, I guess
-			fetch(url, options) {
-				return fetch(url, {
-					...options,
-					credentials: "include",
-				});
-			},
+		splitLink({
+			condition: (op) => isNonJsonSerializable(op.input),
+			true: httpLink({
+				url,
+				transformer: {
+					// request - convert data before sending to the tRPC server
+					serialize: (data) => data,
+					// response - convert the tRPC response before using it in client
+					deserialize: superjson.deserialize, // or your other transformer
+				},
+			}),
+			false: httpBatchLink({
+				transformer: superjson,
+				url,
+				fetch(url, options) {
+					return fetch(url, {
+						...options,
+						credentials: "include",
+					});
+				},
+			}),
 		}),
 	],
 });

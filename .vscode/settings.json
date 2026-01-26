@@ -1,0 +1,322 @@
+{
+  "biome.enabled": true,
+  "biome.lsp.bin": "./biome.exe",
+  "biome.configurationPath": "./biome.jsonc",
+
+  "editor.minimap.renderCharacters": false,
+  "editor.autoClosingBrackets": "always",
+  "editor.minimap.scale": 1,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "javascript.format.enable": false,
+  "editor.mouseWheelZoom": false,
+  "scss.validate": true,
+  "scss.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownProperties": "ignore",
+  "editor.fontFamily": "'Fira Code'",
+  // "editor.fontFamily": "'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "400",
+  "vscode_custom_css.imports": [
+    "file://C:/Users/Christiaan/Documents/_vscode/vscode.css"
+  ],
+  "explorer.compactFolders": false,
+  "css.validate": false,
+  "editor.linkedEditing": true,
+  "typescript.preferences.importModuleSpecifierEnding": "auto",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+   "typescript.preferences.importModuleSpecifier": "non-relative",
+  "liveServer.settings.donotVerifyTags": true,
+  "explorer.confirmDragAndDrop": false,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "workbench.editor.enablePreview": false,
+  "workbench.sideBar.location": "left",
+  "workbench.colorCustomizations": {
+    "editorIndentGuide.activeBackground1": "#00ff33",
+    "editor.background": "#0d0d0d",
+    "sideBar.border": "#4f4f4f",
+    "sideBar.background": "#151515",
+    "editor.selectionBackground": "#2e2e2e",
+    "editor.lineHighlightBackground": "#292929",
+    "editorLineNumber.foreground": "#949494",
+    "editor.foldBackground": "#24242480", // made transparent
+    "activityBar.background": "#00000018",
+    "titleBar.activeForeground": "#fff",
+    "titleBar.activeBackground": "#222",
+    "tab.inactiveBackground": "#222",
+    "tab.hoverBackground": "#272727",
+    "editorGroupHeader.tabsBackground": "#101010",
+    "editorCursor.foreground": "#ffffff",
+    "editorBracketHighlight.foreground1": "#ff1493",
+    "editorBracketHighlight.foreground2": "#00bfff",
+    "editorBracketHighlight.foreground3": "#FF5349",
+    "editorBracketHighlight.foreground4": "#adff2f"
+  },
+  "editor.tokenColorCustomizations": {
+    "functions": "#ffee00",
+    "keywords": "#87Ceeb",
+    "types": "#00bb2f",
+    "strings": "#ffee00",
+    "comments": "#707570",
+    "textMateRules": [
+      {
+        "scope": "support.constant.media.css",
+        "settings": {
+          "foreground": "#b074ff",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": ["constant.other.color.rgb-value.hex.css"],
+        "settings": {
+          "foreground": "#c9c9c9",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": [
+          "support.constant.property-value.css",
+          "support.constant.color.w3c-standard-color-name.css"
+        ],
+        "settings": {
+          "foreground": "#ffbd2d"
+        }
+      },
+      {
+        "scope": "storage.type.function.arrow",
+        "settings": {
+          "foreground": "#ffcc00"
+        }
+      },
+      {
+        "scope": "support.type.property-name",
+        "settings": {
+          "foreground": "#12a6f0"
+        }
+      },
+      {
+        "scope": [
+          "entity.other.attribute-name",
+          "variable.other.readwrite.tsx",
+          "variable.other.readwrite.alias.tsx"
+        ],
+        "settings": {
+          "foreground": "#c5c9c9"
+        }
+      },
+      {
+        "scope": "punctuation.definition.tag",
+        "settings": {
+          "foreground": "#ffbb00"
+        }
+      },
+      {
+        "name": "storage",
+        "scope": ["storage.type.tsx"],
+        "settings": {
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": [
+          "variable.language.this",
+          "storage.type.tsx",
+          "keyword.control.from.tsx",
+          "keyword.control.as",
+          "keyword.control.export.tsx",
+          "support.class.component",
+          "entity.name.tag"
+        ],
+        "settings": {
+          "foreground": "#0f9fe2",
+          "fontStyle": "italic"
+        }
+      },
+      {
+        "scope": ["keyword.control.import.tsx"],
+        "settings": {
+          "foreground": "#777777a1"
+        }
+      },
+      {
+        "scope": ["storage.type.function", "keyword.operator.new"],
+        "settings": {
+          "foreground": "#65a2fd"
+        }
+      },
+      {
+        "scope": [
+          "keyword.control.flow",
+          "keyword.control",
+          "keyword.control.conditional"
+        ],
+        "settings": {
+          "foreground": "#4dbd69"
+        }
+      },
+      {
+        "scope": "entity.name.type",
+        "settings": {
+          "foreground": "#aaffe6"
+        }
+      },
+      {
+        "scope": ["variable.language.super.tsx"],
+        "settings": {
+          "foreground": "#ffae00"
+        }
+      },
+      {
+        "scope": ["support.variable.property", "variable.parameter"],
+        "settings": {
+          "foreground": "#cd90ff"
+        }
+      },
+      {
+        "scope": [
+          "entity.name.type.class",
+          "variable.language.special.self.python",
+          "variable.parameter.function.language.python",
+          "variable.parameter.function.language.special.self.python",
+          "variable.parameter"
+        ],
+        "settings": {
+          "foreground": "#00f7ff"
+        }
+      },
+      {
+        // python color customization
+        "scope": "entity.name.function.python",
+        "settings": {
+          "foreground": "#57d8ff"
+        }
+      },
+      {
+        "scope": "storage.type.function.python",
+        "settings": {
+          "foreground": "#cc99ff"
+        }
+      },
+      {
+        "scope": "string.quoted.single.python",
+        "settings": {
+          "foreground": "#ffd500"
+        }
+      },
+      {
+        "scope": [
+          "constant.language.boolean.false.tsx",
+          "constant.language.boolean.true.tsx"
+        ],
+        "settings": {
+          "foreground": "#ff6600",
+          "fontStyle": "italic"
+        }
+      }
+    ]
+  },
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.largeFileOptimizations": false,
+  "editor.detectIndentation": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "terminal.integrated.fontFamily": "monospace",
+  "editor.fontSize": 12.9,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "gitlens.codeLens.enabled": false,
+  "gitlens.statusBar.enabled": false,
+  "gitlens.currentLine.format": "${agoOrDate}: \"${message}\"",
+  "python.envFile": "${workspaceFolder}/.env",
+  "python.languageServer": "Jedi",
+  "workbench.startupEditor": "none",
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.autoIndent": "full",
+  "editor.tabSize": 3,
+  "git.enableSmartCommit": true,
+  "editor.suggestFontSize": 12,
+  "javascript.validate.enable": false,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "terminal.integrated.tabs.enabled": true,
+  "terminal.explorerKind": "integrated",
+  "jupyter.askForKernelRestart": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "terminal.external.windowsExec": "Git Bash",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "python.defaultInterpreterPath": "C:\\Users\\Christiaan\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.iconTheme": "material-icon-theme",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "rewrap.autoWrap.enabled": true,
+  "rewrap.doubleSentenceSpacing": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.fixAll.biome": "always",
+    "source.biome": "always",
+    "source.organizeImports.biome": "always"
+  },
+  "files.associations": {},
+  "terminal.integrated.enableMultiLinePasteWarning": "auto",
+  "workbench.panel.defaultLocation": "bottom",
+  "liveSassCompile.settings.generateMap": false,
+  "editor.guides.bracketPairs": true,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": false,
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "todohighlight.keywords": ["NOTE"],
+  "editor.stickyScroll.enabled": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "editor.inlineSuggest.enabled": true,
+  "volar.autoCompleteRefs": true,
+  "notebook.lineNumbers": "on",
+  "terminal.integrated.env.windows": {},
+  "explorer.confirmDelete": false,
+  "typescript.tsserver.log": "off",
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
+  "console-ninja.featureSet": "Community",
+  "diffEditor.ignoreTrimWhitespace": true,
+  "github.copilot.editor.enableAutoCompletions": true,
+  "git.autofetch": true,
+  "editor.defaultColorDecorators": "auto",
+  "githubPullRequests.pullBranch": "never",
+  "editor.inlineSuggest.edits.allowCodeShifting": "never",
+  "editor.inlineSuggest.edits.renderSideBySide": "never",
+  "biome.suggestInstallingGlobally": true,
+  "biome.runFromTemporaryLocation": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+"editor.unicodeHighlight.invisibleCharacters": false,
+"files.watcherExclude": {
+   "**/.git/objects/**": true,
+   "**/.git/subtree-cache/**": true,
+   "**/.hg/store/**": true,
+   "**/.git/**": true,
+   "**/node_modules/**": true,
+   "**/.vscode/**": true
+},
+"[sql]": {
+   "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+},
+"typescript.tsdk": "node_modules\\typescript\\lib"
+}

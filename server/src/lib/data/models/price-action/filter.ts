@@ -1,13 +1,21 @@
+import day from "@shared/lib/datetime/day";
 import { toTimestamp } from "@shared/lib/datetime/timestamp";
 import type { Datelike } from "@shared/types/utility.types";
-import dayjs from "dayjs";
 import type { Ticker } from "types/data.types";
 import type { SQL } from "types/utility.types";
 
 /** Ticker filter for price action queries.
  * @note do not put this as the first condition, since it returns "AND ...". */
-export function sqlTickerFilter({ sql, tickers }: { sql: SQL; tickers: Ticker[] }) {
-	return tickers.length > 0 ? sql`and ticker = ANY(${sql.array(tickers)})` : sql``;
+export function sqlTickerFilter({
+	sql,
+	tickers,
+}: {
+	sql: SQL;
+	tickers: Ticker[];
+}) {
+	return tickers.length > 0
+		? sql`and ticker = ANY(${sql.array(tickers)})`
+		: sql``;
 }
 
 type TimestampFilterArgs = {
@@ -23,7 +31,7 @@ export function sqlTimestampFilter({ sql, from, to }: TimestampFilterArgs) {
 	const _from = toTimestamp(from ?? 0);
 	const _to = toTimestamp(to ?? Date.now());
 
-	if (dayjs(_to).isBefore(dayjs(_from))) {
+	if (day(_to).isBefore(day(_from))) {
 		throw new Error("to cannot be before from");
 	}
 

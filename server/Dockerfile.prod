@@ -3,7 +3,7 @@
 # TODO: build ARGs
 
 # Stage 0: base node image
-FROM node:22-alpine AS base
+FROM node:24-alpine AS base
 
 # Stage 1: build everything
 FROM base AS deps

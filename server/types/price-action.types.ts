@@ -1,9 +1,9 @@
-import type { OHLCV } from "@/lib/polygon/polygon.types";
+import day from "@shared/lib/datetime/day";
 import type { PriceAction } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
 import { datelike } from "@shared/types/zod.utility.types";
-import dayjs from "dayjs";
 import { z } from "zod";
+import type { OHLCV } from "@/lib/polygon/polygon.types";
 
 const polygonToPriceAction = {
 	ticker: "T",
@@ -16,7 +16,7 @@ const polygonToPriceAction = {
 } as Record<keyof PriceAction, keyof OHLCV>;
 
 export const polygonPriceActionMap = new Map<keyof PriceAction, keyof OHLCV>(
-	Object.entries(polygonToPriceAction) as [keyof PriceAction, keyof OHLCV][],
+	Object.entries(polygonToPriceAction) as [keyof PriceAction, keyof OHLCV][]
 );
 
 const dateRangeSchema = z
@@ -25,7 +25,7 @@ const dateRangeSchema = z
 		to: z.optional(datelike),
 	})
 	.superRefine(({ from, to }, ctx) => {
-		if (from && to && dayjs(from).isAfter(dayjs(to))) {
+		if (from && to && day(from).isAfter(day(to))) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				message: "from cannot be after to",
@@ -51,6 +51,8 @@ export type FlatPriceActionQuery = z.infer<typeof flatPriceActionQuerySchema>;
 export const groupedPriceActionQuerySchema = flatPriceActionQuerySchema.and(
 	z.object({
 		groupBy: z.union([z.literal("ticker"), z.literal("timestamp")]),
-	}),
+	})
 );
-export type GroupedPriceActionQuery = z.infer<typeof groupedPriceActionQuerySchema>;
+export type GroupedPriceActionQuery = z.infer<
+	typeof groupedPriceActionQuerySchema
+>;

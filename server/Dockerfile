@@ -1,4 +1,4 @@
-FROM node:22-alpine as base
+FROM node:24-alpine as base
 
 WORKDIR /dash
 COPY . .
@@ -11,4 +11,4 @@ RUN apk add --no-cache aws-cli
 
 EXPOSE 5000
 
-ENV CHOKIDAR_USEPOLLING=true
+# ENV CHOKIDAR_USEPOLLING=true

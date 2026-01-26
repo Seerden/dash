@@ -32,7 +32,7 @@ services:
       dockerfile: server/Dockerfile
     volumes:
       - ../:/dash
-      - /dash/node_modules
+      - ../node_modules:/track/node_modules
       # I can't get the aws cli to pick this up automatically (even when in
       # /dash/.aws), so leaving it out for now 
       # - ./.aws:/dash/server/.aws 
@@ -71,12 +71,12 @@ services:
       dockerfile: client/Dockerfile
     volumes:
       - ../:/dash
-      - /dash/node_modules
+      - ../node_modules:/track/node_modules
     ports:
       - "5175:5175"
       # TODO (DAS-55) c.f. track: I don't think 4173 is used for anything.
       - "4173:4173"
       - "6016:6016"
     # TODO (DAS-55) same as `server`, I wonder if bun dev works
-    command: /bin/sh -c "bun install && npm run dev"
+    command: //bin/sh -c "bun install && npm run dev"
     restart: unless-stopped

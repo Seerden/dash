@@ -1,13 +1,13 @@
-import { proxyClient } from "@/lib/trpc";
+import day from "@shared/lib/datetime/day";
 import { formatToYearMonthDay } from "@shared/lib/datetime/timestamp";
 import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
-import dayjs from "dayjs";
 import type { FlatPriceActionQuery } from "types/price-action.types";
 import {
 	flatPriceActionQuerySchema,
 	groupedPriceActionQuerySchema,
 } from "types/price-action.types";
+import { proxyClient } from "@/lib/trpc";
 
 // TODO: these might fail if the database isn't populated (which is the case on
 // my laptop).)
@@ -37,7 +37,7 @@ describe("flatDailyPriceActionResolver", () => {
 		const output = await proxyClient.priceAction.daily.flat.query(input);
 		expect(output.length).toBe(2);
 		expect(priceActionWithUpdatedAtSchema.parse(output[0])).toEqual(
-			expect.objectContaining({ ticker: "MSFT" }),
+			expect.objectContaining({ ticker: "MSFT" })
 		);
 	});
 	it("should return empty list when querying the future", async () => {
@@ -46,8 +46,8 @@ describe("flatDailyPriceActionResolver", () => {
 			tickers: ["NVDA", "MSFT"],
 			minVolume: 0,
 			table: PRICE_ACTION_TABLES.DAILY,
-			from: formatToYearMonthDay(dayjs().add(1, "day").toDate()),
-			to: formatToYearMonthDay(dayjs().add(2, "day").toDate()),
+			from: formatToYearMonthDay(day().add(1, "day").toDate()),
+			to: formatToYearMonthDay(day().add(2, "day").toDate()),
 		};
 
 		const output = await proxyClient.priceAction.daily.flat.query(input);
@@ -59,13 +59,13 @@ describe("flatDailyPriceActionResolver", () => {
 			tickers: ["NVDA", "MSFT"],
 			minVolume: 0,
 			table: PRICE_ACTION_TABLES.DAILY,
-			from: formatToYearMonthDay(dayjs().add(1, "day").toDate()),
-			to: formatToYearMonthDay(dayjs().add(2, "day").toDate()),
+			from: formatToYearMonthDay(day().add(1, "day").toDate()),
+			to: formatToYearMonthDay(day().add(2, "day").toDate()),
 			groupBy: "ticker",
 		};
 
 		expect(flatPriceActionQuerySchema.safeParse(input)).not.toEqual(
-			expect.objectContaining({ groupBy: "ticker" }),
+			expect.objectContaining({ groupBy: "ticker" })
 		);
 	});
 });
@@ -107,8 +107,8 @@ describe("groupedDailyPriceActionResolver", () => {
 			tickers: ["MSFT", "NVDA"],
 			minVolume: 0,
 			table: PRICE_ACTION_TABLES.DAILY,
-			from: formatToYearMonthDay(dayjs().add(1, "day").toDate()),
-			to: formatToYearMonthDay(dayjs().add(2, "day").toDate()),
+			from: formatToYearMonthDay(day().add(1, "day").toDate()),
+			to: formatToYearMonthDay(day().add(2, "day").toDate()),
 			groupBy: "ticker" as const,
 		};
 		const output = await proxyClient.priceAction.daily.grouped.query(input);
@@ -121,13 +121,13 @@ describe("groupedDailyPriceActionResolver", () => {
 			tickers: ["NVDA", "MSFT"],
 			minVolume: 0,
 			table: PRICE_ACTION_TABLES.DAILY,
-			from: formatToYearMonthDay(dayjs().add(1, "day").toDate()),
-			to: formatToYearMonthDay(dayjs().add(2, "day").toDate()),
+			from: formatToYearMonthDay(day().add(1, "day").toDate()),
+			to: formatToYearMonthDay(day().add(2, "day").toDate()),
 			groupBy: "ticker",
 		};
 
 		expect(groupedPriceActionQuerySchema.parse(input)).toEqual(
-			expect.objectContaining({ groupBy: "ticker" }),
+			expect.objectContaining({ groupBy: "ticker" })
 		);
 	});
 
@@ -147,7 +147,7 @@ describe("groupedDailyPriceActionResolver", () => {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(output?.size).toBe(1);
 
-		input.to = formatToYearMonthDay(dayjs("2025-01-21").add(2, "day").toDate());
+		input.to = formatToYearMonthDay(day("2025-01-21").add(2, "day").toDate());
 		const output2 = await proxyClient.priceAction.daily.grouped.query(input);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(output2?.size).toBe(2);

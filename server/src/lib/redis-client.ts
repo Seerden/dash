@@ -4,9 +4,12 @@ import Redis from "ioredis";
 
 // NOTE: `store` is the name of our redis service in docker-compose, and 6379 is
 // the default port, which we haven't changed.
-export const redisClient = new Redis("redis://store:6379", {
-	maxRetriesPerRequest: null,
-});
+export const redisClient = new Redis(
+	`redis://:${process.env.REDIS_PASS}@store:6379`,
+	{
+		maxRetriesPerRequest: null,
+	}
+);
 
 export const sessionCookieName = "rack-session";
 
@@ -14,7 +17,7 @@ export const redisSession: session.SessionOptions = {
 	store: new RedisStore({ client: redisClient }),
 	name: sessionCookieName,
 	saveUninitialized: false,
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	// biome-ignore lint/style/noNonNullAssertion: exists
 	secret: process.env.SESSION_SECRET!,
 	resave: false,
 	rolling: true,

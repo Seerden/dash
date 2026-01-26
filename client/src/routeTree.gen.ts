@@ -13,18 +13,13 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as VerifyMeRouteImport } from "./routes/verify-me"
 import { Route as RegisterRouteImport } from "./routes/register"
+import { Route as AboutRouteImport } from "./routes/about"
+import { Route as IndexRouteImport } from "./routes/index"
 
-const AboutLazyRouteImport = createFileRoute("/about")()
-const IndexLazyRouteImport = createFileRoute("/")()
 const PriceActionDailyRecapLazyRouteImport = createFileRoute(
   "/price-action/daily-recap",
 )()
 
-const AboutLazyRoute = AboutLazyRouteImport.update({
-  id: "/about",
-  path: "/about",
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import("./routes/about.lazy").then((d) => d.Route))
 const VerifyMeRoute = VerifyMeRouteImport.update({
   id: "/verify-me",
   path: "/verify-me",
@@ -35,11 +30,16 @@ const RegisterRoute = RegisterRouteImport.update({
   path: "/register",
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexLazyRoute = IndexLazyRouteImport.update({
+const AboutRoute = AboutRouteImport.update({
+  id: "/about",
+  path: "/about",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import("./routes/index.lazy").then((d) => d.Route))
+} as any)
 const PriceActionDailyRecapLazyRoute =
   PriceActionDailyRecapLazyRouteImport.update({
     id: "/price-action/daily-recap",
@@ -50,63 +50,56 @@ const PriceActionDailyRecapLazyRoute =
   )
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexLazyRoute
+  "/": typeof IndexRoute
+  "/about": typeof AboutRoute
   "/register": typeof RegisterRoute
   "/verify-me": typeof VerifyMeRoute
-  "/about": typeof AboutLazyRoute
   "/price-action/daily-recap": typeof PriceActionDailyRecapLazyRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexLazyRoute
+  "/": typeof IndexRoute
+  "/about": typeof AboutRoute
   "/register": typeof RegisterRoute
   "/verify-me": typeof VerifyMeRoute
-  "/about": typeof AboutLazyRoute
   "/price-action/daily-recap": typeof PriceActionDailyRecapLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/": typeof IndexLazyRoute
+  "/": typeof IndexRoute
+  "/about": typeof AboutRoute
   "/register": typeof RegisterRoute
   "/verify-me": typeof VerifyMeRoute
-  "/about": typeof AboutLazyRoute
   "/price-action/daily-recap": typeof PriceActionDailyRecapLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | "/"
+    | "/about"
     | "/register"
     | "/verify-me"
-    | "/about"
     | "/price-action/daily-recap"
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/register" | "/verify-me" | "/about" | "/price-action/daily-recap"
+  to: "/" | "/about" | "/register" | "/verify-me" | "/price-action/daily-recap"
   id:
     | "__root__"
     | "/"
+    | "/about"
     | "/register"
     | "/verify-me"
-    | "/about"
     | "/price-action/daily-recap"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   RegisterRoute: typeof RegisterRoute
   VerifyMeRoute: typeof VerifyMeRoute
-  AboutLazyRoute: typeof AboutLazyRoute
   PriceActionDailyRecapLazyRoute: typeof PriceActionDailyRecapLazyRoute
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/about": {
-      id: "/about"
-      path: "/about"
-      fullPath: "/about"
-      preLoaderRoute: typeof AboutLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     "/verify-me": {
       id: "/verify-me"
       path: "/verify-me"
@@ -121,11 +114,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/about": {
+      id: "/about"
+      path: "/about"
+      fullPath: "/about"
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/": {
       id: "/"
       path: "/"
       fullPath: "/"
-      preLoaderRoute: typeof IndexLazyRouteImport
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/price-action/daily-recap": {
@@ -139,10 +139,10 @@ declare module "@tanstack/react-router" {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   RegisterRoute: RegisterRoute,
   VerifyMeRoute: VerifyMeRoute,
-  AboutLazyRoute: AboutLazyRoute,
   PriceActionDailyRecapLazyRoute: PriceActionDailyRecapLazyRoute,
 }
 export const routeTree = rootRouteImport
