@@ -5,6 +5,9 @@
   "repository": "https://github.com/seerden/dash.git",
   "author": "Christiaan Seerden <christiaanseerden@live.nl>",
   "license": "MIT",
+  "scripts": {
+    "build:types": "tsc --build"
+  },
   "workspaces": [
     "client",
     "server",
