@@ -27,7 +27,7 @@ export SERVER_TAG
 
 cd ./docker && docker compose \
     --file ./compose.prod.yml \
-    --env-file ../docker/.env \
+    --env-file ../server/.env \
     up \
     --force-recreate \
     --no-build \
