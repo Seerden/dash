@@ -1,5 +1,5 @@
+import { z } from "@shared/types/zod.utility.types";
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
 import VerifyMe from "@/components/auth/account-verification/VerifyMe";
 
 // TODO: put validators in @lib

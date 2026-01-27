@@ -1,14 +1,14 @@
+import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
+import { z } from "@shared/types/zod.utility.types";
+import {
+	flatPriceActionQuerySchema,
+	groupedPriceActionQuerySchema,
+} from "types/price-action.types";
 import {
 	queryPriceActionFlat,
 	queryPriceActionGrouped,
 } from "@/lib/data/models/price-action/query-price-action";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
-import { priceActionWithUpdatedAtSchema } from "@shared/types/price-action.types";
-import {
-	flatPriceActionQuerySchema,
-	groupedPriceActionQuerySchema,
-} from "types/price-action.types";
-import { z } from "zod";
 
 /* If we want to refine the typing to make "from", "to", or "both" required, we can
    use a pattern like this:

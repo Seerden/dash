@@ -1,11 +1,14 @@
+import type { TransactionSql } from "postgres";
 import type { sqlConnection } from "@/db/init";
 
 export type SQL = typeof sqlConnection;
 
-export type WithSQL<T> = T & { sql?: SQL };
+export type WithSQL<T> = T & { sql?: SQL | TransactionSql };
 
 /** Type helper for functions that interact with the database. */
-export type QueryFunction<TInput, TOutput> = (args: WithSQL<TInput>) => Promise<TOutput>;
+export type QueryFunction<TInput, TOutput> = (
+	args: WithSQL<TInput>
+) => Promise<TOutput>;
 
 export type ObjectEntries<T> = [keyof T, T[keyof T]][];
 

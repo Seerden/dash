@@ -21,7 +21,8 @@ describe("flatDailyPriceActionResolver", () => {
 			from: "2025-01-22",
 			to: "2025-01-23",
 		};
-		const output = await proxyClient.priceAction.daily.flat.query(input);
+		const output =
+			await proxyClient.priceAction.flatDailyPriceAction.query(input);
 		expect(output.length).toBe(10);
 	});
 	it("should make a query with the proper tickers", async () => {
@@ -34,7 +35,8 @@ describe("flatDailyPriceActionResolver", () => {
 			to: "2025-01-23",
 		};
 
-		const output = await proxyClient.priceAction.daily.flat.query(input);
+		const output =
+			await proxyClient.priceAction.flatDailyPriceAction.query(input);
 		expect(output.length).toBe(2);
 		expect(priceActionWithUpdatedAtSchema.parse(output[0])).toEqual(
 			expect.objectContaining({ ticker: "MSFT" })
@@ -50,7 +52,8 @@ describe("flatDailyPriceActionResolver", () => {
 			to: formatToYearMonthDay(day().add(2, "day").toDate()),
 		};
 
-		const output = await proxyClient.priceAction.daily.flat.query(input);
+		const output =
+			await proxyClient.priceAction.flatDailyPriceAction.query(input);
 		expect(output.length).toBe(0);
 	});
 	it("should filter groupBy from input object", async () => {
@@ -81,7 +84,8 @@ describe("groupedDailyPriceActionResolver", () => {
 			to: "2025-01-23",
 			groupBy: "ticker" as const,
 		};
-		const output = await proxyClient.priceAction.daily.grouped.query(input);
+		const output =
+			await proxyClient.priceAction.groupedDailyPriceAction.query(input);
 		expect(output).toBeDefined();
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(output?.size).toBe(10);
@@ -96,7 +100,8 @@ describe("groupedDailyPriceActionResolver", () => {
 			to: "2025-01-23", // ^
 			groupBy: "ticker" as const,
 		};
-		const output = await proxyClient.priceAction.daily.grouped.query(input);
+		const output =
+			await proxyClient.priceAction.groupedDailyPriceAction.query(input);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(output?.size).toBe(2);
 	});
@@ -111,7 +116,8 @@ describe("groupedDailyPriceActionResolver", () => {
 			to: formatToYearMonthDay(day().add(2, "day").toDate()),
 			groupBy: "ticker" as const,
 		};
-		const output = await proxyClient.priceAction.daily.grouped.query(input);
+		const output =
+			await proxyClient.priceAction.groupedDailyPriceAction.query(input);
 		expect(output).toBeNull();
 	});
 
@@ -142,13 +148,15 @@ describe("groupedDailyPriceActionResolver", () => {
 			groupBy: "timestamp" as const,
 		};
 
-		const output = await proxyClient.priceAction.daily.grouped.query(input);
+		const output =
+			await proxyClient.priceAction.groupedDailyPriceAction.query(input);
 		console.log({ output });
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(output?.size).toBe(1);
 
 		input.to = formatToYearMonthDay(day("2025-01-21").add(2, "day").toDate());
-		const output2 = await proxyClient.priceAction.daily.grouped.query(input);
+		const output2 =
+			await proxyClient.priceAction.groupedDailyPriceAction.query(input);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expect(output2?.size).toBe(2);
 	});

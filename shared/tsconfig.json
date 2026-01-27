@@ -26,9 +26,9 @@
     "outDir": "./dist" /* Redirect output structure to the directory. */,
     "composite": true,
     "paths": {
-      "@shared/*": ["shared/src/*"],
-      "@lib/*": ["lib/*"],
-      "@t/*": ["types/*"]
+      // "@shared/*": ["shared/src/*"],
+      // "@lib/*": ["lib/*"],
+      // "@t/*": ["types/*"]
     }
   },
   "include": ["src/**/*"],
