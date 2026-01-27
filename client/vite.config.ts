@@ -15,7 +15,9 @@ export default defineConfig({
 			quoteStyle: "double",
 		}),
 		react(),
-		tsconfigPaths(),
+		tsconfigPaths({
+			ignoreConfigErrors: true,
+		}),
 		visualizer(),
 	],
 	build: {
