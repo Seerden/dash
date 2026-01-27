@@ -6,7 +6,7 @@
 	"scripts": {
 		"vitest": "vitest",
 		"test": "vitest",
-		"dev": "tsx watch --clear-screen=false ./index.ts",
+		"dev": "bun run ./index.ts --hot",
 		"build": "node esbuild.config.js --bundle"
 	},
 	"author": "",
