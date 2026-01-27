@@ -1,5 +1,4 @@
 import { RouterProvider } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
@@ -22,6 +21,5 @@ export const router = createRouter();
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<RouterProvider router={router} />
-		<TanStackRouterDevtools router={router} />
 	</React.StrictMode>
 );
