@@ -1,6 +1,5 @@
-import { Datelike, ID } from "@shared/types/utility.types";
-import { datelike, string } from "@shared/types/zod.utility.types";
-import { z } from "zod";
+import type { Datelike, ID } from "./utility.types";
+import { datelike, string, z } from "./zod.utility.types";
 
 export const userInputSchema = z.object({
 	username: string.min(3),

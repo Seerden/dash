@@ -1,3 +1,5 @@
+import { newUserSchema } from "@shared/types/user.types";
+import { hash } from "argon2";
 import { sqlConnection } from "@/db/init";
 import { generateEmailVerificationToken } from "@/lib/auth/generate-email-verification-token";
 import { insertUser } from "@/lib/data/models/auth/insert-user";
@@ -8,8 +10,6 @@ import { sendVerificationEmail } from "@/lib/resend/emails/verification-email";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 import { ERRORS } from "@/lib/trpc/resolvers/constants/errors";
 import { verificationEmailSentResponse } from "@/lib/trpc/resolvers/constants/responses";
-import { newUserSchema } from "@shared/types/user.types";
-import { hash } from "argon2";
 
 /** Registers a user if the provided credentials are available. Sends them a
  * verification email, and stores the email in the database, and theverification
@@ -30,7 +30,6 @@ export const register = publicProcedure
 		return await sqlConnection.begin(async (sql) => {
 			try {
 				const user = await insertUser({
-					sql,
 					newUserInput: {
 						email,
 						username,
@@ -39,11 +38,13 @@ export const register = publicProcedure
 				});
 
 				const token = generateEmailVerificationToken();
-				const verificationEmail = await sendVerificationEmail({ sql, token, user });
+				const verificationEmail = await sendVerificationEmail({
+					token,
+					user,
+				});
 
 				await verificationTokenStore.set(token, user.user_id);
 				await insertVerificationEmail({
-					sql,
 					email: {
 						email_id: verificationEmail.id,
 						user_id: user.user_id,

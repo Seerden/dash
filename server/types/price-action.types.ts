@@ -1,9 +1,7 @@
-import type { OHLCV } from "@/lib/polygon/polygon.types";
 import type { PriceAction } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
-import { datelike } from "@shared/types/zod.utility.types";
-import dayjs from "dayjs";
-import { z } from "zod";
+import { timestampSchema, z } from "@shared/types/zod.utility.types";
+import type { OHLCV } from "@/lib/polygon/polygon.types";
 
 const polygonToPriceAction = {
 	ticker: "T",
@@ -16,23 +14,22 @@ const polygonToPriceAction = {
 } as Record<keyof PriceAction, keyof OHLCV>;
 
 export const polygonPriceActionMap = new Map<keyof PriceAction, keyof OHLCV>(
-	Object.entries(polygonToPriceAction) as [keyof PriceAction, keyof OHLCV][],
+	Object.entries(polygonToPriceAction) as [keyof PriceAction, keyof OHLCV][]
 );
 
-const dateRangeSchema = z
-	.object({
-		from: z.optional(datelike),
-		to: z.optional(datelike),
-	})
-	.superRefine(({ from, to }, ctx) => {
-		if (from && to && dayjs(from).isAfter(dayjs(to))) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: "from cannot be after to",
-				path: ["from"],
-			});
-		}
-	});
+const dateRangeSchema = z.object({
+	from: timestampSchema.nullable(),
+	to: timestampSchema.nullable(),
+});
+// .superRefine(({ from, to }, ctx) => {
+// 	if (from && to && day(from).isAfter(day(to))) {
+// 		ctx.addIssue({
+// 			code: z.ZodIssueCode.custom,
+// 			message: "from cannot be after to",
+// 			path: ["from"],
+// 		});
+// 	}
+// });
 
 /**
  * @todo the actual database query considers from and to optional, but this
@@ -40,10 +37,10 @@ const dateRangeSchema = z
  */
 export const flatPriceActionQuerySchema = z
 	.object({
-		limit: z.optional(z.number().default(1e4)),
-		tickers: z.optional(z.array(z.string())),
-		minVolume: z.optional(z.number().default(0)),
-		table: z.optional(z.nativeEnum(PRICE_ACTION_TABLES)),
+		limit: z.number().default(1e4).optional(),
+		tickers: z.array(z.string()).optional(),
+		minVolume: z.number().default(0).optional(),
+		table: z.nativeEnum(PRICE_ACTION_TABLES).optional(),
 	})
 	.and(dateRangeSchema);
 export type FlatPriceActionQuery = z.infer<typeof flatPriceActionQuerySchema>;
@@ -51,6 +48,8 @@ export type FlatPriceActionQuery = z.infer<typeof flatPriceActionQuerySchema>;
 export const groupedPriceActionQuerySchema = flatPriceActionQuerySchema.and(
 	z.object({
 		groupBy: z.union([z.literal("ticker"), z.literal("timestamp")]),
-	}),
+	})
 );
-export type GroupedPriceActionQuery = z.infer<typeof groupedPriceActionQuerySchema>;
+export type GroupedPriceActionQuery = z.infer<
+	typeof groupedPriceActionQuerySchema
+>;

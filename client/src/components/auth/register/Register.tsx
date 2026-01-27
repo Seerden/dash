@@ -1,7 +1,9 @@
-import { trpc } from "@/lib/trpc";
-import { newUserSchema, type NewUser } from "@shared/types/user.types";
+import { type NewUser, newUserSchema } from "@shared/types/user.types";
+import { useMutation } from "@tanstack/react-query";
 import { produce } from "immer";
-import React, { useCallback, useEffect, useState } from "react";
+import type React from "react";
+import { useCallback, useEffect, useState } from "react";
+import { trpc } from "@/lib/trpc";
 import S from "./style/Register.style";
 
 type AllNullable<T> = { [K in keyof T]: T[K] | null };
@@ -10,9 +12,9 @@ export default function Register() {
 	const [user, setUser] = useState<AllNullable<NewUser>>({
 		username: null,
 		password: null,
-		email: null
+		email: null,
 	});
-	const { mutate } = trpc.auth.register.useMutation();
+	const { mutate } = useMutation(trpc.auth.register.mutationOptions());
 
 	useEffect(() => {
 		console.log({ user });

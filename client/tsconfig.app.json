@@ -33,13 +33,13 @@
 			"@shared/*": ["shared/src/*"],
 			"@server/*": ["server/src/*"]
 		},
-		"types": ["vitest/globals", "node"]
+		"types": ["vitest/globals", "node", "@emotion/react"]
 	},
 	"references": [
 		{
 			"path": "../server"
 		}
 	],
-	"include": ["src", "../shared", "../server", "../server/tsconfig.json"],
-	"exclude": ["node_modules"]
+	"include": ["src", "../shared"],
+   "exclude": ["node_modules", "../server/esbuild.config.ts"],
 }

@@ -24,6 +24,6 @@ server/.sentryclirc
 
 logs/
 
-**/.yarn/*  
-
 /flatfiles
+
+biome.exe

@@ -15,7 +15,7 @@ const {
 
 // I don't know what generic this expects. postgres.js is not very
 // typescript-oriented.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: ^
 type PostgresOptions = postgres.Options<any>;
 
 const options: PostgresOptions = {
@@ -35,7 +35,7 @@ const testOptions: PostgresOptions = {
 };
 
 export const sqlConnection = postgres(
-	IS_TEST_ENVIRONMENT === "true" ? testOptions : options,
+	IS_TEST_ENVIRONMENT === "true" ? testOptions : options
 );
 
 export const DEV_sqlTestConnection = postgres(testOptions);

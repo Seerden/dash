@@ -1,7 +1,6 @@
-import { sqlConnection } from "@/db/init";
 import type { User } from "@shared/types/user.types";
-import type { ID, Maybe } from "@shared/types/utility.types";
-import type { QueryFunction } from "types/utility.types";
+import type { ID } from "@shared/types/utility.types";
+import { query } from "@/lib/query-function";
 
 /**
  * @todo generalize this to work with any table and combination of non-mutable fields
@@ -13,35 +12,33 @@ function stripNonMutableFields(user: Partial<User> & Pick<User, "user_id">) {
 
 /** Query to update the mutable update fields. These are the fields that the
  * user specifies themselves, like their password, username, email address. */
-export const updateUserFields: QueryFunction<
-	{ user: Partial<User> & Pick<User, "user_id"> },
-	Maybe<User>
-> = async ({ sql = sqlConnection, user }) => {
-	const userToUpdate = stripNonMutableFields(user);
+export const updateUserFields = query(
+	async (sql, { user }: { user: Partial<User> & Pick<User, "user_id"> }) => {
+		const userToUpdate = stripNonMutableFields(user);
 
-	if (Object.keys(userToUpdate).length === 0) {
-		return;
-	}
+		if (Object.keys(userToUpdate).length === 0) {
+			return;
+		}
 
-	const [updatedUser] = await sql<[User]>`
+		const [updatedUser] = await sql<[User]>`
       UPDATE users
       SET ${sql(userToUpdate)}
       WHERE user_id = ${user.user_id}
       RETURNING *;
    `;
-	return updatedUser;
-};
+		return updatedUser;
+	}
+);
 
 /** Activate, or deactivate (value = false) a user by `user_id`. */
-export const activateUser: QueryFunction<
-	{ user_id: ID; value?: boolean },
-	User
-> = async ({ sql = sqlConnection, user_id, value = true }) => {
-	const [updatedUser] = await sql<[User]>`
+export const activateUser = query(
+	async (sql, { user_id, value = true }: { user_id: ID; value?: boolean }) => {
+		const [updatedUser] = await sql<[User]>`
       UPDATE users
       SET is_active = ${value}
       WHERE user_id = ${user_id}
       RETURNING *;
    `;
-	return updatedUser;
-};
+		return updatedUser;
+	}
+);
