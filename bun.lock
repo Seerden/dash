@@ -1,6 +1,5 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 1,
   "workspaces": {
     "": {
       "name": "@dash/root",
@@ -26,8 +25,10 @@
         "@trpc/client": "11.8.1",
         "@trpc/server": "11.8.1",
         "@trpc/tanstack-react-query": "11.8.1",
+        "@types/lodash": "4.17.23",
         "dayjs": "1.11.18",
         "immer": "^10.1.1",
+        "lodash": "4.17.23",
         "lucide-react": "^0.460.0",
         "motion": "12.23.24",
         "react": "19.1.0",
@@ -637,6 +638,8 @@
     "@types/express-session": ["@types/express-session@1.18.2", "", { "dependencies": { "@types/express": "*" } }, "sha512-k+I0BxwVXsnEU2hV77cCobC08kIsn4y44C3gC0b46uxZVMaXA04lSPgRLR/bSL2w0t0ShJiG8o4jPzRG/nscFg=="],
 
     "@types/http-errors": ["@types/http-errors@2.0.5", "", {}, "sha512-r8Tayk8HJnX0FztbZN7oVqGccWgw98T/0neJphO91KkmOzug1KkofZURD4UaD5uH8AqcFLfdPErnBod0u71/qg=="],
+
+    "@types/lodash": ["@types/lodash@4.17.23", "", {}, "sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA=="],
 
     "@types/mdx": ["@types/mdx@2.0.13", "", {}, "sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw=="],
 
