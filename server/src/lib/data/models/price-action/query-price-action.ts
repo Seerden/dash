@@ -4,6 +4,7 @@ import {
 	priceActionWithUpdatedAtSchema,
 } from "@shared/types/price-action.types";
 import { PRICE_ACTION_TABLES } from "@shared/types/table.types";
+import type { Nullable } from "@shared/types/utility.types";
 import type {
 	FlatPriceActionQuery,
 	GroupedPriceActionQuery,
@@ -59,7 +60,7 @@ export const queryPriceActionGrouped = query(
 			to,
 			groupBy,
 		}: GroupedPriceActionQuery
-	) => {
+	): Promise<Nullable<Map<string, PriceActionWithUpdatedAt[]>>> => {
 		// query price_action_1d, and use json agg or something to group the rows by ticker
 		const [result] = await sql<QueryResult>`
          SELECT jsonb_object_agg(${sql(groupBy)}, price_actions) as price_action

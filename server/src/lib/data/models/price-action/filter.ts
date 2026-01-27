@@ -3,7 +3,7 @@ import { toTimestamp } from "@shared/lib/datetime/timestamp";
 import type { Nullable } from "@shared/types/utility.types";
 import type { Timestamp } from "@shared/types/zod.utility.types";
 import type { Ticker } from "types/data.types";
-import type { SQL } from "types/utility.types";
+import type { Connection } from "@/lib/query-function";
 
 /** Ticker filter for price action queries.
  * @note do not put this as the first condition, since it returns "AND ...". */
@@ -11,7 +11,7 @@ export function sqlTickerFilter({
 	sql,
 	tickers,
 }: {
-	sql: SQL;
+	sql: Connection;
 	tickers: Ticker[];
 }) {
 	return tickers.length > 0
@@ -20,7 +20,7 @@ export function sqlTickerFilter({
 }
 
 type TimestampFilterArgs = {
-	sql: SQL;
+	sql: Connection;
 	from: Nullable<Timestamp>;
 	to: Nullable<Timestamp>;
 };

@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from "node:async_hooks";
 import type { TransactionSql } from "postgres";
 import { sqlConnection } from "@/db/init";
 
-type Connection = typeof sqlConnection | TransactionSql;
+export type Connection = typeof sqlConnection | TransactionSql;
 
 const sqlStore = new AsyncLocalStorage<Connection>();
 

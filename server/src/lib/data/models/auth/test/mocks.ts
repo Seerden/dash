@@ -1,8 +1,7 @@
-import { insertUser } from "@/lib/data/models/auth/insert-user";
-import { insertEmail } from "@/lib/data/models/email/insert-email";
 import { emailSchema } from "@shared/types/email.types";
 import type { NewUserInput } from "@shared/types/user.types";
-import type { SQL } from "types/utility.types";
+import { insertUser } from "@/lib/data/models/auth/insert-user";
+import { insertEmail } from "@/lib/data/models/email/insert-email";
 
 export const newUser: NewUserInput = {
 	email: "me@example.com",
@@ -10,8 +9,8 @@ export const newUser: NewUserInput = {
 	username: "i_am_me",
 };
 
-export async function createMockUser(sql: SQL) {
-	const user = await insertUser({ sql, newUserInput: newUser });
+export async function createMockUser() {
+	const user = await insertUser({ newUserInput: newUser });
 	return user;
 }
 
@@ -31,6 +30,6 @@ export const newEmailMock = emailSchema.parse({
 	scheduled_at: null,
 });
 
-export async function createMockEmail(sql: SQL) {
-	return await insertEmail({ sql, email: newEmailMock });
+export async function createMockEmail() {
+	return await insertEmail({ email: newEmailMock });
 }

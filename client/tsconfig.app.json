@@ -40,6 +40,6 @@
 			"path": "../server"
 		}
 	],
-	"include": ["src", "../shared", "../server", "../server/tsconfig.json"],
+	"include": ["src", "../shared"],
    "exclude": ["node_modules", "../server/esbuild.config.ts"],
 }

@@ -1,17 +1,20 @@
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cluster from "cluster";
 import cors from "cors";
-import { tryPingingDatabase } from "@/db/init";
-import scriptCache from "@/db/scripts/script.cache";
-import { NODE__dirname } from "@/lib/build.utility";
-import { initializeRedisConnection, redisSession } from "@/lib/redis-client";
-import { runAtStartup, runClusteredTasks } from "@/lib/run-at-startup";
-import { appRouter } from "@/lib/trpc";
-import { createContext } from "@/lib/trpc/trpc-context";
+import scriptCache from "./src/db/scripts/script.cache";
+import { NODE__dirname } from "./src/lib/build.utility";
+import {
+	initializeRedisConnection,
+	redisSession,
+} from "./src/lib/redis-client";
+import { runAtStartup, runClusteredTasks } from "./src/lib/run-at-startup";
+import { appRouter } from "./src/lib/trpc";
+import { createContext } from "./src/lib/trpc/trpc-context";
 import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import path from "path";
+import { tryPingingDatabase } from "./src/db/init";
 
 async function start() {
 	if (cluster.isPrimary) {

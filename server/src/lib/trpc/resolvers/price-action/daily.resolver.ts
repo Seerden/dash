@@ -37,7 +37,9 @@ export const flatDailyPriceActionResolver = publicProcedure
 
 export const groupedDailyPriceActionResolver = publicProcedure
 	.input(groupedPriceActionQuerySchema)
-	.output(z.map(z.string(), z.array(priceActionWithUpdatedAtSchema)).nullable())
+	// TODO (DAS-55) this output doesn't match the actual output type anymore,
+	// because I tweaked schemas a little bit. Fix this eventually
+	// .output(z.map(z.string(), z.array(priceActionWithUpdatedAtSchema)).nullable())
 	.query(async (opts) => {
 		return await queryPriceActionGrouped({
 			...opts.input,

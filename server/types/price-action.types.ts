@@ -37,10 +37,10 @@ const dateRangeSchema = z.object({
  */
 export const flatPriceActionQuerySchema = z
 	.object({
-		limit: z.optional(z.number().default(1e4)),
-		tickers: z.optional(z.array(z.string())),
-		minVolume: z.optional(z.number().default(0)),
-		table: z.optional(z.nativeEnum(PRICE_ACTION_TABLES)),
+		limit: z.number().default(1e4).optional(),
+		tickers: z.array(z.string()).optional(),
+		minVolume: z.number().default(0).optional(),
+		table: z.nativeEnum(PRICE_ACTION_TABLES).optional(),
 	})
 	.and(dateRangeSchema);
 export type FlatPriceActionQuery = z.infer<typeof flatPriceActionQuerySchema>;
