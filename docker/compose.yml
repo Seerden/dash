@@ -32,7 +32,7 @@ services:
       dockerfile: server/Dockerfile
     volumes:
       - ../:/dash
-      - ../node_modules:/track/node_modules
+      - ../node_modules:/dash/node_modules
       # I can't get the aws cli to pick this up automatically (even when in
       # /dash/.aws), so leaving it out for now 
       # - ./.aws:/dash/server/.aws 
@@ -71,7 +71,7 @@ services:
       dockerfile: client/Dockerfile
     volumes:
       - ../:/dash
-      - ../node_modules:/track/node_modules
+      - ../node_modules:/dash/node_modules
     ports:
       - "5175:5175"
       # TODO (DAS-55) c.f. track: I don't think 4173 is used for anything.
