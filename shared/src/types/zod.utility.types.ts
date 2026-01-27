@@ -24,6 +24,7 @@ export const timestampSchema = z.union([
 	z.instanceof(day as unknown as typeof Dayjs),
 	z.number(),
 ]);
+export type Timestamp = z.infer<typeof timestampSchema>;
 
 /** Things that are stored as numeric(x, n), we usually want to parse to
  * numbers. This accomplishes that. */

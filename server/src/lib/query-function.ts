@@ -77,11 +77,8 @@ export const createTransaction = <T>(
 	transactionQuery: (sql: TransactionSql) => Promise<T>
 ) => {
 	const sql = getConnectionFromAsyncStore();
-	// NOTE (DAS-55) we're using postgres 3.4.8 (c.f. other projects where I'm
-	// still on 3.4.7), where the type of TransactionSql was fixed somewhat,
-	// hence we now have to assume, here, that we're not in a transaction in
-	// order for the typing to work out.
-	return (sql as typeof sqlConnection).begin(async (q) => {
+	// NOTE (DAS-55) postgres 3.4.8 broke the TransactionSql type.
+	return sql.begin(async (q) => {
 		return await transaction(q, () => transactionQuery(q));
 	});
 };

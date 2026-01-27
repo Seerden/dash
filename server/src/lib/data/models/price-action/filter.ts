@@ -1,6 +1,7 @@
 import day from "@shared/lib/datetime/day";
 import { toTimestamp } from "@shared/lib/datetime/timestamp";
-import type { Datelike } from "@shared/types/utility.types";
+import type { Nullable } from "@shared/types/utility.types";
+import type { Timestamp } from "@shared/types/zod.utility.types";
 import type { Ticker } from "types/data.types";
 import type { SQL } from "types/utility.types";
 
@@ -20,8 +21,8 @@ export function sqlTickerFilter({
 
 type TimestampFilterArgs = {
 	sql: SQL;
-	from?: Datelike;
-	to?: Datelike;
+	from: Nullable<Timestamp>;
+	to: Nullable<Timestamp>;
 };
 /** Timestamp filter (from, to) for price action queries.
  * @note do not put this as the first condition, since it returns "AND ...". */
