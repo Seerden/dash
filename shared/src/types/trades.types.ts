@@ -10,7 +10,7 @@ export const tradeInputSchema = z.object({
 	unrealized: z.number().nullable(),
 	/** trade duration in seconds */
 	duration: z.number().nullable(),
-	closed: z.boolean(),
+	closed: z.boolean().default(false),
 });
 export type TradeInput = z.infer<typeof tradeInputSchema>;
 
