@@ -1,7 +1,7 @@
 import fs, { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
-import { sqlConnection } from "@/db/init";
+import { createTransaction } from "@/lib/query-function";
 import { redisClient } from "@/lib/redis-client";
 
 const scriptCacheKeys = {
@@ -64,6 +64,7 @@ async function listAllScripts() {
  * executed in the redis set. */
 async function executeNewScripts() {
 	const filenames = await listAllScripts();
+	console.info({ message: "List of script cache filenames", filenames });
 	const executedScriptFilenames = await listExecutedScripts();
 	const unexecutedScriptFilenames = filenames.filter(
 		(filename) => !executedScriptFilenames.includes(filename)
@@ -72,7 +73,7 @@ async function executeNewScripts() {
 	if (unexecutedScriptFilenames.length === 0) return;
 
 	try {
-		await sqlConnection.begin(async (q) => {
+		await createTransaction(async (q) => {
 			for (const filename of unexecutedScriptFilenames) {
 				const queryAsString = await readFile(
 					path.join(pathToScripts, `${filename}.sql`),
@@ -84,6 +85,8 @@ async function executeNewScripts() {
 			}
 		});
 	} catch (error) {
+		// TODO: sentry
+		console.error(error);
 		// mark each of the scripts in unexecutedScriptFilenames as not executed
 		// again so we can run them again later.
 		for (const filename of unexecutedScriptFilenames) {
