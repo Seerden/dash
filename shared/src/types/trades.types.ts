@@ -3,8 +3,7 @@ import { timestampSchema, z } from "./zod.utility.types";
 export const ticketSideSchema = z.enum(["SS", "S", "BC", "B"]);
 export type TicketSide = z.infer<typeof ticketSideSchema>;
 
-export const tradeSchema = z.object({
-	id: z.string(),
+export const tradeInputSchema = z.object({
 	account: z.string(),
 	ticker: z.string(),
 	realized: z.number(),
@@ -12,15 +11,20 @@ export const tradeSchema = z.object({
 	/** trade duration in seconds */
 	duration: z.number().nullable(),
 	closed: z.boolean(),
-	created_at: timestampSchema,
-	updated_at: timestampSchema,
 });
+export type TradeInput = z.infer<typeof tradeInputSchema>;
+
+export const tradeSchema = tradeInputSchema.and(
+	z.object({
+		id: z.string(),
+		created_at: timestampSchema,
+		updated_at: timestampSchema,
+	})
+);
 export type Trade = z.infer<typeof tradeSchema>;
 
-export const ticketSchema = z.object({
-	id: z.string(),
+export const ticketInputSchema = z.object({
 	account: z.string(),
-	trade_id: z.string(),
 	timestamp: timestampSchema, // TODO: what does the postgresjs return for timestamptz columns?
 	ticker: z.string(),
 	amount: z.number(),
@@ -28,8 +32,19 @@ export const ticketSchema = z.object({
 	price: z.number(),
 });
 
-export const tradeMetaSchema = z.object({
-	id: z.string(),
+export const ticketInputWithTradeIdSchema = ticketInputSchema.and(
+	z.object({
+		trade_id: z.string(),
+	})
+);
+
+export const ticketSchema = ticketInputWithTradeIdSchema.and(
+	z.object({
+		id: z.string(),
+	})
+);
+
+export const tradeMetaInputSchema = z.object({
 	account: z.string(),
 	ticker: z.string(),
 	ticket_id: z.string().nullable(),
@@ -37,6 +52,12 @@ export const tradeMetaSchema = z.object({
 	data: z.record(z.string(), z.any()).nullable(),
 	stop: z.number().nullable(),
 	target: z.number().nullable(),
-	created_at: timestampSchema,
-	updated_at: timestampSchema,
 });
+
+export const tradeMetaSchema = tradeMetaInputSchema.and(
+	z.object({
+		id: z.string(),
+		created_at: timestampSchema,
+		updated_at: timestampSchema,
+	})
+);
