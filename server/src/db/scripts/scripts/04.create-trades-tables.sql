@@ -15,7 +15,7 @@ create table if not exists trades (
 create table if not exists tickets (
    id bigint generated always as identity primary key,
    account text not null,
-   trade_id bigint references trades(id) on delete cascade,
+   trade_id bigint references trades(id) on delete cascade not null,
    "timestamp" timestamptz not null,
    ticker varchar(10) not null,
    amount numeric not null,

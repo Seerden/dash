@@ -9,3 +9,9 @@ export enum PRICE_ACTION_TABLES {
 	DAILY = "price_action_1d",
 	MINUTE = "price_action_1m",
 }
+
+export const TRADES_TABLES = {
+	trades: "trades",
+	tickets: "tickets",
+	meta: "trades_meta",
+} as const;
