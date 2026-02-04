@@ -9,6 +9,7 @@ import superjson from "superjson";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 import { authRouter } from "@/lib/trpc/routers/auth.router";
 import { priceActionRouter } from "@/lib/trpc/routers/price-action.router";
+import { tradesRouter } from "@/lib/trpc/routers/trades.router";
 import { t } from "@/lib/trpc/trpc-context";
 
 // TODO: needs to match what we use in the client, I guess
@@ -18,6 +19,7 @@ const url = "http://localhost:5000/api/trpc";
 export const appRouter = t.router({
 	auth: authRouter,
 	priceAction: priceActionRouter,
+	trades: tradesRouter,
 	test: publicProcedure.query(async () => {
 		return "hello";
 	}),
