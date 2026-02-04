@@ -31,6 +31,7 @@ export const ticketInputSchema = z.object({
 	side: ticketSideSchema,
 	price: z.number(),
 });
+export type TicketInput = z.infer<typeof ticketInputSchema>;
 
 export const ticketInputWithTradeIdSchema = ticketInputSchema.and(
 	z.object({
@@ -43,6 +44,7 @@ export const ticketSchema = ticketInputWithTradeIdSchema.and(
 		id: z.string(),
 	})
 );
+export type Ticket = z.infer<typeof ticketSchema>;
 
 export const tradeMetaInputSchema = z.object({
 	account: z.string(),
