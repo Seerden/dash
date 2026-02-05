@@ -1,7 +1,45 @@
-import type { TicketInput, TradeInput } from "@shared/types/trades.types";
+import { TRADES_TABLES } from "@shared/types/table.types";
+import type {
+	Ticket,
+	TicketInput,
+	Trade,
+	TradeInput,
+} from "@shared/types/trades.types";
+import type { Nullable } from "@shared/types/utility.types";
+import { queryTickets } from "@/lib/data/models/trades/tickets/query-tickets";
+import {
+	buildTradeInput,
+	createTicket,
+} from "@/lib/data/models/trades/tickets/ticket.utilities";
 import { createTrades } from "@/lib/data/models/trades/trades/create-trades";
 import { queryTrades } from "@/lib/data/models/trades/trades/query-trades";
 import { createTransaction, query } from "@/lib/query-function";
+
+export const insertTicket = query(
+	async ({
+		ticket,
+		trade_id,
+	}: {
+		ticket: TicketInput;
+		trade_id: Trade["id"];
+	}) => {
+		return await createTransaction(async (sql) => {
+			const insert = { ...ticket, trade_id };
+
+			const response = await sql<[Ticket]>`
+            insert into ${sql(TRADES_TABLES.tickets)}
+            ${sql(insert)}
+            returning *
+         `;
+
+			if (!(response.length === 1)) {
+				throw new Error("insertTicket: did not insert exactly 1 ticket");
+			}
+
+			return response[0];
+		});
+	}
+);
 
 export const createTickets = query(
 	async ({ tickets }: { tickets: TicketInput[] }) => {
@@ -29,6 +67,8 @@ export const createTickets = query(
 		}, new Map<string, TicketInput[]>());
 
 		await createTransaction(async (sql) => {
+			const insertedTickets: Ticket[] = [];
+
 			for (const [ticker, ticketsByTicker] of byTicker.entries()) {
 				// get the latest open trade and its tickets;
 				// let currentTrade = await queryTrades({open: true, ticker})
@@ -39,30 +79,42 @@ export const createTickets = query(
 						`createTickets: found multiple open trades for ticker ${ticker}`
 					);
 				}
-				let currentTrade = openTrades?.[0];
+				let currentTrade: Nullable<Trade> = openTrades?.[0];
 				if (!currentTrade) {
-					const tradeInput: TradeInput = {
-						account: ticketsByTicker[0].account,
+					const tradeInput: TradeInput = buildTradeInput({
 						ticker,
-						realized: 0,
-						unrealized: null,
-						duration: null,
-						closed: false,
-					};
+						account: ticketsByTicker[0].account,
+					});
 					currentTrade = (await createTrades({ trades: [tradeInput] }))[0];
 				}
 
-				// get the latest ticket for this ticker to see if we can "naively"
-				// add the ticket (see [1] above)
-				for (const ticket of ticketsByTicker) {
-					// loop through tickets:
-					// - if belongs to this trade, add it to this trade and update
-					//   the trade details (realized etc.).
-					//    - check if trade is now closed.
-					//    - if yes:
-					//       - update the trade
-					//       - create a new trade and set it to currentTrade
+				let currentTickets: Ticket[] = await queryTickets({
+					trade_id: currentTrade.id,
+				});
+
+				// biome-ignore lint/correctness/noConstantCondition: see TODO v
+				if (false) {
+					// TODO: get the latest ticket for this ticker to see if we can "naively"
+					// add the ticket (see [1] above) and set this if-loop's
+					// condition accordingly. For now, just proceed as if [1] holds.
 				}
+
+				for (const ticket of ticketsByTicker) {
+					const { insertedTicket, nextTickets, nextTrade } = await createTicket(
+						{
+							ticket,
+							currentTickets,
+							currentTrade,
+						}
+					);
+					currentTickets = nextTickets;
+					currentTrade = nextTrade;
+					insertedTickets.push(insertedTicket);
+				}
+			}
+
+			if (insertedTickets.length !== tickets.length) {
+				throw new Error("createTickets: did not insert all tickets");
 			}
 		});
 	}
