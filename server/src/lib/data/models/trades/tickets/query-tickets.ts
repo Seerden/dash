@@ -6,7 +6,7 @@ import { query } from "@/lib/query-function";
 export const queryTickets = query(
 	async (sql, { ids, tickers, trade_id }: QueryTickets) => {
 		const idFilter = ids?.length
-			? sql`where id = any($\{ids})`
+			? sql`where id = any(${ids})`
 			: sql`where true`;
 		const tickerFilter = tickers?.length
 			? sql`and ticker = any(${tickers})`
