@@ -9,12 +9,12 @@ export function isBuy(ticket: Ticket | TicketInput) {
 	return ticket.side.toLowerCase().includes("B");
 }
 
-/** Sells are negative sizing, adds are positive sizing. */
+/** Obviously, selling removes size and buying adds size. */
 export function signedTicketSize(ticket: Ticket | TicketInput) {
 	return ticket.amount * (isBuy(ticket) ? 1 : -1);
 }
 
-/** Build a TradeInput object with required fields. */
+/** Build a TradeInput object with required field for a new trades. */
 export function buildTradeInput({
 	account,
 	ticker,
@@ -32,13 +32,28 @@ export function buildTradeInput({
 	} satisfies TradeInput;
 }
 
+/** Determine the final position size given a list of tickets.
+ * @note this assumes all tickets belong to the same trade. */
 export function cumulativeSize(tickets: Ticket[]) {
 	return tickets.reduce((acc, ticket) => {
 		return acc + signedTicketSize(ticket);
 	}, 0);
 }
 
-/** subroutine for createTickets. */
+/** Subroutine for createTickets that handles the creation of a single ticket
+ * and provides the variables necessary for the next iteration in the loop.
+ *
+ * @implementation
+ *  loop through tickets:
+ * - check if open trade. if not, create one
+ * - if belongs to this trade, add it to this trade and update
+ *   the trade details (realized etc.).
+ *    - check if trade is now closed.
+ *     - if yes:
+ *       - update the trade
+ *       - create a new trade and set it to currentTrade
+ *       - @todo edge case: oversized ticket that closes existing trade
+ *          and also instantiates a new trade. */
 export async function createTicket({
 	ticket,
 	currentTickets,
@@ -57,16 +72,7 @@ export async function createTicket({
 			})
 		)[0];
 	}
-	// loop through tickets:
-	// - check if open trade. if not, create one
-	// - if belongs to this trade, add it to this trade and update
-	//   the trade details (realized etc.).
-	//    - check if trade is now closed.
-	//     - if yes:
-	//       - update the trade
-	//       - create a new trade and set it to currentTrade
-	//       - edge case: oversized ticket that closes existing trade
-	//          and also instantiates a new trade
+
 	const currentSize = cumulativeSize(currentTickets);
 	const newSize = currentSize + signedTicketSize(ticket);
 
@@ -81,6 +87,7 @@ export async function createTicket({
 			},
 		],
 	});
+
 	// TODO: update trade details here (realized, etc.) for both
 	// cases (isClosingTicket and not)
 	if (isClosingTicket) {
