@@ -1,5 +1,9 @@
 import type { TicketInput, TradeInput } from "@shared/types/trades.input.types";
-import type { Ticket, Trade } from "@shared/types/trades.types";
+import {
+	type Ticket,
+	type Trade,
+	ticketInsertSchema,
+} from "@shared/types/trades.types";
 import type { Nullable } from "@shared/types/utility.types";
 import { insertTickets } from "@/lib/data/models/trades/tickets/create-tickets";
 import { createTrades } from "@/lib/data/models/trades/trades/create-trades";
@@ -64,11 +68,13 @@ export async function createTicket({
 	currentTrade: Nullable<Trade>;
 }) {
 	if (!currentTrade) {
+		const trade = buildTradeInput({
+			account: ticket.account,
+			ticker: ticket.ticker,
+		});
 		currentTrade = (
 			await createTrades({
-				trades: [
-					buildTradeInput({ account: ticket.account, ticker: ticket.ticker }),
-				],
+				trades: [trade],
 			})
 		)[0];
 	}
@@ -81,10 +87,10 @@ export async function createTicket({
 
 	const [insertedTicket] = await insertTickets({
 		tickets: [
-			{
+			ticketInsertSchema.parse({
 				...ticket,
 				trade_id: currentTrade.id,
-			},
+			}),
 		],
 	});
 

@@ -1,4 +1,5 @@
 import { z } from "@shared/types/zod.utility.types";
+import { deleteTickets } from "@/lib/data/models/trades/tickets/delete-tickets";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 
 export const deleteTicketsMutation = publicProcedure
@@ -7,6 +8,6 @@ export const deleteTicketsMutation = publicProcedure
 			ids: z.string().array(),
 		})
 	)
-	.mutation(async () => {
-		return;
+	.mutation(async ({ input }) => {
+		return await deleteTickets(input);
 	});

@@ -10,27 +10,24 @@ import { createTransaction, query } from "@/lib/query-function";
 /** Update the given trades with the given values. */
 export const updateTrades = query(
 	async ({ trades }: { trades: UpdateTradeInput[] }) => {
-		const validInputs = updateTradeInputSchema.array().min(1).safeParse(trades);
-		if (!validInputs.success) {
-			// throw something
-			return;
+		const parsedInput = updateTradeInputSchema.array().min(1).safeParse(trades);
+		if (!parsedInput.success) {
+			throw parsedInput.error;
 		}
 
 		const parseUpdateInputs = updateTradeInsertSchema
 			.array()
 			.min(1)
 			.safeParse(
-				validInputs.data.map((d) => ({ ...d, updated_at: new Date() }))
+				parsedInput.data.map((d) => ({ ...d, updated_at: new Date() }))
 			);
+
 		if (!parseUpdateInputs.success) {
-			throw new Error(
-				"updateTrades: failed to parse trades using updateTradeInsertSchema"
-			);
+			throw parseUpdateInputs.error;
 		}
-		const updateInputs = parseUpdateInputs.data;
 
 		const updatedTrades = await createTransaction(async (sql) => {
-			const updatePromises = updateInputs.map(async (input) => {
+			const updatePromises = parseUpdateInputs.data.map(async (input) => {
 				const [updatedTrade] = await sql<Trade[]>`
                update ${sql(TRADES_TABLES.trades)}
                set ${sql(input)}

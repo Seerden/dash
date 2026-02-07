@@ -42,7 +42,6 @@ export const tradeInputSchema = z.object({
 });
 export type TradeInput = z.infer<typeof tradeInputSchema>;
 
-// TODO: also do this for tickets in update-tickets.ts
 export const updateTradeInputSchema = tradeInputSchema.and(
 	z.object({
 		id: z.string(),

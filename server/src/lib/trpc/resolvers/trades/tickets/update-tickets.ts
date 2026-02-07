@@ -1,10 +1,10 @@
-import { ticketInputSchema } from "@shared/types/trades.input.types";
+import { updateTicketInputSchema } from "@shared/types/trades.input.types";
+import { z } from "@shared/types/zod.utility.types";
+import { updateTickets } from "@/lib/data/models/trades/tickets/update-tickets";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 
 export const updateTicketsMutation = publicProcedure
-	// TODO: is ticketInputSchema correct, or do we only allow a subset of the
-	// fields to be updatable?
-	.input(ticketInputSchema)
-	.mutation(async () => {
-		return;
+	.input(z.object({ tickets: updateTicketInputSchema.array().min(1) }))
+	.mutation(async ({ input }) => {
+		return await updateTickets(input);
 	});
