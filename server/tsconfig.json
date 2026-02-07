@@ -30,6 +30,6 @@
    "references": [
       { "path": "../shared" }
    ],
-	"exclude": ["./node_modules", "node_modules", "public"],
+	"exclude": ["**/node_modules/*","./node_modules", "node_modules", "public", "../shared/node_modules/*"],
 	"include": ["../server/src", "../server/index.ts", "../server/types", "../shared", "types", "../server/tsconfig.json"]
 }
