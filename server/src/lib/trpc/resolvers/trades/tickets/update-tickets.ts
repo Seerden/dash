@@ -1,4 +1,4 @@
-import { ticketInputSchema } from "@shared/types/trades.types";
+import { ticketInputSchema } from "@shared/types/trades.input.types";
 import { publicProcedure } from "@/lib/trpc/procedures/public.procedure";
 
 export const updateTicketsMutation = publicProcedure

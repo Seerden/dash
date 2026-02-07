@@ -1,16 +1,10 @@
 import { TRADES_TABLES } from "@shared/types/table.types";
+import type { QueryTrades } from "@shared/types/trades.query.types";
 import type { Trade } from "@shared/types/trades.types";
 import { query } from "@/lib/query-function";
 
 export const queryTrades = query(
-	async (
-		sql,
-		{
-			tickers,
-			ids,
-			open,
-		}: { tickers?: string[]; ids?: string[]; open?: boolean }
-	) => {
+	async (sql, { tickers, ids, open }: QueryTrades) => {
 		const idFilter = ids?.length
 			? sql`where id = any(${ids})`
 			: sql`where true`;
