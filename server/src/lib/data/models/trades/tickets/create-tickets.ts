@@ -11,7 +11,6 @@ import { createTrades } from "@/lib/data/models/trades/trades/create-trades";
 import { queryTrades } from "@/lib/data/models/trades/trades/query-trades";
 import { createTransaction, query } from "@/lib/query-function";
 
-// TODO: use TicketInsert type and make this take an array of tickets.
 export const insertTickets = query(
 	async ({ tickets }: { tickets: TicketInsert[] }) => {
 		return await createTransaction(async (sql) => {
@@ -30,25 +29,30 @@ export const insertTickets = query(
 	}
 );
 
+/** Given a list of tickets, insert the tickets into the database and
+ * create/update the trades they belong to accordingly.
+ * @note this may have unexpected behavior if trades are not supplied in
+ * chronological order (brokers may not always provide detailed enough
+ * timestamps, which means sorting tickets by ascending timestamps is
+ * impossible and we just have to hope that the provided array is sorted
+ * already).
+ * @todo think about how to prevent duplicate tickets when using this function
+ * instead of `createTradeWithTickets`
+ * - the difficult thing is: tickets can be added with _any timestamp_, so we
+ *   might have to reconstruct the entire sequence of trades, and tickets may be
+ *   shifted to another trade.
+ * I think we can split this up into two cases [1]:
+ *    - if the ticket input has a timestamp after the other latest trade, we either
+ *   append to the existing trade, or create a new one
+ *    - if the timestamp is before the previous latest trade, we have to rebuild
+ *      the whole sequence of tickets and trades. I will handle this in the future.
+ *       - a stopgap would be to do something like a createTradeWithTickets()
+ *         function that takes the _whole_ set of tickets for that trade and
+ *         creates a new trade with those tickets, regardless of whether that
+ *         trade happened before an already existing trade.
+ */
 export const createTickets = query(
 	async ({ tickets }: { tickets: TicketInput[] }) => {
-		/**
-		 * TODO: how do we handle the prevention of duplicate tickets?
-		 * TODO: we have to associate tickets with trades.
-		 * - the difficult thing is: tickets can be added with _any timestamp_, so we
-		 *   might have to reconstruct the entire sequence of trades, and tickets may be
-		 *   shifted to another trade.
-		 * I think we can split this up into two cases [1]:
-		 *    - if the ticket input has a timestamp after the other latest trade, we either
-		 *   append to the existing trade, or create a new one
-		 *    - if the timestamp is before the previous latest trade, we have to rebuild
-		 *      the whole sequence of tickets and trades. I will handle this in the future.
-		 *       - a stopgap would be to do something like a createTradeWithTickets()
-		 *         function that takes the _whole_ set of tickets for that trade and
-		 *         creates a new trade with those tickets, regardless of whether that
-		 *         trade happened before an already existing trade.
-		 */
-
 		const byTicker = tickets.reduce((acc, ticket) => {
 			acc.set(ticket.ticker, [...(acc.get(ticket.ticker) ?? []), ticket]);
 			return acc;
@@ -58,9 +62,6 @@ export const createTickets = query(
 			const insertedTickets: Ticket[] = [];
 
 			for (const [ticker, ticketsByTicker] of byTicker.entries()) {
-				// get the latest open trade and its tickets;
-				// let currentTrade = await queryTrades({open: true, ticker})
-				//    - if there is no trade yet, create one
 				const openTrades = await queryTrades({ open: true, tickers: [ticker] });
 				if (openTrades.length > 1) {
 					throw new Error(
