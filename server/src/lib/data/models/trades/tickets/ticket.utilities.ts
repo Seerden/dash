@@ -1,11 +1,7 @@
-import type {
-	Ticket,
-	TicketInput,
-	Trade,
-	TradeInput,
-} from "@shared/types/trades.types";
+import type { TicketInput, TradeInput } from "@shared/types/trades.input.types";
+import type { Ticket, Trade } from "@shared/types/trades.types";
 import type { Nullable } from "@shared/types/utility.types";
-import { insertTicket } from "@/lib/data/models/trades/tickets/create-tickets";
+import { insertTickets } from "@/lib/data/models/trades/tickets/create-tickets";
 import { createTrades } from "@/lib/data/models/trades/trades/create-trades";
 
 /** Does the ticket belong to a buy order? */
@@ -79,9 +75,13 @@ export async function createTicket({
 	const isClosingTicket =
 		newSize === 0 || (currentSize !== 0 && newSize * currentSize <= 0);
 
-	const insertedTicket = await insertTicket({
-		ticket,
-		trade_id: currentTrade.id,
+	const [insertedTicket] = await insertTickets({
+		tickets: [
+			{
+				...ticket,
+				trade_id: currentTrade.id,
+			},
+		],
 	});
 	// TODO: update trade details here (realized, etc.) for both
 	// cases (isClosingTicket and not)

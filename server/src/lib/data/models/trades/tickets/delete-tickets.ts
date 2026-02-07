@@ -8,9 +8,18 @@ export const deleteTickets = query(async (sql, { ids }: { ids: string[] }) => {
 		return;
 	}
 
-	return await sql<Ticket[]>`
+	const uniqueIds = Array.from(new Set(ids));
+	const deletedTickets = await sql<Ticket[]>`
       delete from ${sql(TRADES_TABLES.tickets)}
-      where id = any(${ids})
+      where id = any(${uniqueIds})
       returning *
    `;
+
+	if (deletedTickets.length !== uniqueIds.length) {
+		throw new Error(
+			`deleteTrades: rolling back; could not delete all trades given ids ${ids}`
+		);
+	}
+
+	return deletedTickets;
 });

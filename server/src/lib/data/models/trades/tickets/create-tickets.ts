@@ -1,10 +1,6 @@
 import { TRADES_TABLES } from "@shared/types/table.types";
-import type {
-	Ticket,
-	TicketInput,
-	Trade,
-	TradeInput,
-} from "@shared/types/trades.types";
+import type { TicketInput, TradeInput } from "@shared/types/trades.input.types";
+import type { Ticket, TicketInsert, Trade } from "@shared/types/trades.types";
 import type { Nullable } from "@shared/types/utility.types";
 import { queryTickets } from "@/lib/data/models/trades/tickets/query-tickets";
 import {
@@ -15,28 +11,21 @@ import { createTrades } from "@/lib/data/models/trades/trades/create-trades";
 import { queryTrades } from "@/lib/data/models/trades/trades/query-trades";
 import { createTransaction, query } from "@/lib/query-function";
 
-export const insertTicket = query(
-	async ({
-		ticket,
-		trade_id,
-	}: {
-		ticket: TicketInput;
-		trade_id: Trade["id"];
-	}) => {
+// TODO: use TicketInsert type and make this take an array of tickets.
+export const insertTickets = query(
+	async ({ tickets }: { tickets: TicketInsert[] }) => {
 		return await createTransaction(async (sql) => {
-			const insert = { ...ticket, trade_id };
-
 			const response = await sql<[Ticket]>`
             insert into ${sql(TRADES_TABLES.tickets)}
-            ${sql(insert)}
+            ${sql(tickets)}
             returning *
          `;
 
-			if (!(response.length === 1)) {
-				throw new Error("insertTicket: did not insert exactly 1 ticket");
+			if (response.length !== tickets.length) {
+				throw new Error("insertTickets: did not insert every ticket");
 			}
 
-			return response[0];
+			return response;
 		});
 	}
 );
@@ -58,7 +47,6 @@ export const createTickets = query(
 		 *         function that takes the _whole_ set of tickets for that trade and
 		 *         creates a new trade with those tickets, regardless of whether that
 		 *         trade happened before an already existing trade.
-		 * -
 		 */
 
 		const byTicker = tickets.reduce((acc, ticket) => {

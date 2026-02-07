@@ -1,29 +1,39 @@
 import { TRADES_TABLES } from "@shared/types/table.types";
 import {
-	type Ticket,
-	type TicketInput,
-	ticketSchema,
-} from "@shared/types/trades.types";
-import { query } from "@/lib/query-function";
+	type UpdateTicketInput,
+	updateTicketInputSchema,
+} from "@shared/types/trades.input.types";
+import type { Ticket } from "@shared/types/trades.types";
+import { createTransaction, query } from "@/lib/query-function";
 
-/** #dash/trades/CRUD:
- * - don't forget to update updated_at
- */
+/** Update the given tickets with the given data. */
 export const updateTickets = query(
-	async (sql, { tickets }: { tickets: TicketInput[] }) => {
-		const parsed = ticketSchema.array().min(1).safeParse(tickets);
-		// check if the input is valid; use ticketSchema.parse
+	async ({ tickets }: { tickets: UpdateTicketInput[] }) => {
+		const parsed = updateTicketInputSchema.array().min(1).safeParse(tickets);
+
 		if (!parsed.success) {
-			// TODO: throw a trpc error.
-			return;
+			throw new Error(
+				"updateTickets: failed to parse given tickets using updateTicketInputSchema"
+			);
 		}
 
-		const response = await sql<Ticket[]>`
-         update ${sql(TRADES_TABLES.tickets)} 
-         set ${sql(parsed.data.map((d) => ({ ...d, updated_at: new Date() })))}
-         returning *
-      `;
+		const updateData = parsed.data.map((d) => ({
+			...d,
+			updated_at: new Date(),
+		}));
 
-		return response;
+		return await createTransaction(async (sql) => {
+			const updatePromises = await Promise.all(
+				updateData.map(async (d) => {
+					const [updatedTicket] = await sql<Ticket[]>`
+               update ${sql(TRADES_TABLES.tickets)}
+               set ${sql(d)}
+               where id = ${d.id}
+            `;
+					return updatedTicket;
+				})
+			);
+			return await Promise.all(updatePromises);
+		});
 	}
 );
