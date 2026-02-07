@@ -33,7 +33,7 @@ export const createTrades = query(
  * [...tickets], but never [...past tickets, ...tickets] */
 export const createTradeWithTickets = query(
 	async ({ trade, tickets }: { trade: TradeInput; tickets: TicketInput[] }) => {
-		// check if tickets all belong to the same ticker and are of the same type (long/short)
+		// TODO: check if tickets are of the same type (long/short)
 		const tickers = new Set(tickets.map((t) => t.ticker));
 		if (tickers.size !== 1) {
 			throw new Error(
