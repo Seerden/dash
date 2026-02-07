@@ -2,6 +2,7 @@ import { TRADES_TABLES } from "@shared/types/table.types";
 import {
 	type UpdateTicketInput,
 	updateTicketInputSchema,
+	updateTicketInsertSchema,
 } from "@shared/types/trades.input.types";
 import type { Ticket } from "@shared/types/trades.types";
 import { createTransaction, query } from "@/lib/query-function";
@@ -17,12 +18,15 @@ export const updateTickets = query(
 			);
 		}
 
-		// TODO: for trades, we have a separate updateTradeInsertSchema, but here
-		// we don't even check. Pick one way of doing it and stick to it.
-		const updateData = parsed.data.map((d) => ({
-			...d,
-			updated_at: new Date(),
-		}));
+		const updateData = updateTicketInsertSchema
+			.array()
+			.min(1)
+			.parse(
+				parsed.data.map((d) => ({
+					...d,
+					updated_at: new Date(),
+				}))
+			);
 
 		return await createTransaction(async (sql) => {
 			const updatePromises = await Promise.all(
