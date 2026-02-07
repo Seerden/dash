@@ -59,3 +59,11 @@ export const tradeMetaInputSchema = z.object({
 	stop: z.number().nullable(),
 	target: z.number().nullable(),
 });
+export type TradeMetaInput = z.infer<typeof tradeMetaInputSchema>;
+
+export const updateTradeMetaInputSchema = tradeMetaInputSchema.and(
+	z.object({
+		id: z.string(),
+	})
+);
+export type UpdateTradeMetaInput = z.infer<typeof updateTradeMetaInputSchema>;

@@ -40,3 +40,4 @@ export const tradeMetaSchema = tradeMetaInputSchema.and(
 		updated_at: timestampSchema,
 	})
 );
+export type TradeMeta = z.infer<typeof tradeMetaSchema>;

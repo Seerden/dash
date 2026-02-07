@@ -17,6 +17,8 @@ export const updateTickets = query(
 			);
 		}
 
+		// TODO: for trades, we have a separate updateTradeInsertSchema, but here
+		// we don't even check. Pick one way of doing it and stick to it.
 		const updateData = parsed.data.map((d) => ({
 			...d,
 			updated_at: new Date(),
