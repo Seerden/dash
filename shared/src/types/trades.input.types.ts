@@ -18,6 +18,13 @@ export const updateTicketInputSchema = ticketInputSchema.and(
 );
 export type UpdateTicketInput = z.infer<typeof updateTicketInputSchema>;
 
+export const updateTicketInsertSchema = updateTicketInputSchema.and(
+	z.object({
+		updated_at: z.date(),
+	})
+);
+export type UpdateTicketInsert = z.infer<typeof updateTicketInsertSchema>;
+
 export const ticketInputWithTradeIdSchema = ticketInputSchema.and(
 	z.object({
 		trade_id: z.string(),
