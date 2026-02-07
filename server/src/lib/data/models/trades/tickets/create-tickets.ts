@@ -1,5 +1,5 @@
 import { TRADES_TABLES } from "@shared/types/table.types";
-import type { TicketInput, TradeInput } from "@shared/types/trades.input.types";
+import type { TicketInput } from "@shared/types/trades.input.types";
 import type { Ticket, TicketInsert, Trade } from "@shared/types/trades.types";
 import type { Nullable } from "@shared/types/utility.types";
 import { queryTickets } from "@/lib/data/models/trades/tickets/query-tickets";
@@ -58,7 +58,7 @@ export const createTickets = query(
 			return acc;
 		}, new Map<string, TicketInput[]>());
 
-		await createTransaction(async (sql) => {
+		await createTransaction(async () => {
 			const insertedTickets: Ticket[] = [];
 
 			for (const [ticker, ticketsByTicker] of byTicker.entries()) {
@@ -70,9 +70,10 @@ export const createTickets = query(
 				}
 				let currentTrade: Nullable<Trade> = openTrades?.[0];
 				if (!currentTrade) {
-					const tradeInput: TradeInput = buildTradeInput({
+					const account = ticketsByTicker[0].account;
+					const tradeInput = buildTradeInput({
 						ticker,
-						account: ticketsByTicker[0].account,
+						account,
 					});
 					currentTrade = (await createTrades({ trades: [tradeInput] }))[0];
 				}

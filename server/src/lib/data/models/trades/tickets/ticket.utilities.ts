@@ -22,16 +22,14 @@ export function buildTradeInput({
 	account: string;
 	ticker: string;
 }) {
-	const tradeInput: TradeInput = {
+	return {
 		account,
 		ticker,
 		realized: 0,
 		unrealized: null,
 		duration: null,
 		closed: false,
-	};
-
-	return tradeInput;
+	} satisfies TradeInput;
 }
 
 export function cumulativeSize(tickets: Ticket[]) {
